@@ -69,3 +69,6 @@ alias c='clear'
 
 # Shell integration
 eval "$(fzf --zsh)"
+
+# Add github copiliot cli
+eval "$(gh copilot alias -- zsh)"
