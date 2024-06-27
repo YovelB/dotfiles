@@ -68,7 +68,8 @@ alias ls='ls --color'
 alias c='clear'
 
 # Shell integration
-eval "$(fzf --zsh)"
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 
 # Add github copiliot cli
 eval "$(gh copilot alias -- zsh)"
