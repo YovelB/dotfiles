@@ -1,0 +1,10 @@
+[user]
+
+	name = yovelb
+  email = 25065136+YovelB@users.noreply.github.com
+
+[alias]
+
+  co = checkout
+  br = branch
+  ci = commit
