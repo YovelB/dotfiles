@@ -1,5 +1,5 @@
 # Add /home/yovelb/bin to $PATHexport
-export PATH="/home/yovelb/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -55,6 +55,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias ls='ls --color'
@@ -65,6 +66,8 @@ alias c='clear'
 # fzf
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+# zoxide
+eval "$(zoxide init --cmd cd zsh)"
 
 # Add github copiliot cli
 eval "$(gh copilot alias -- zsh)"
