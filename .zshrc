@@ -1,4 +1,7 @@
-# Add /home/yovelb/bin to $PATHexport
+# Start tmux on terminal startup
+if [ "$TMUX" = "" ]; then tmux; fi
+
+# Add /home/yovelb/bin to $PATH
 export PATH="$HOME/bin:$PATH"
 
 # Set the directory we want to store zinit and plugins
