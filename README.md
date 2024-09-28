@@ -32,3 +32,10 @@ then use GNU stow to create symlinks
 ```
 $ stow .
 ```
+## Dependencies
+#### 1. Tmux plugins
+Clone and add the specified plugins in $HOME/.config/tmux/plugins folder.
+For example:
+```
+$ git clone https://github.com/janoamaral/tokyo-night-tmux ~/.tmux/plugins/tokyo-night-tmux
+```
