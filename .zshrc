@@ -29,7 +29,6 @@ zinit snippet OMZP::command-not-found
 
 # Load completions
 autoload -U compinit && compinit
-
 zinit cdreplay -q
 
 # Prompt engine
@@ -39,6 +38,7 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
 
 # History
 HISTSIZE=5000
@@ -61,14 +61,19 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls='ls --color'
+alias ls='ls --color=auto'
+alias ll='ls -lah'
 alias vim=nvim
 alias c='clear'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias grep='grep --color=auto'
+
 
 # Shell integration
 # fzf
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
 
