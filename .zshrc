@@ -1,8 +1,8 @@
-# Set XDG Base Directory paths (not all apps support XDG)
+# Set XDG Base Directory paths to keep home dir clean (not all apps support XDG)
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_DATA_HOME="$HOME/.local/share"   # user data files that are important (not cache nor configs)
+export XDG_STATE_HOME="$HOME/.local/state"  # application persistent state that is (logs, runtime data, other state files)
 
 # Enviroment variables
 export EDITOR="nvim"
