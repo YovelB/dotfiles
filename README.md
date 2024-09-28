@@ -34,9 +34,8 @@ $ stow .
 ```
 ## Dependencies
 #### 1. Tmux plugins
-Clone and add the specified plugins in $HOME/.config/tmux/plugins folder.<br>
-For example: TPM and tokyo-night theme plugins.
+Clone TPM (Tmux plugin manager)
 ```
 $ git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-$ git clone https://github.com/janoamaral/tokyo-night-tmux ~/.tmux/plugins/tokyo-night-tmux
 ```
+Then run TPM installation command (prefix + I) to install the other plugins
