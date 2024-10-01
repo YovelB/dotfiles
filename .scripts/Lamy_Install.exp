@@ -1,0 +1,62 @@
+#!/usr/bin/expect -f
+
+# Enable debugging.
+# ixp_internal 1
+
+# Check if required arguments are provided.
+if {$argc != 2} {
+    puts "Usage: $argv0 <ip_address> <password>"
+    exit 1
+}
+
+# Assign arguments to variables.
+set ip_address [lindex $argv 0]
+set password [lindex $argv 1]
+
+# Set the SSH config directory using XDG_CONFIG_HOME
+if {[info exists env(XDG_CONFIG_HOME)]} {
+    set ssh_config_dir "$env(XDG_CONFIG_HOME)/ssh"
+} else {
+    set ssh_config_dir "$env(HOME)/.config/ssh"
+}
+
+# Disable timeout
+set timeout -1
+
+# Start the SSH session with the XDG config file
+spawn ssh -F $ssh_config_dir/config -o StrictHostKeyChecking=no root@$ip_address
+
+# Handle the password prompt
+expect "password:"
+send -- "$password\r"
+
+# Wait for the prompt to ensure we're logged in.
+expect "~/"
+
+# Now we're logged in as root, let's run the command
+# Breaking down the command execution
+send "wget https://raw.githubusercontent.com/slotThe/RemarkableLamyEraser/main/scripts/LamyInstall.sh -O /tmp/LamyInstall.sh\r"
+expect "~/"
+send "sh /tmp/LamyInstall.sh\r"
+
+# Handle the expected prompts
+expect {
+    "mv: overwrite '/home/root/.config/LamyEraser/LamyEraser.conf.old'?" {
+        send "y\r"
+        exp_continue
+    }
+    "Would you like to edit your configuration now?" {
+        send "n"
+        exp_continue
+    }
+    "Would you like RemarkableLamyEraser to start automatically on boot?" {
+        send "y"
+    }
+}
+
+# Wait for prompt and exit the session.
+expect "~/"
+send "exit\r"
+
+# end of file.
+expect eof
