@@ -1,53 +1,114 @@
-# Zsh specific XDG directories
-[ -d "$XDG_CACHE_HOME/zsh" ] || mkdir -p "$XDG_CACHE_HOME/zsh"
-[ -d "$XDG_STATE_HOME/zsh" ] || mkdir -p "$XDG_STATE_HOME/zsh"
+# Enable profiling if needed
+zmodload zsh/zprof
+
+# Create necessary directories
+() {
+    local -a dirs=(
+        "$XDG_CACHE_HOME/zsh"
+        "$XDG_STATE_HOME/zsh"
+        "$OH_MY_POSH_CACHE_DIR"
+    )
+    for dir in $dirs; do
+        [[ -d "$dir" ]] || mkdir -p "$dir"
+    done
+}
 
 # History configuration
 HISTFILE="$XDG_STATE_HOME/zsh/history"
 HISTSIZE=5000
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
+setopt appendhistory sharehistory
+setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups hist_find_no_dups
 
-# Completion configuration
-zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
-autoload -Uz compinit
-compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+# Add paths
+path+=("$HOME/.local/bin")
+typeset -U path
 
-# Start tmux on terminal startup
-if [ -z "$TMUX" ]; then tmux -f "$TMUX_CONF"; fi
+# Tmux startup (only if not in VS Code and tmux isn't running)
+[[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" ]] && exec tmux -f "$TMUX_CONF"
 
-# Add access to binaries in $HOME/.local/bin $CARGO_BIN_HOME
-export PATH="$PATH:$HOME/.local/bin"
+# Load completions more efficiently
+() {
+    # Load completion system
+    autoload -Uz compinit
 
-# Zinit setup
-if [ ! -d "$ZINIT_HOME" ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
-source "${ZINIT_HOME}/zinit.zsh"
+    # Setup completion cache path
+    zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
+    
+    # Define dump file location
+    local dump_file="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+    
+    # Only regenerate dump file once per hour
+    if [[ -f "$dump_file" && (! -f "$dump_file.zwc" || "$dump_file" -nt "$dump_file.zwc") ]]; then
+        zcompile "$dump_file"
+    fi
+    
+    # Load dump file, regenerate if older than 1 hour
+    if [[ -f "$dump_file"(#qN.mh+1) ]]; then
+        compinit -d "$dump_file"
+    else
+        compinit -C -d "$dump_file"
+    fi
+}
 
-# Add in zsh plugins
+# Basic completion styling (before plugins)
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu no
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Initialize Zinit
+() {
+    if [[ ! -d "$ZINIT_HOME" ]]; then
+        mkdir -p "$(dirname $ZINIT_HOME)"
+        git clone --depth 1 https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+    fi
+    source "${ZINIT_HOME}/zinit.zsh"
+}
+
+# Plugin loading with improved timing
+zinit ice wait"0" lucid
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-syntax-highlighting
+
+zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
+
+# Load fzf-tab before syntax highlighting
+zinit ice wait"0" lucid
 zinit light Aloxaf/fzf-tab
 
-# Add in snippets
+# Syntax highlighting loaded last
+zinit ice wait"1" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
+zinit light zsh-users/zsh-syntax-highlighting
+
+# Turbo load snippets
+zinit ice wait"0" lucid
 zinit snippet OMZP::git
+
+zinit ice wait"0" lucid
 zinit snippet OMZP::sudo
+
+zinit ice wait"1" lucid
 zinit snippet OMZP::command-not-found
+
+# Lazy load shell integrations
+() {
+    local fzf_dir="/usr/share/fzf"
+    if [[ -d $fzf_dir ]]; then
+        source "$fzf_dir/key-bindings.zsh"
+        source "$fzf_dir/completion.zsh"
+    fi
+}
+
+# Initialize zoxide
+() {
+    (( $+commands[zoxide] )) && eval "$(zoxide init --cmd cd zsh)"
+}
 
 # Load completions
 zinit cdreplay -q
 
-# Prompt engine
+# Prompt engine (keep this non-lazy as requested)
 eval "$(oh-my-posh init zsh --config ${XDG_CONFIG_HOME}/ohmyposh/zen.toml)"
 
 # Keybindings
@@ -56,35 +117,22 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 
-# Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
+# FZF-tab styling
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Aliases
-alias ls='ls --color=auto'
-alias ll='ls -lah'
-alias vim=nvim
-alias c='clear'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias grep='grep --color=auto'
-alias ssh="ssh -F $SSH_CONFIG_DIR/config"
+# Function to load aliases
+function load_aliases() {
+    alias ls='ls --color=auto'
+    alias ll='ls -lah'
+    alias vim=nvim
+    alias c='clear'
+    alias ..='cd ..'
+    alias ...='cd ../..'
+    alias grep='grep --color=auto'
+    alias ssh="ssh -F $SSH_CONFIG_DIR/config"
+}
+load_aliases
 
-# Shell integration
-# fzf
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
-# zoxide
-eval "$(zoxide init --cmd cd zsh)"
-
-# Uncomment if you want to use GitHub Copilot CLI
-# eval "$(gh copilot alias -- zsh)"
-
-# Uncomment if you want to source a local configuration file
-# [ -f ${ZDOTDIR:-$HOME}/.zshrc.local ] && source ${ZDOTDIR:-$HOME}/.zshrc.local
-
-# Custom functions can be added here
-# Example: function mkcd() { mkdir -p "$1" && cd "$1" }
+# Enable profiling output if needed
+zprof

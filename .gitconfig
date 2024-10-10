@@ -25,3 +25,5 @@
 
 [init]
     defaultBranch = main
+[core]
+	symlinks = true

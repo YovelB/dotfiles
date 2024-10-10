@@ -2,8 +2,8 @@
 
 version = 2
 final_space = true
-auto_upgrade = true
-console_title_template = '{{ .Shell }} in {{ .Folder }}'
+auto_upgrade = false
+console_title_template = '{{ .Shell }}'
 
 [[blocks]]
   type = 'rprompt'
