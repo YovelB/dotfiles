@@ -1,5 +1,5 @@
 # Enable profiling if needed
-zmodload zsh/zprof
+# zmodload zsh/zprof
 
 # Create necessary directories
 () {
@@ -135,4 +135,4 @@ function load_aliases() {
 load_aliases
 
 # Enable profiling output if needed
-zprof
+# zprof
