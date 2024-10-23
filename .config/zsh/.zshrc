@@ -131,8 +131,12 @@ function load_aliases() {
     alias ...='cd ../..'
     alias grep='grep --color=auto'
     alias ssh="ssh -F $SSH_CONFIG_DIR/config"
+    alias cleanh="rm -f $XDG_STATE_HOME/zsh/history"
 }
 load_aliases
+
+# Copilot CLI
+eval "$(gh copilot alias -- zsh)"
 
 # Enable profiling output if needed
 # zprof
