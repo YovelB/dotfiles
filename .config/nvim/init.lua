@@ -13,6 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require "configs.lazy"
 
+-- updaing cpath for copilot chat tiktoken_core dependency
+-- Get the home directory in a cross-platform way
+local home = vim.fn.expand('$HOME')
+-- Append the local path to package.cpath
+package.cpath = home .. "/.local/lib/lua/5.1/?.so;" .. package.cpath
+
 -- load plugins
 require("lazy").setup({
   {

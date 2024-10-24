@@ -12,4 +12,10 @@ return {
       require "configs.lspconfig"
     end,
   },
+
+  -- add vim-move plugin
+  {
+    "matze/vim-move",
+    lazy = false,
+  },
 }
