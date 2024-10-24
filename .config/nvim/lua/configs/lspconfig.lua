@@ -6,7 +6,15 @@ local lspconfig = require "lspconfig"
 -- configure these lsp (manually needs to be installed)
 local servers = {
   "pyright",
+  "clangd",
 }
+
+-- Setup mason first
+require("mason").setup()
+require("mason-lspconfig").setup {
+  ensure_installed = servers, -- Uses the same server list
+}
+
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config

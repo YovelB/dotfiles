@@ -1,7 +1,5 @@
 require "nvchad.mappings"
 
--- add yours here
-
 local map = vim.keymap.set
 
 map("n", "<A-q>", "<ESC>:qa<CR>", { desc = "general Quit vim", nowait = true })
@@ -9,6 +7,16 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
 map("n", "<C-a>", 'ggVG"+y<ESC>', { desc = "selection Select all" })
+
+map("n", "<leader>lt", function()
+  if next(vim.lsp.get_clients()) ~= nil then
+    vim.cmd "LspStop"
+    vim.notify "LSP stopped"
+  else
+    vim.cmd "LspStart"
+    vim.notify "LSP started"
+  end
+end, { desc = "Toggle LSP" })
 
 -- Copilot mappings
 -- helper method to toggle copilot suggestions

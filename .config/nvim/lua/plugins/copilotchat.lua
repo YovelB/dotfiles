@@ -18,8 +18,6 @@ return {
       "CopilotChatRefactor",
     },
     opts = {
-      reset = "<C-r>",
-      stop = "<C-s>",
     },
   },
 }

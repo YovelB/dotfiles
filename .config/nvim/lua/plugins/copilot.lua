@@ -16,7 +16,7 @@ return {
       },
       panel = { enabled = false },
       -- add your filetypes here
-      filetypes = { lua = true, python = true },
+      filetypes = { lua = true, python = true, cpp = true, c = true, rust = true },
     }
   end,
 }
