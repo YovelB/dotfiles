@@ -16,8 +16,11 @@ return {
       "CopilotChatTests",
       "CopilotChatReview",
       "CopilotChatRefactor",
+      "CopilotChatModel",
+      "CopilotChatModels",
     },
     opts = {
+      model = "claude",
     },
   },
 }

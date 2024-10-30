@@ -2,6 +2,7 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
+
 map("n", "<A-q>", "<ESC>:qa<CR>", { desc = "general Quit vim", nowait = true })
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
@@ -66,7 +67,9 @@ map("n", "<leader>cf", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix is
 map("n", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "CopilotChat - Explain code" })
 map("n", "<leader>ct", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
 map("n", "<leader>cr", "<cmd>CopilotChatReview<cr>", { desc = "CopilotChat - Review code" })
-
+-- select and view model
+map("n", "<leader>cv", "<cmd>CopilotChatModel<cr>", { desc = "CopilotChat - View model" })
+map("n", "<leader>cm", "<cmd>CopilotChatModels<cr>", { desc = "CopilotChat - Select model" })
 -- Visual mode mappings
 map("v", "<leader>cq", ":CopilotChatVisual ", { desc = "CopilotChat - Quick chat with selection" })
 map("v", "<leader>cr", ":CopilotChatRefactor<cr>", { desc = "CopilotChat - Refactor selection" })
