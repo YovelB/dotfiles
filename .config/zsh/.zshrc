@@ -1,18 +1,6 @@
 # Enable profiling if needed
 # zmodload zsh/zprof
 
-# Create necessary directories
-() {
-    local -a dirs=(
-        "$XDG_CACHE_HOME/zsh"
-        "$XDG_STATE_HOME/zsh"
-        "$OH_MY_POSH_CACHE_DIR"
-    )
-    for dir in $dirs; do
-        [[ -d "$dir" ]] || mkdir -p "$dir"
-    done
-}
-
 # History configuration
 HISTFILE="$XDG_STATE_HOME/zsh/history"
 HISTSIZE=5000
@@ -20,10 +8,6 @@ SAVEHIST=$HISTSIZE
 HISTDUP=erase
 setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups hist_find_no_dups
-
-# Add paths
-path+=("$HOME/.local/bin")
-typeset -U path
 
 # Tmux startup (only if not in VS Code and tmux isn't running)
 [[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" ]] && exec tmux -f "$TMUX_CONF"
@@ -70,25 +54,25 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zinit ice wait"0" lucid
 zinit light zsh-users/zsh-completions
 
-zinit ice wait"0" lucid atload"_zsh_autosuggest_start"
+zinit ice wait"1" lucid atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
 
 # Load fzf-tab before syntax highlighting
-zinit ice wait"0" lucid
+zinit ice wait"1" lucid
 zinit light Aloxaf/fzf-tab
 
 # Syntax highlighting loaded last
-zinit ice wait"1" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
+zinit ice wait"2" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
 zinit light zsh-users/zsh-syntax-highlighting
 
 # Turbo load snippets
-zinit ice wait"0" lucid
+zinit ice wait"1" lucid
 zinit snippet OMZP::git
 
-zinit ice wait"0" lucid
+zinit ice wait"1" lucid
 zinit snippet OMZP::sudo
 
-zinit ice wait"1" lucid
+zinit ice wait"2" lucid
 zinit snippet OMZP::command-not-found
 
 # Lazy load shell integrations
@@ -123,15 +107,22 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Function to load aliases
 function load_aliases() {
-    alias ls='ls --color=auto'
-    alias ll='ls -lah'
+    # Basic aliases
     alias vim=nvim
     alias c='clear'
-    alias ..='cd ..'
-    alias ...='cd ../..'
+    alias ls='ls --color=auto'
+    alias ll='ls -lah'
     alias grep='grep --color=auto'
     alias ssh="ssh -F $SSH_CONFIG_DIR/config"
-    alias cleanh="rm -f $XDG_STATE_HOME/zsh/history"
+    alias ...='cd ../..'
+    alias ..='cd ..'
+    
+    # Safe operations
+    alias rm='rm -i'
+    alias cp='cp -i'
+    alias mv='mv -i'
+    alias md='mkdir -p'
+    
 }
 load_aliases
 
