@@ -110,18 +110,11 @@ function load_aliases() {
     # Basic aliases
     alias vim=nvim
     alias c='clear'
+    alias md='mkdir -p'
     alias ls='ls --color=auto'
     alias ll='ls -lah'
     alias grep='grep --color=auto'
     alias ssh="ssh -F $SSH_CONFIG_DIR/config"
-    alias ...='cd ../..'
-    alias ..='cd ..'
-    
-    # Safe operations
-    alias rm='rm -i'
-    alias cp='cp -i'
-    alias mv='mv -i'
-    alias md='mkdir -p'
     
 }
 load_aliases
