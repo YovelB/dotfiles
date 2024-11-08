@@ -20,7 +20,7 @@ return {
       "CopilotChatModels",
     },
     opts = {
-      model = "claude",
+      model = "claude-3.5-sonnet",
     },
   },
 }
