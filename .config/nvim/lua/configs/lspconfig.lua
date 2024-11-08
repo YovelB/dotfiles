@@ -5,8 +5,10 @@ local lspconfig = require "lspconfig"
 
 -- configure these lsp (manually needs to be installed)
 local servers = {
-  "pyright",
+  "cmake",
   "clangd",
+  "pyright",
+  "matlab_ls",
 }
 
 -- Setup mason first

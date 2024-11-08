@@ -2,13 +2,27 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
-
 map("n", "<A-q>", "<ESC>:qa<CR>", { desc = "general Quit vim", nowait = true })
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
-map("n", "<C-a>", 'ggVG"+y<ESC>', { desc = "selection Select all" })
+map("n", "<C-a>", "ggVG", { desc = "selection Select all" })
 
+-- Nvim hide/show statusline
+local function toggle_statusline()
+  local current_status = vim.o.laststatus
+  if current_status == 0 then
+    vim.o.laststatus = 2
+    vim.notify "Statusline shown"
+  else
+    vim.o.laststatus = 0
+    vim.notify "Statusline hidden"
+  end
+end
+
+map("n", "<leader>ts", toggle_statusline, { desc = "Toggle statusline" })
+
+-- LSP hide/show diagnostics
 map("n", "<leader>lt", function()
   if next(vim.lsp.get_clients()) ~= nil then
     vim.cmd "LspStop"
