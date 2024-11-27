@@ -21,16 +21,31 @@ local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
+  if lsp ~= "clangd" then
+    lspconfig[lsp].setup {
+      on_attach = nvlsp.on_attach,
+      on_init = nvlsp.on_init,
+      capabilities = nvlsp.capabilities,
+    }
+  end
 end
 
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+-- Clangd setup
+lspconfig.clangd.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+  cmd = {
+    "clangd",
+    -- helps with embedded toolchains
+    "--query-driver=/home/yovelb/.local/share/zephyr/tools/zephyr-sdk-0.17.0/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+    "--clang-tidy",
+    "--header-insertion=iwyu",
+    "--offset-encoding=utf-16",
+    "--enable-config",
+    "--fallback-style=file:" .. os.getenv "HOME" .. "/.config/nvim/lua/configs/format/.clang-format",
+  },
+  init_options = {
+    compilationDatabaseDirectory = "build", -- if you use cmake
+  },
+}
