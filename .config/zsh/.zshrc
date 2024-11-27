@@ -114,8 +114,6 @@ function load_aliases() {
     alias ls='ls --color=auto'
     alias ll='ls -lah'
     alias grep='grep --color=auto'
-    alias ssh="ssh -F $SSH_CONFIG_DIR/config"
-    
 }
 load_aliases
 

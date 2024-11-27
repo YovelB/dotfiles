@@ -26,6 +26,9 @@ export POSH_CACHE_TIMEOUT=60
 # SSH configuration
 export SSH_CONFIG_DIR="$XDG_CONFIG_HOME/ssh"
 
+# GPG configuration
+export GPG_TTY=$(tty)
+
 # Cargo and Rustup XDG Base Directory paths
 export RUSTUP_HOME="$HOME/.rustup"
 export RUSTUP_CONFIG_HOME="$XDG_CONFIG_HOME/rustup"
@@ -41,7 +44,7 @@ export STM32_PRG_PATH="$XDG_DATA_HOME/STM32CubeIDE/programmer/bin"
 
 # Zephyr configuration
 export ZEPHYR_BASE="$HOME/UserWorkspace/zephyrproject/zephyr"
-export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr/tools/zephyr-sdk-0.17.0"
+export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr/tools"
 
 # Set the list of directories that Zsh searches for programs
 path=(
