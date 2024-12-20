@@ -16,8 +16,6 @@ return {
       "CopilotChatTests",
       "CopilotChatReview",
       "CopilotChatRefactor",
-      "CopilotChatModel",
-      "CopilotChatModels",
     },
     opts = {
       model = "claude-3.5-sonnet",

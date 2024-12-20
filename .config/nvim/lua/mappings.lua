@@ -34,57 +34,48 @@ map("n", "<leader>lt", function()
 end, { desc = "Toggle LSP" })
 
 -- Copilot mappings
--- helper method to toggle copilot suggestions
-local function toggle_copilot_suggestions()
-  if vim.b.copilot_suggestion_auto_trigger then
-    vim.b.copilot_suggestion_auto_trigger = false
-    require("copilot.suggestion").dismiss()
-    vim.notify "Copilot suggestions disabled"
+local enabled = true
+local function toggle_copilot()
+  require("copilot.suggestion").dismiss()
+  require("copilot.suggestion").toggle_auto_trigger()
+  enabled = not enabled
+  if enabled then
+    vim.notify("Copilot enabled", vim.log.levels.INFO)
   else
-    vim.b.copilot_suggestion_auto_trigger = true
-    vim.notify "Copilot suggestions enabled"
+    vim.notify("Copilot disabled", vim.log.levels.INFO)
   end
+  return ""
 end
 
--- Toggle Copilot suggestions with toggle_copilot_suggestions helper method
-map("n", "<M-c>", toggle_copilot_suggestions, { desc = "Toggle Copilot suggestions" })
-map("i", "<M-c>", function()
-  toggle_copilot_suggestions()
-  -- Return empty string to not insert anything in insert mode
-  return ""
-end, { desc = "Toggle Copilot suggestions", expr = true })
+-- Toggle Copilot suggestions
+map("n", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions" })
+map("i", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions", expr = true })
 
 -- CopilotChat mappings
--- Quick chat with buffer context
+-- Chat operations
+map("n", "<leader>cs", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle Chat" })
+map("n", "<leader>cf", "<cmd>CopilotChatToggle<cr><C-w>|", { desc = "Chat Fullscreen" })
+
+-- Quick chat with context
 map("n", "<leader>cq", function()
   local input = vim.fn.input "Quick Chat: "
   if input ~= "" then
     require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
   end
-end, { desc = "CopilotChat - Quick chat" })
+end, { desc = "Quick Chat" })
 
--- Show help actions using telescope
+-- Actions (ca = copilot actions)
+map("n", "<leader>ccf", "<cmd>CopilotChatFix<cr>", { desc = "Fix Code" })
+map("n", "<leader>cct", "<cmd>CopilotChatTests<cr>", { desc = "Generate Tests" })
+map("n", "<leader>ccr", "<cmd>CopilotChatReview<cr>", { desc = "Review Code" })
+map("n", "<leader>cce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain Code" })
+
+-- Help and prompts
 map("n", "<leader>ch", function()
   local actions = require "CopilotChat.actions"
   require("CopilotChat.integrations.telescope").pick(actions.help_actions())
-end, { desc = "CopilotChat - Help actions with telescope" })
+end, { desc = "Help Actions" })
 
--- Show prompts actions using telescope
-map("n", "<leader>cp", function()
-  local actions = require "CopilotChat.actions"
-  require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-end, { desc = "CopilotChat - Prompt actions with telescope" })
-
--- Common actions (normal mode)
-map("n", "<leader>cs", "<cmd>CopilotChatToggle<cr>", { desc = "CopilotChat - Toggle split" })
-map("n", "<leader>cf", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix issue" })
-map("n", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "CopilotChat - Explain code" })
-map("n", "<leader>ct", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
-map("n", "<leader>cr", "<cmd>CopilotChatReview<cr>", { desc = "CopilotChat - Review code" })
--- select and view model
-map("n", "<leader>cv", "<cmd>CopilotChatModel<cr>", { desc = "CopilotChat - View model" })
-map("n", "<leader>cm", "<cmd>CopilotChatModels<cr>", { desc = "CopilotChat - Select model" })
 -- Visual mode mappings
-map("v", "<leader>cq", ":CopilotChatVisual ", { desc = "CopilotChat - Quick chat with selection" })
-map("v", "<leader>cr", ":CopilotChatRefactor<cr>", { desc = "CopilotChat - Refactor selection" })
-map("v", "<leader>ce", ":CopilotChatExplain<cr>", { desc = "CopilotChat - Explain selection" })
+map("v", "<leader>cr", "<cmd>CopilotChatRefactor<cr>", { desc = "Refactor Selection" })
+map("v", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain Selection" })
