@@ -69,6 +69,16 @@ map("n", "<leader>ccf", "<cmd>CopilotChatFix<cr>", { desc = "Fix Code" })
 map("n", "<leader>cct", "<cmd>CopilotChatTests<cr>", { desc = "Generate Tests" })
 map("n", "<leader>ccr", "<cmd>CopilotChatReview<cr>", { desc = "Review Code" })
 map("n", "<leader>cce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain Code" })
+map("n", "<leader>cm", "<cmd>CopilotChatModels<cr>", { desc = "Switch Chat Model" })
+
+-- Save and Load chats
+map("n", "<leader>cS", function()
+  local name = vim.fn.input "Chat name: "
+  if name ~= "" then
+    vim.cmd("CopilotChatSave " .. name)
+  end
+end, { desc = "Save Chat" })
+map("n", "<leader>cL", "<cmd>CopilotChatLoad<cr>", { desc = "Load Chat" })
 
 -- Help and prompts
 map("n", "<leader>ch", function()

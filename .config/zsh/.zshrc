@@ -118,7 +118,7 @@ function load_aliases() {
 load_aliases
 
 # Copilot CLI
-eval "$(gh copilot alias -- zsh)"
+# eval "$(gh copilot alias -- zsh)"
 
 # Enable profiling output if needed
 # zprof

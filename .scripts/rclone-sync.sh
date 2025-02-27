@@ -19,6 +19,7 @@ declare -A SYNC_PATHS=(
     ["proton:Fedora/Yovel"]="$HOME/Documents/Yovel"
     ["proton:Fedora/Remarkable"]="$HOME/Documents/Remarkable"
     ["google:Fedora/UserWorkspace"]="$HOME/UserWorkspace"
+    ["google:Fedora/School"]="$HOME/Documents/School"
 )
 
 # path-specific exclusion patterns

@@ -1,5 +1,13 @@
 return {
   {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
+    opts = {
+      file_types = { "markdown", "copilot-chat" },
+    },
+    ft = { "markdown", "copilot-chat" },
+  },
+  {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     dependencies = {
@@ -16,9 +24,15 @@ return {
       "CopilotChatTests",
       "CopilotChatReview",
       "CopilotChatRefactor",
+      "CopilotChatModels",
+      "CopilotChatSave",
+      "CopilotChatLoad",
     },
     opts = {
       model = "claude-3.5-sonnet",
+      highlight_headers = false,
+      separator = "---",
+      error_header = "> [!ERROR] Error",
     },
   },
 }
