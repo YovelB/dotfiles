@@ -1,3 +1,8 @@
+# First load .zprofile
+if [[ -f "$XDG_CONFIG_HOME/zsh/.zprofile" ]]; then
+    source "$XDG_CONFIG_HOME/zsh/.zprofile"
+fi
+
 # Enable profiling if needed
 # zmodload zsh/zprof
 
@@ -109,7 +114,6 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 function load_aliases() {
     # Basic aliases
     alias vim=nvim
-    alias c='clear'
     alias md='mkdir -p'
     alias ls='ls --color=auto'
     alias ll='ls -lah'

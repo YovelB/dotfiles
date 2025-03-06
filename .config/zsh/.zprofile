@@ -44,21 +44,14 @@ export STM32_PRG_PATH="$XDG_DATA_HOME/STM32CubeIDE/programmer/bin"
 
 # Zephyr configuration
 export ZEPHYR_BASE="$HOME/UserWorkspace/zephyrproject/zephyr"
-export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr/tools"
+export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr-sdk"
 
 # Set the list of directories that Zsh searches for programs
 path=(
-    # Development tools
-    "$ZEPHYR_SDK_INSTALL_DIR/sysroots/x86_64-pokysdk-linux/usr/bin"
-    "$ZEPHYR_SDK_INSTALL_DIR/usr/bin"
-    # Local binaries
-    "$HOME/.local/bin"
+    # zephyr development tools
+    "$ZEPHYR_SDK_INSTALL_DIR/zephyr-sdk-0.17.0/sysroots/x86_64-pokysdk-linux/usr/bin"
     $path
 )
-
-# Set locale
-export LANG='en_US.UTF-8'
-export LC_ALL='en_US.UTF-8'
 
 # Set less options and temporary directory
 export LESS='-F -g -i -M -R -S -w -X -z-4'
