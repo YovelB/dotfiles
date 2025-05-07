@@ -43,13 +43,16 @@ export CARGO_CACHE_HOME="$XDG_CACHE_HOME/cargo"
 export STM32_PRG_PATH="$XDG_DATA_HOME/STM32CubeIDE/programmer/bin"
 
 # Zephyr configuration
-export ZEPHYR_BASE="$HOME/UserWorkspace/zephyrproject/zephyr"
+export ZEPHYR_BASE="$HOME/UserWorkspace/zephyr-workspace/zephyr"
 export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr-sdk"
 
 # Set the list of directories that Zsh searches for programs
 path=(
-    # zephyr development tools
+    # development tools
     "$ZEPHYR_SDK_INSTALL_DIR/zephyr-sdk-0.17.0/sysroots/x86_64-pokysdk-linux/usr/bin"
+    "$ZEPHYR_SDK_INSTALL_DIR/usr/bin"
+    # local binaries
+    "$HOME/.local/bin"
     $path
 )
 

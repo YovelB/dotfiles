@@ -16,25 +16,24 @@ mkdir -p "$LOG_DIR"
 
 # associative array mapping remote:paths to local paths
 declare -A SYNC_PATHS=(
-    ["proton:Fedora/Yovel"]="$HOME/Documents/Yovel"
-    ["proton:Fedora/Remarkable"]="$HOME/Documents/Remarkable"
-    ["google:Fedora/UserWorkspace"]="$HOME/UserWorkspace"
-    ["google:Fedora/School"]="$HOME/Documents/School"
+    ["proton:Arch/Yovel"]="$HOME/Documents/Yovel/Personal"
+    ["proton:Arch/Remarkable"]="$HOME/Documents/Yovel/Remarkable"
+    ["google:Arch/UserWorkspace"]="$HOME/UserWorkspace"
+    ["google:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
+    ["google:Arch/School"]="$HOME/Documents/School"
 )
 
 # path-specific exclusion patterns
 declare -A EXTRA_EXCLUDES=(
-    ["proton:Fedora/Yovel"]="
+    ["proton:Arch/Yovel"]="
 - /Reading/**
-- /Volunteer/**
 "
-    ["proton:Fedora/Remarkable"]="
+    ["proton:Arch/Remarkable"]="
 - /Books/**
 "
-    ["google:Fedora/UserWorkspace"]="
+    ["google:Arch/UserWorkspace"]="
 - /archive/**
-- /CCS/**
-- /zephyrproject/**
+- /zephyr-workspace/**
 "
 )
 
@@ -55,6 +54,20 @@ RCLONE_FLAGS=(
     --log-file="$LOG_DIR/rclone.log"                  # Where to write logs
     --log-level=INFO                                  # Level of logging detail
     --filter-from="$HOME/.config/rclone/filters.txt"  # File containing global filters
+)
+
+# Proton-specific flags (more conservative)
+PROTON_RCLONE_FLAGS=(
+    --transfers=4                                     # Reduce parallel transfers
+    --checkers=4                                      # Reduce parallel checkers
+    --buffer-size=32M                                 # Smaller buffer size
+    --tpslimit=5                                      # Much lower API call limit
+    --tpslimit-burst=10                               # Lower burst limit
+    --progress
+    --stats=5s
+    --log-file="$LOG_DIR/rclone.log"
+    --log-level=INFO
+    --filter-from="$HOME/.config/rclone/filters.txt"
 )
 
 # signal handler for clean termination
@@ -110,6 +123,12 @@ perform_sync() {
   local dest="$2"
   local extra_excludes="$3"
 
+  # Choose flags based on remote
+  local flags=("${RCLONE_FLAGS[@]}")
+  if [[ "$dest" == proton:* ]]; then
+    flags=("${PROTON_RCLONE_FLAGS[@]}")
+  fi
+
   if [ -n "$extra_excludes" ]; then
     # create temporary filter file for additional exclusions
     local extra_filter_file=$(mktemp)
@@ -121,7 +140,7 @@ perform_sync() {
 
     log_message "Syncing $source to $dest with additional filters"
 
-    if ! rclone sync "${RCLONE_FLAGS[@]}" \
+    if ! rclone sync "${flags[@]}" \
       --filter-from="$extra_filter_file" \
       "$source" "$dest"; then
       log_message "Error syncing @$source to $dest"
@@ -133,12 +152,17 @@ perform_sync() {
   else
     log_message "Syncing $source to $dest"
 
-    if ! rclone sync "${RCLONE_FLAGS[@]}" \
+    if ! rclone sync "${flags[@]}" \
       "$source" "$dest"; then
       log_message "Error syncing @$source to $dest"
       return 1
     fi
   fi
+}
+
+cleanup_old_logs() {
+  # Delete logs older than 30 days
+  find "$LOG_DIR" -name "rclone.log.*" -type f -mtime +30 -delete
 }
 
 # main function
@@ -149,7 +173,8 @@ main() {
     exit 1
   fi
 
-  # rotate log file
+  # clean and rotate log file
+  cleanup_old_logs
   rotate_log
 
   # check for global filters file
