@@ -54,7 +54,7 @@ map("i", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions", expr = 
 -- CopilotChat mappings
 -- Chat operations
 map("n", "<leader>cs", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle Chat" })
-map("n", "<leader>cf", "<cmd>CopilotChatToggle<cr><C-w>|", { desc = "Chat Fullscreen" })
+map("n", "<leader>cf", "<cmd>CopilotChatToggle<cr><C-w>|<C-w>_", { desc = "Chat Fullscreen" })
 
 -- Quick chat with context
 map("n", "<leader>cq", function()
