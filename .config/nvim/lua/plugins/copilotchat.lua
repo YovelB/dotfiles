@@ -29,7 +29,7 @@ return {
       "CopilotChatLoad",
     },
     opts = {
-      model = "claude-sonnet-4",
+      -- model = "claude-sonnet-4",
       highlight_headers = false,
       separator = "---",
       error_header = "> [!ERROR] Error",

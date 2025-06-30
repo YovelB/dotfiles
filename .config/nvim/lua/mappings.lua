@@ -23,15 +23,25 @@ end
 map("n", "<leader>ts", toggle_statusline, { desc = "Toggle statusline" })
 
 -- LSP hide/show diagnostics
+local lsp_hidden = false
 map("n", "<leader>lt", function()
-  if next(vim.lsp.get_clients()) ~= nil then
-    vim.cmd "LspStop"
-    vim.notify "LSP stopped"
+  lsp_hidden = not lsp_hidden
+  if lsp_hidden then
+    vim.diagnostic.config({
+      virtual_text = false,
+      signs = false,
+      underline = false,
+    })
+    vim.notify "LSP diagnostics hidden"
   else
-    vim.cmd "LspStart"
-    vim.notify "LSP started"
+    vim.diagnostic.config({
+      virtual_text = true,
+      signs = true,
+      underline = true,
+    })
+    vim.notify "LSP diagnostics shown"
   end
-end, { desc = "Toggle LSP" })
+end, { desc = "Toggle LSP diagnostics visibility" })
 
 -- Copilot mappings
 local enabled = true

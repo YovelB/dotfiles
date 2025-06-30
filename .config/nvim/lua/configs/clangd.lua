@@ -42,17 +42,6 @@ M.setup = function()
       -- Switch between header/source
       vim.keymap.set("n", "<leader>h", "<cmd>ClangdSwitchSourceHeader<cr>", opts)
 
-      -- Show type hierarchy
-      vim.keymap.set("n", "<leader>th", "<cmd>ClangdTypeHierarchy<cr>", opts)
-
-      -- Show memory usage
-      vim.keymap.set("n", "<leader>mu", "<cmd>ClangdMemoryUsage<cr>", opts)
-
-      -- Symbol info under cursor
-      vim.keymap.set("n", "<leader>si", "<cmd>ClangdSymbolInfo<cr>", opts)
-
-      -- AST dump
-      vim.keymap.set("n", "<leader>ast", "<cmd>ClangdAST<cr>", opts)
     end,
     on_init = nvlsp.on_init,
     capabilities = capabilities,
