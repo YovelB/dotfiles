@@ -1,74 +1,57 @@
-# My dotfiles
+# Dotfiles
 
-This directory contains the dotfiles for my system
+this repo contains config files (dotfiles) for my system.
 
-## Table of Contents
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
+## requirements
 
-## Requirements
+install the following tools:
 
-Ensure you have the following installed on your system
+- **Git**: version control system  
+- **GNU Stow**: for managing symlinks  
 
-### Git
+## install
 
-```
-sudo dnf install git
+clone the repository into your `$HOME` directory:
+
+```bash
+git clone https://github.com/YovelB/dotfiles
+cd dotfiles
 ```
 
-### Stow
+use GNU Stow to create symlinks:
 
-```
-sudo dnf install stow
-```
-
-## Installation
-
-First, check out the dotfiles repo in your $HOME directory using git
-
-```
-$ git clone https://github.com/YovelB/dotfiles
-$ cd dotfiles
+```bash
+stow .
 ```
 
-then use GNU stow to create symlinks
+## usage
 
-```
-$ stow .
+manage your system config by editing files in this repo.  
+changes here will reflect in your system.
+
+### dependencies
+
+#### Tmux plugins
+
+clone the Tmux Plugin Manager (TPM):
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 ```
 
-## Usage
+install plugins using TPM (prefix + `I`).
 
-After installation, you can manage your dotfiles by editing the files in this repository. Any changes made here will be reflected in your system configurations.
+#### performance measurement
 
-### Dependencies
-#### 1. Tmux plugins
-Clone TPM (Tmux plugin manager)
-```
-$ git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-```
-Then run TPM installation command (prefix + I) to install the other plugins
+measure shell startup time:
 
-Measure current start time with:
-```
+```bash
 time zsh -i -c exit
-output:
-zsh -i -c exit  0.07s user 0.06s system 100% cpu 0.131 total
 ```
-For detailed measurement:
-```
-# Uncomment zmodload zsh/zprof at top and zprof at bottom
+
+for detailed profiling:
+
+```bash
+# Uncomment `zmodload zsh/zprof` at the top and `zprof` at the bottom
 zsh -i -c exit
 ```
-
-## Contributing
-
-Contributions are welcome! Please submit a pull request or open an issue to discuss what you would like to change.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
