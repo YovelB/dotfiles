@@ -1,4 +1,12 @@
 return {
+  -- adds fun coding stats and achievements
+  {
+    "grzegorzszczepanek/gamify.nvim",
+    lazy = false,
+    config = function()
+      require("gamify")
+    end,
+  },
   -- change colorscheme
   {
     "folke/tokyonight.nvim",
@@ -23,14 +31,17 @@ return {
           lualine_a = { "mode" },
           lualine_b = {
             function()
-              -- Try to get git root first
-              local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
-              if vim.v.shell_error == 0 and git_root ~= "" then
-                return vim.fn.fnamemodify(git_root, ":t")
-              else
-                -- Fall back to current working directory
-                return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+              -- cache git root to avoid repeated system calls
+              if not vim.b._git_root_cache then
+                local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+                if vim.v.shell_error == 0 and git_root ~= "" then
+                  vim.b._git_root_cache = vim.fn.fnamemodify(git_root, ":t")
+                else
+                  -- if not in git repo use cwd
+                  vim.b._git_root_cache = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+                end
               end
+              return vim.b._git_root_cache
             end,
           },
 
@@ -38,6 +49,14 @@ return {
             { LazyVim.lualine.pretty_path() },
           },
           lualine_x = {
+            -- command status
+            -- stylua: ignore
+            {
+              function() return require("noice").api.status.command.get() end,
+              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+              color = function() return { fg = Snacks.util.color("Statement") } end,
+            },
+            Snacks.profiler.status(),
             {
               "diagnostics",
               symbols = {
@@ -47,25 +66,21 @@ return {
                 hint = icons.diagnostics.Hint,
               },
             },
-            Snacks.profiler.status(),
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.command.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              color = function() return { fg = Snacks.util.color("Statement") } end,
-            },
+            -- mode status color
             -- stylua: ignore
             {
               function() return require("noice").api.status.mode.get() end,
               cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
               color = function() return { fg = Snacks.util.color("Constant") } end,
             },
+            -- dap status
             -- stylua: ignore
             {
               function() return "  " .. require("dap").status() end,
               cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
               color = function() return { fg = Snacks.util.color("Debug") } end,
             },
+            -- lazy updates
             -- stylua: ignore
             {
               require("lazy.status").updates,
@@ -91,7 +106,7 @@ return {
               end,
             },
           },
-          lualine_y = { "searchcount", "filetype" },
+          lualine_y = { "filetype" },
           lualine_z = {
             { "progress", separator = " ", padding = { left = 1, right = 1 } },
             { "branch", padding = { left = 0, right = 1 } },
@@ -115,10 +130,20 @@ return {
         table.insert(opts.sections.lualine_c, {
           symbols and symbols.get,
           cond = function()
-            return vim.b.trouble_lualine ~= false and symbols.has()
+            if vim.b.trouble_lualine == false or not symbols.has() then
+              return false
+            end
+            local symbol_text = symbols.get()
+            if not symbol_text then
+              return false
+            end
+            -- check if the symbol text is not too long
+            local max_width = 140
+            return #symbol_text <= max_width
           end,
         })
       end
+      -- change section and component separators
       opts.options.section_separators = { left = "", right = "" }
       opts.options.component_separators = { left = "╲", right = "╱" }
       return opts

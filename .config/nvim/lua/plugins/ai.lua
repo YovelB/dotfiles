@@ -7,7 +7,7 @@ return {
     config = function()
       require("copilot").setup({
         suggestion = {
-          enabled = false,
+          enabled = true,
           auto_trigger = true,
           keymap = {
             accept = "<M-f>",
@@ -19,14 +19,18 @@ return {
           },
         },
         panel = { enabled = false },
-        logger = {},
+        logger = {
+          -- or `OFF` instead of `ERROR` if you want to disable logging as a whole
+          print_log_level = vim.log.levels.ERROR,
+        },
       })
     end,
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    build = "make tiktoken",
     opts = {
-      model = "claude-sonnet-4",
+      model = "gpt-4o",
       auto_insert_mode = false,
       window = {
         width = 0.5,

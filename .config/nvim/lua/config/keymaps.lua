@@ -43,7 +43,7 @@ vim.keymap.del("n", "<leader>fT") -- terminal toggle (cwd)
 -- adding custom keymaps
 map("i", "jk", "<ESC>", { desc = "enter  mode exit" })
 map("n", ";", ":", { desc = "enter command mode" })
-map("n", "<C-a>", "ggVG", { desc = "selection select all" })
+map("n", "<M-a>", "ggVG", { desc = "selection select all" })
 
 -- toggle statusline
 local function toggle_statusline()
@@ -79,13 +79,14 @@ map("n", "<leader>ct", function()
   end
 end, { desc = "Toggle LSP diagnostics visibility" })
 
--- toggle Copilot suggestions
+-- toggle Copilot suggestios
 local enabled = false
 local function toggle_copilot()
   require("copilot.suggestion").dismiss()
-  require("copilot.suggestion").toggle_auto_trigger()
   enabled = not enabled
   if enabled then
+    vim.cmd("silent! Copilot enable")
+    require("copilot.suggestion").toggle_auto_trigger()
     vim.notify("Copilot enabled", vim.log.levels.INFO)
   else
     vim.cmd("silent! Copilot disable")
