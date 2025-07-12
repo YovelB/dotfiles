@@ -118,7 +118,40 @@ function load_aliases() {
     alias ls='ls --color=auto'
     alias ll='ls -lah'
     alias grep='grep --color=auto'
-}
+
+    # TaskWorrior aliases
+    # general
+    alias t='task'
+    alias tl='task list'
+    alias ta='task add'
+    alias td='task done'
+    alias tu='task undo'
+    alias tp='task projects'
+    alias tt='task tags'
+    # filter
+    alias turg='task +urgent'
+    alias todue='task overdue'
+    alias tdue='task due.before:today'
+    alias tgeneral='task project:general'
+    alias tcollege='task project:college'
+    alias twork='task project:work'
+    # modify
+    alias tmod='task modify'
+    alias tstart='task start'
+    alias tstop='task stop'
+    alias tpri='task modify priority:H'
+    # schedulnig
+    alias trecur='task add recur:weekly'
+    alias tmonthly='task add recur:monthly'
+    # reports
+    alias ts='task summary'
+    alias tb='task burndown'
+    alias tr='task report'
+    alias tlog='task log'
+    # sync
+    alias tsync='task sync'
+    alias tbuckup='task export > tasks.json'
+  }
 load_aliases
 
 # Copilot CLI

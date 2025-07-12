@@ -25,19 +25,8 @@ export POSH_CACHE_TIMEOUT=60
 
 # SSH configuration
 export SSH_CONFIG_DIR="$XDG_CONFIG_HOME/ssh"
-
 # GPG configuration
 export GPG_TTY=$(tty)
-
-# Cargo and Rustup XDG Base Directory paths
-export RUSTUP_HOME="$HOME/.rustup"
-export RUSTUP_CONFIG_HOME="$XDG_CONFIG_HOME/rustup"
-export RUSTUP_CACHE_HOME="$XDG_CACHE_HOME/rustup"
-export CARGO_HOME="$HOME/.cargo"
-export CARGO_CONFIG_HOME="$XDG_CONFIG_HOME/cargo"
-export CARGO_DATA_HOME="$XDG_DATA_HOME/cargo"
-export CARGO_BIN_HOME="$CARGO_DATA_HOME/bin"
-export CARGO_CACHE_HOME="$XDG_CACHE_HOME/cargo"
 
 # stm32 programmer path
 export STM32_PRG_PATH="$XDG_DATA_HOME/STM32CubeIDE/programmer/bin"
