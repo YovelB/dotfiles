@@ -33,12 +33,14 @@ return {
             function()
               -- cache git root to avoid repeated system calls
               if not vim.b._git_root_cache then
-                local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+                local git_root = vim.fn
+                  .system("git -C " .. vim.fn.expand("%:p:h") .. " rev-parse --show-toplevel 2>/dev/null")
+                  :gsub("\n", "")
                 if vim.v.shell_error == 0 and git_root ~= "" then
-                  vim.b._git_root_cache = vim.fn.fnamemodify(git_root, ":t")
+                  vim.b._git_root_cache = " " .. vim.fn.fnamemodify(git_root, ":t")
                 else
-                  -- if not in git repo use cwd
-                  vim.b._git_root_cache = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+                  -- fallback to cwd if not in git repo
+                  vim.b._git_root_cache = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
                 end
               end
               return vim.b._git_root_cache
@@ -46,7 +48,7 @@ return {
           },
 
           lualine_c = {
-            { LazyVim.lualine.pretty_path() },
+            { LazyVim.lualine.pretty_path({ length = 3 }) },
           },
           lualine_x = {
             -- command status
@@ -109,7 +111,7 @@ return {
           lualine_y = { "filetype" },
           lualine_z = {
             { "progress", separator = " ", padding = { left = 1, right = 1 } },
-            { "branch", padding = { left = 0, right = 1 } },
+            { "branch", padding = { right = 1 } },
           },
         },
         extensions = { "neo-tree", "lazy", "fzf" },
@@ -138,14 +140,14 @@ return {
               return false
             end
             -- check if the symbol text is not too long
-            local max_width = 140
+            local max_width = 120
             return #symbol_text <= max_width
           end,
         })
       end
       -- change section and component separators
       opts.options.section_separators = { left = "", right = "" }
-      opts.options.component_separators = { left = "╲", right = "╱" }
+      opts.options.component_separators = { left = "╱", right = "╱" }
       return opts
     end,
   },
