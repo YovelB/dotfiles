@@ -13,69 +13,69 @@ LOG_SIZE=1000
 # create log dir if not exists
 mkdir -p "$LOG_DIR"
 
-
 # associative array mapping remote:paths to local paths
 declare -A SYNC_PATHS=(
-    ["proton:Arch/Yovel"]="$HOME/Documents/Yovel/Personal"
-    ["proton:Arch/Remarkable"]="$HOME/Documents/Yovel/Remarkable"
-    ["google:Arch/UserWorkspace"]="$HOME/UserWorkspace"
-    ["google:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
-    ["google:Arch/School"]="$HOME/Documents/School"
+  ["proton:Arch/Yovel"]="$HOME/Documents/Yovel/Personal"
+  ["proton:Arch/Remarkable"]="$HOME/Documents/Yovel/Remarkable"
+  ["google:Arch/UserWorkspace"]="$HOME/UserWorkspace"
+  ["google:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
+  ["google:Arch/School"]="$HOME/Documents/School"
 )
 
 # path-specific exclusion patterns
 declare -A EXTRA_EXCLUDES=(
-    ["proton:Arch/Yovel"]="
+  ["proton:Arch/Yovel"]="
 - /Reading/**
 "
-    ["proton:Arch/Remarkable"]="
+  ["proton:Arch/Remarkable"]="
 - /Books/**
 "
-    ["google:Arch/UserWorkspace"]="
+  ["google:Arch/UserWorkspace"]="
 - /archive/**
 - /zephyr-workspace/**
+- /KiCad/exercises/imported/**
 "
 )
 
 # Rclone optimization and performance flags
 RCLONE_FLAGS=(
-    --transfers=16                                     # Number of files to transfer in parallel
-    --checkers=16                                      # Number of hash checking operations to run in parallel
-    --buffer-size=64M                                 # Size of in-memory buffer for each transfer
-    --drive-chunk-size=64M                            # Size of chunks for upload to Google Drive
-    --fast-list                                       # Use recursive list if available (faster for large directories)
-    --stats=5s                                        # Print stats every 5 seconds
-    --progress                                        # Show progress during transfer
-    --tpslimit=16                                     # Limit API calls per second to avoid rate limiting
-    --tpslimit-burst=16                               # Allow bursts of up to 32 API calls
-    --multi-thread-streams=4                          # Number of streams to use for multi-thread downloads
-    --multi-thread-cutoff=64M                         # Files larger than this use multi-thread transfers
-    --drive-acknowledge-abuse                         # Skip Google Drive warning for flagged files
-    --log-file="$LOG_DIR/rclone.log"                  # Where to write logs
-    --log-level=INFO                                  # Level of logging detail
-    --filter-from="$HOME/.config/rclone/filters.txt"  # File containing global filters
+  --transfers=16                                   # Number of files to transfer in parallel
+  --checkers=16                                    # Number of hash checking operations to run in parallel
+  --buffer-size=64M                                # Size of in-memory buffer for each transfer
+  --drive-chunk-size=64M                           # Size of chunks for upload to Google Drive
+  --fast-list                                      # Use recursive list if available (faster for large directories)
+  --stats=5s                                       # Print stats every 5 seconds
+  --progress                                       # Show progress during transfer
+  --tpslimit=16                                    # Limit API calls per second to avoid rate limiting
+  --tpslimit-burst=16                              # Allow bursts of up to 32 API calls
+  --multi-thread-streams=4                         # Number of streams to use for multi-thread downloads
+  --multi-thread-cutoff=64M                        # Files larger than this use multi-thread transfers
+  --drive-acknowledge-abuse                        # Skip Google Drive warning for flagged files
+  --log-file="$LOG_DIR/rclone.log"                 # Where to write logs
+  --log-level=INFO                                 # Level of logging detail
+  --filter-from="$HOME/.config/rclone/filters.txt" # File containing global filters
 )
 
 # Proton-specific flags (more conservative)
 PROTON_RCLONE_FLAGS=(
-    --transfers=4                                     # Reduce parallel transfers
-    --checkers=4                                      # Reduce parallel checkers
-    --buffer-size=32M                                 # Smaller buffer size
-    --tpslimit=5                                      # Much lower API call limit
-    --tpslimit-burst=10                               # Lower burst limit
-    --progress
-    --stats=5s
-    --log-file="$LOG_DIR/rclone.log"
-    --log-level=INFO
-    --filter-from="$HOME/.config/rclone/filters.txt"
+  --transfers=4       # Reduce parallel transfers
+  --checkers=4        # Reduce parallel checkers
+  --buffer-size=32M   # Smaller buffer size
+  --tpslimit=5        # Much lower API call limit
+  --tpslimit-burst=10 # Lower burst limit
+  --progress
+  --stats=5s
+  --log-file="$LOG_DIR/rclone.log"
+  --log-level=INFO
+  --filter-from="$HOME/.config/rclone/filters.txt"
 )
 
 # signal handler for clean termination
 cleanup() {
   # handle termination signels (SIGINT, SIGTERM, SIGHUP) and cleanup
-  echo "[$(date)] Received termination signal. Cleaning up..." >> "$LOG_DIR/rclone.log"
+  echo "[$(date)] Received termination signal. Cleaning up..." >>"$LOG_DIR/rclone.log"
   if [ -n "$SYNC_PID" ]; then
-      kill -TERM "$SYNC_PID" 2>/dev/null || true
+    kill -TERM "$SYNC_PID" 2>/dev/null || true
   fi
   rm -f "$LOCK_FILE"
   exit 1
@@ -84,18 +84,18 @@ cleanup() {
 # log rotation for rclone log
 rotate_log() {
   if [ -f "$LOG_DIR/rclone.log" ]; then
-    local line_count=$(wc -l < "$LOG_DIR/rclone.log")
+    local line_count=$(wc -l <"$LOG_DIR/rclone.log")
     if [ "$line_count" -gt "$LOG_SIZE" ]; then
       # create backup with timestamp
       local timestamp=$(date +"%Y%m%d_%H%M%S")
       local backup_file="$LOG_DIR/rclone.log.$timestamp"
-      
+
       # make backup of current log
       cp "$LOG_DIR/rclone.log" "$backup_file"
-      
+
       # clear the current log file
-      : > "$LOG_DIR/rclone.log"
-      
+      : >"$LOG_DIR/rclone.log"
+
       log_message "Rotated log file, saved as $backup_file"
     fi
   fi
@@ -104,7 +104,7 @@ rotate_log() {
 # timestamp logger
 log_message() {
   # write timestamped message to log file
-  echo "[$(date)] $1" >> "$LOG_DIR/rclone.log"
+  echo "[$(date)] $1" >>"$LOG_DIR/rclone.log"
 }
 
 # check network connectivity
@@ -136,7 +136,7 @@ perform_sync() {
       log_message "Failed to create temporary filter file"
       return 1
     fi
-    echo "$extra_excludes" > "$extra_filter_file"
+    echo "$extra_excludes" >"$extra_filter_file"
 
     log_message "Syncing $source to $dest with additional filters"
 
@@ -169,7 +169,7 @@ cleanup_old_logs() {
 main() {
   # check network connectivity
   if ! check_network; then
-    rm -f "$LOCK_FILE"  # Clean up lock file
+    rm -f "$LOCK_FILE" # Clean up lock file
     exit 1
   fi
 
@@ -180,19 +180,19 @@ main() {
   # check for global filters file
   if [ ! -f "$HOME/.config/rclone/filters.txt" ]; then
     log_message "Error: Global filters file missing"
-    rm -f "$LOCK_FILE"  # Clean up lock file
+    rm -f "$LOCK_FILE" # Clean up lock file
     exit 1
   fi
 
   # check for existing instance (lock mechanism)
   if [ -f "$LOCK_FILE" ]; then
     log_message "Another instance is already running. Exiting..."
-    rm -f "$LOCK_FILE"  # Clean up lock file
+    rm -f "$LOCK_FILE" # Clean up lock file
     exit 1
   fi
 
   # create lock file
-  echo "$$" > "$LOCK_FILE"
+  echo "$$" >"$LOCK_FILE"
 
   # set up signal handlers
   trap cleanup SIGINT SIGTERM SIGHUP
