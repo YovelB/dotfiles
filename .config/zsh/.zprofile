@@ -1,3 +1,8 @@
+# Source ~/.profile if it exists
+if [ -f ~/.profile ]; then
+    . ~/.profile
+fi
+
 # Ensure XDG directories exist
 () {
     local -a dirs=(
