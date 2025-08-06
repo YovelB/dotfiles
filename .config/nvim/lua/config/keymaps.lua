@@ -4,8 +4,7 @@ local map = vim.keymap.set
 
 -- removing default commands
 -- general
-vim.keymap.del("n", "<leader>L") -- lazy changelog
-vim.keymap.del("n", "<leader>`") -- switch buffer
+vim.keymap.del("n", "<leader>L") -- lazy changelog vim.keymap.del("n", "<leader>`") -- switch buffer
 vim.keymap.del("n", "<leader>?") -- buffer keymaps (which-key)
 vim.keymap.del("n", "<leader>.") -- toggle stratch buffer
 vim.keymap.del("n", "<leader>S") -- select stratch buffer

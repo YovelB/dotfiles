@@ -3,29 +3,34 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        -- LSPs
-        "bash-language-server", -- Bash
-        "clangd", -- C/C++
-        "lua-language-server", -- Lua
-        "pyright", -- Python
-        "json-lsp", -- JSON
-        "marksman", -- Markdown
-        "neocmakelsp", -- CMake
-        "taplo", -- TOML
-        "texlab", -- LaTeX
+        -- lsps
+        "bash-language-server", -- bash
+        "lua-language-server", -- lua
+        "clangd", -- c/c++
+        "pyright", -- python
+        "neocmakelsp", -- cmake
 
-        -- Debug Adapters
-        "codelldb", -- C/C++ and Rust
-        "debugpy", -- Python
+        "marksman", -- markdown
+        "json-lsp", -- json
+        "taplo", -- toml
 
-        -- Linters
-        "ruff", -- Python
-        "shellcheck", -- Shell
-        "cmakelint", -- CMake
+        -- debug adapters
+        "codelldb", -- c/c++ and rust
+        "debugpy", -- python
 
-        -- Formatters
-        "stylua", -- Lua
-        "shfmt", -- Shell
+        -- linters
+        "ruff", -- python
+        "shellcheck", -- shell
+        "cmakelint", -- cmake
+
+        -- formatters
+        "stylua", -- lua
+        "shfmt", -- shell
+
+        -- additional tools
+        "markdown-toc", -- markdown toc generator
+        "markdownlint-cli2", -- markdown linter
+        "texlab", -- latex
       },
     },
   },
