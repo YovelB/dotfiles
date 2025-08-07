@@ -5,7 +5,7 @@ local mux = wezterm.mux
 wezterm.on("gui-startup", function(cmd)
 	if mux then
 		local _, _, window = mux.spawn_window(cmd or {})
-		wezterm.sleep_ms(50)
+		wezterm.sleep_ms(100)
 		window:gui_window():maximize()
 	end
 end)
