@@ -1,0 +1,47 @@
+# User specific config file
+# additonal config can be placed at ~/.config/git/config file for additonal configuration
+
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"] 
+	helper = !/usr/bin/gh auth git-credential
+
+[user]
+	name = yovelb
+  email = yovelb2j@gmail.com
+	signingkey = E2A7C5F036AF8E14066A0D3CCB35C8E60AB3CE1E
+
+[alias]
+    st = status
+    ci = commit
+
+[pull]
+    rebase = false
+
+[push]
+    default = simple
+
+[init]
+    defaultBranch = main
+
+[core]
+	symlinks = true
+	pager = delta
+
+[commit]
+	gpgsign = true
+
+[tag]
+	gpgSign = true
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  dark = true
+  theme = "Monokai Extended"
+  side-by-side = true
+
+[merge]
+  conflictStyle = zdiff3
