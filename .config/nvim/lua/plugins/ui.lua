@@ -12,6 +12,49 @@ return {
     "folke/tokyonight.nvim",
     opts = { style = "night" },
   },
+  -- hide unrelated comments (todo-comments plugin in snacks)
+  {
+    "folke/snacks.nvim",
+    opts = {
+      picker = {
+        sources = {
+          todo_comments = {
+            exclude = {
+              "STM32Cube/",
+              "Documents/",
+              "UserWorkspace/STM32/",
+              "UserWorkspace/KiCad/",
+              "UserWorkspace/zephyr-workspace/zephyr/",
+              "UserWorkspace/zephyr-workspace/modules/",
+            },
+          },
+        },
+      },
+    },
+  },
+  -- dashboard config
+  {
+    "snacks.nvim",
+    priority = 1000,
+    opts = {
+      dashboard = {
+        enabled = true,
+        pane_gap = 0,
+        preset = {
+          header = [[
+                                                                   
+      ████ ██████           █████      ██                    
+     ███████████             █████                            
+     █████████ ███████████████████ ███   ███████████  
+    █████████  ███    █████████████ █████ ██████████████  
+   █████████ ██████████ █████████ █████ █████ ████ █████  
+ ███████████ ███    ███ █████████ █████ █████ ████ █████ 
+██████  █████████████████████ ████ █████ █████ ████ ██████
+        ]],
+        },
+      },
+    },
+  },
   -- update statusline
   {
     "nvim-lualine/lualine.nvim",
@@ -54,7 +97,9 @@ return {
             -- command status
             -- stylua: ignore
             {
+              ---@diagnostic disable-next-line: undefined-field
               function() return require("noice").api.status.command.get() end,
+              ---@diagnostic disable-next-line: undefined-field
               cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
               color = function() return { fg = Snacks.util.color("Statement") } end,
             },
@@ -71,7 +116,9 @@ return {
             -- mode status color
             -- stylua: ignore
             {
+              ---@diagnostic disable-next-line: undefined-field
               function() return require("noice").api.status.mode.get() end,
+              ---@diagnostic disable-next-line: undefined-field
               cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
               color = function() return { fg = Snacks.util.color("Constant") } end,
             },
@@ -150,27 +197,5 @@ return {
       opts.options.component_separators = { left = "╱", right = "╱" }
       return opts
     end,
-  },
-  {
-    "snacks.nvim",
-    priority = 1000,
-    opts = {
-      dashboard = {
-        enabled = true,
-        pane_gap = 0,
-        preset = {
-          header = [[
-                                                                   
-      ████ ██████           █████      ██                    
-     ███████████             █████                            
-     █████████ ███████████████████ ███   ███████████  
-    █████████  ███    █████████████ █████ ██████████████  
-   █████████ ██████████ █████████ █████ █████ ████ █████  
- ███████████ ███    ███ █████████ █████ █████ ████ █████ 
-██████  █████████████████████ ████ █████ █████ ████ ██████
-        ]],
-        },
-      },
-    },
   },
 }
