@@ -43,7 +43,7 @@ export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr-sdk"
 # Set the list of directories that Zsh searches for programs
 path=(
     # development tools
-    "$ZEPHYR_SDK_INSTALL_DIR/zephyr-sdk-0.17.0/sysroots/x86_64-pokysdk-linux/usr/bin"
+    "$ZEPHYR_SDK_INSTALL_DIR/zephyr-sdk-0.17.2/sysroots/x86_64-pokysdk-linux/usr/bin"
     "$ZEPHYR_SDK_INSTALL_DIR/usr/bin"
     # local binaries
     "$HOME/.local/bin"

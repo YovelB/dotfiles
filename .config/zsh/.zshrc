@@ -120,8 +120,8 @@ function load_aliases() {
     alias grep='grep --color=auto'
 
     # task managment
-    alias tasktui='taskwarrior-tui'
-    alias tburndown='task burndown'
+    alias ttui='taskwarrior-tui'
+    alias tbd='task burndown'
   }
 load_aliases
 
