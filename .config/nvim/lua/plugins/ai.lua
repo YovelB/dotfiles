@@ -18,40 +18,23 @@ local prompts = {
 return {
   {
     "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "BufReadPost",
-    build = ":Copilot auth",
     opts = {
       suggestion = {
-        -- enabled = not vim.g.ai_cmp,
-        -- auto_trigger = true,
-        -- hide_during_completion = vim.g.ai_cmp,
         keymap = {
-          accept = false, -- handled by blink.cmp
           accept_word = "<M-w>",
           accept_line = "<M-l>",
         },
       },
-      panel = { enabled = false },
-      logger = {
-        print_level = "warn",
-      },
     },
   },
+
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    enabled = true,
-    dependencies = {
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-    },
     build = "make tiktoken",
     opts = {
-      model = "gpt-4.1",
+      model = "gpt-5",
       auto_insert_mode = false,
       prompts = prompts,
-      window = {
-        width = 0.5,
-      },
     },
     keys = {
       -- disable unused mapping

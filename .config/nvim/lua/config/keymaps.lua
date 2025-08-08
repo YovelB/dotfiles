@@ -86,10 +86,10 @@ local function toggle_copilot()
   if enabled then
     vim.cmd("silent! Copilot enable")
     require("copilot.suggestion").toggle_auto_trigger()
-    vim.notify("Copilot enabled", vim.log.levels.INFO)
+    -- vim.notify("Copilot enabled", vim.log.levels.INFO)
   else
     vim.cmd("silent! Copilot disable")
-    vim.notify("Copilot disabled", vim.log.levels.INFO)
+    -- vim.notify("Copilot disabled", vim.log.levels.INFO)
   end
   return ""
 end

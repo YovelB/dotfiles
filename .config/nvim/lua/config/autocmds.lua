@@ -7,4 +7,4 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 -- disable copilot by default
-vim.cmd("silent! Copilot disable")
+-- vim.cmd("silent! Copilot disable")
