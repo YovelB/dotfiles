@@ -1,9 +1,9 @@
-# Source ~/.profile if it exists
+# source ~/.profile if it exists
 if [ -f ~/.profile ]; then
     . ~/.profile
 fi
 
-# Ensure XDG directories exist
+# ensure XDG directories exist
 () {
     local -a dirs=(
         "$XDG_CACHE_HOME"/{zsh,less,oh-my-posh}
@@ -15,13 +15,13 @@ fi
     done
 }
 
-# Ensure path arrays don't contain duplicates
+# ensure path arrays don't contain duplicates
 typeset -U PATH path
 
 # Zinit configuration
 export ZINIT_HOME="$XDG_DATA_HOME/zinit/zinit.git"
 
-# Set tmux configuration
+# set tmux configuration
 export TMUX_CONF="$XDG_CONFIG_HOME/tmux/tmux.conf"
 
 # Oh My Posh cache config
@@ -40,7 +40,11 @@ export STM32_PRG_PATH="$XDG_DATA_HOME/STM32CubeIDE/programmer/bin"
 export ZEPHYR_BASE="$HOME/UserWorkspace/zephyr-workspace/zephyr"
 export ZEPHYR_SDK_INSTALL_DIR="$XDG_DATA_HOME/zephyr-sdk"
 
-# Set the list of directories that Zsh searches for programs
+# Go configuration
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$GOPATH/pkg/mod"
+
+# set the list of directories that Zsh searches for programs
 path=(
     # development tools
     "$ZEPHYR_SDK_INSTALL_DIR/zephyr-sdk-0.17.2/sysroots/x86_64-pokysdk-linux/usr/bin"
@@ -49,10 +53,3 @@ path=(
     "$HOME/.local/bin"
     $path
 )
-
-# Set less options and temporary directory
-export LESS='-F -g -i -M -R -S -w -X -z-4'
-export LESSHISTFILE="$XDG_STATE_HOME/less/history"
-export LESSKEYIN="$XDG_CONFIG_HOME/less/lesskey"
-export LESSKEYOUT="$XDG_CACHE_HOME/less/lesskey"
-export LESSKEY="$XDG_CACHE_HOME/less/lesskey"
