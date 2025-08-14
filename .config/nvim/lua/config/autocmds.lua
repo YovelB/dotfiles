@@ -8,3 +8,11 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 -- disable copilot by default
 -- vim.cmd("silent! Copilot disable")
+
+-- disable blink.lua for tex files (temp fix until blink.lua supports filetype)
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.tex",
+  callback = function()
+    vim.b.completion = false
+  end,
+})

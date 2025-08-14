@@ -32,7 +32,7 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     build = "make tiktoken",
     opts = {
-      model = "gpt-5",
+      -- model = "gpt-5",
       auto_insert_mode = false,
       prompts = prompts,
     },
