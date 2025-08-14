@@ -20,10 +20,21 @@ return {
         sources = {
           todo_comments = {
             exclude = {
-              "STM32Cube/",
+              -- general
               "Documents/",
+              -- stm32
+              "STM32Cube/",
               "UserWorkspace/STM32/",
-              "UserWorkspace/KiCad/",
+              -- kicad
+              "UserWorkspace/KiCad/ngspice/",
+              "UserWorkspace/KiCad/exercises/",
+              "UserWorkspace/KiCad/custom-libraries/",
+              "UserWorkspace/KiCad/projects/Archive/",
+              "UserWorkspace/KiCad/projects/Precision_Scope_Test/",
+              "UserWorkspace/KiCad/projects/Precision_Scope/hardware/",
+              "UserWorkspace/KiCad/projects/Precision_Scope/manufacturing/",
+              "UserWorkspace/KiCad/projects/Power_Supply_Analyzer/",
+              -- zephyr
               "UserWorkspace/zephyr-workspace/zephyr/",
               "UserWorkspace/zephyr-workspace/modules/",
             },
