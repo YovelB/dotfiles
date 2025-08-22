@@ -6,9 +6,14 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
--- disable copilot by default
--- vim.cmd("silent! Copilot disable")
 
+-- disable spell checking for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = false
+  end,
+})
 -- disable blink.lua for tex files (temp fix until blink.lua supports filetype)
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.tex",
@@ -16,3 +21,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.b.completion = false
   end,
 })
+
+-- vim.cmd("silent! Copilot disable")
+-- disable copilot by default

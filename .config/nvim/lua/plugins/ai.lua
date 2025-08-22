@@ -17,18 +17,6 @@ local prompts = {
 
 return {
   {
-    "zbirenbaum/copilot.lua",
-    opts = {
-      suggestion = {
-        keymap = {
-          accept_word = "<M-w>",
-          accept_line = "<M-l>",
-        },
-      },
-    },
-  },
-
-  {
     "CopilotC-Nvim/CopilotChat.nvim",
     build = "make tiktoken",
     opts = {

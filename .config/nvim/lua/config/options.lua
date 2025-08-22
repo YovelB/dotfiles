@@ -7,7 +7,6 @@ opt.smoothscroll = false
 opt.winminwidth = 0
 
 vim.g.snacks_animate = false
-vim.g.ai_cmp = false -- blink suggestions / ghost text
 
 -- disable not needed providers
 vim.g.loaded_ruby_provider = 0

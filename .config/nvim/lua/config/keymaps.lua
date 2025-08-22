@@ -4,12 +4,13 @@ local map = vim.keymap.set
 
 -- removing default commands
 -- general
-vim.keymap.del("n", "<leader>L") -- lazy changelog vim.keymap.del("n", "<leader>`") -- switch buffer
+vim.keymap.del("n", "<leader>L") -- lazy changelog
+vim.keymap.del("n", "<leader>`") -- switch buffer
 vim.keymap.del("n", "<leader>?") -- buffer keymaps (which-key)
 vim.keymap.del("n", "<leader>.") -- toggle stratch buffer
 vim.keymap.del("n", "<leader>S") -- select stratch buffer
 vim.keymap.del("n", "<leader>K") -- keywordprg
--- Buffers
+-- buffers
 vim.keymap.del("n", "<leader>bb") -- switch buffer
 vim.keymap.del("n", "<leader>bD") -- delete buffer and windows
 vim.keymap.del("n", "<leader>bl") -- delete buffers to the left
@@ -33,9 +34,6 @@ vim.keymap.del("n", "<leader>uI") -- inspect tree (not important)
 if pcall(require, "gitsigns") then
   pcall(vim.keymap.del, "n", "<leader>uG") -- disable git signs
 end
--- File/Find
-vim.keymap.del("n", "<leader>ft") -- terminal toggle (root dir)
-vim.keymap.del("n", "<leader>fT") -- terminal toggle (cwd)
 
 -- overriding default commands
 

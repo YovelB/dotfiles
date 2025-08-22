@@ -9,6 +9,7 @@ return {
         "clangd", -- c/c++
         "pyright", -- python
         "neocmakelsp", -- cmake
+        "matlab-language-server", -- matlab
 
         "marksman", -- markdown
         "json-lsp", -- json
