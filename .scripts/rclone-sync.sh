@@ -5,7 +5,6 @@ set -euo pipefail
 # configuration paths
 LOG_DIR="$HOME/.local/log/rclone"
 LOCK_FILE="/tmp/rclone-sync.lock"
-SYNC_PID=""
 
 # log history size (# of lines)
 LOG_SIZE=1000
@@ -39,72 +38,66 @@ declare -A EXTRA_EXCLUDES=(
 
 # Rclone optimization and performance flags
 RCLONE_FLAGS=(
-  --transfers=16                                   # Number of files to transfer in parallel
-  --checkers=16                                    # Number of hash checking operations to run in parallel
-  --buffer-size=64M                                # Size of in-memory buffer for each transfer
-  --drive-chunk-size=64M                           # Size of chunks for upload to Google Drive
-  --fast-list                                      # Use recursive list if available (faster for large directories)
-  --stats=5s                                       # Print stats every 5 seconds
-  --progress                                       # Show progress during transfer
-  --tpslimit=16                                    # Limit API calls per second to avoid rate limiting
-  --tpslimit-burst=16                              # Allow bursts of up to 32 API calls
-  --multi-thread-streams=4                         # Number of streams to use for multi-thread downloads
-  --multi-thread-cutoff=64M                        # Files larger than this use multi-thread transfers
-  --drive-acknowledge-abuse                        # Skip Google Drive warning for flagged files
-  --log-file="$LOG_DIR/rclone.log"                 # Where to write logs
-  --log-level=INFO                                 # Level of logging detail
-  --filter-from="$HOME/.config/rclone/filters.txt" # File containing global filters
+  --transfers=16                                   # number of files to transfer in parallel
+  --checkers=16                                    # number of hash checking operations to run in parallel
+  --buffer-size=64M                                # size of in-memory buffer for each transfer
+  --drive-chunk-size=64M                           # size of chunks for upload to Google Drive
+  --fast-list                                      # use recursive list if available (faster for large directories)
+  --tpslimit=16                                    # limit API calls per second to avoid rate limiting
+  --tpslimit-burst=16                              # allow bursts of up to 32 API calls
+  --multi-thread-streams=4                         # number of streams to use for multi-thread downloads
+  --multi-thread-cutoff=64M                        # files larger than this use multi-thread transfers
+  --drive-acknowledge-abuse                        # skip Google Drive warning for flagged files
+  --log-file="$LOG_DIR/rclone.log"                 # where to write logs
+  --log-level=ERROR                                # level of logging detail
+  --filter-from="$HOME/.config/rclone/filters.txt" # file containing global filters
 )
 
-# Proton-specific flags (more conservative)
+# proton specific flags (more conservative)
 PROTON_RCLONE_FLAGS=(
-  --transfers=4       # Reduce parallel transfers
-  --checkers=4        # Reduce parallel checkers
-  --buffer-size=32M   # Smaller buffer size
-  --tpslimit=5        # Much lower API call limit
-  --tpslimit-burst=10 # Lower burst limit
-  --progress
-  --stats=5s
+  --transfers=4       # reduce parallel transfers
+  --checkers=4        # reduce parallel checkers
+  --buffer-size=32M   # smaller buffer size
+  --tpslimit=5        # much lower API call limit
+  --tpslimit-burst=10 # lower burst limit
   --log-file="$LOG_DIR/rclone.log"
-  --log-level=INFO
+  --log-level=ERROR
   --filter-from="$HOME/.config/rclone/filters.txt"
 )
-
-# signal handler for clean termination
-cleanup() {
-  # handle termination signels (SIGINT, SIGTERM, SIGHUP) and cleanup
-  echo "[$(date)] Received termination signal. Cleaning up..." >>"$LOG_DIR/rclone.log"
-  if [ -n "$SYNC_PID" ]; then
-    kill -TERM "$SYNC_PID" 2>/dev/null || true
-  fi
-  rm -f "$LOCK_FILE"
-  exit 1
-}
-
-# log rotation for rclone log
-rotate_log() {
-  if [ -f "$LOG_DIR/rclone.log" ]; then
-    local line_count=$(wc -l <"$LOG_DIR/rclone.log")
-    if [ "$line_count" -gt "$LOG_SIZE" ]; then
-      # create backup with timestamp
-      local timestamp=$(date +"%Y%m%d_%H%M%S")
-      local backup_file="$LOG_DIR/rclone.log.$timestamp"
-
-      # make backup of current log
-      cp "$LOG_DIR/rclone.log" "$backup_file"
-
-      # clear the current log file
-      : >"$LOG_DIR/rclone.log"
-
-      log_message "Rotated log file, saved as $backup_file"
-    fi
-  fi
-}
 
 # timestamp logger
 log_message() {
   # write timestamped message to log file
   echo "[$(date)] $1" >>"$LOG_DIR/rclone.log"
+}
+
+# rotate rclone log file if it exceeds LOG_SIZE lines
+rotate_log() {
+  if [ -f "$LOG_DIR/rclone.log" ]; then
+    local line_count
+    line_count=$(wc -l <"$LOG_DIR/rclone.log")
+    if [ "$line_count" -gt "$LOG_SIZE" ]; then
+      local timestamp backup_file
+      timestamp=$(date +"%Y%m%d_%H%M%S")
+      backup_file="$LOG_DIR/rclone.log.$timestamp"
+      cp "$LOG_DIR/rclone.log" "$backup_file"
+      : >"$LOG_DIR/rclone.log"
+      log_message "rotated log file, saved as $backup_file"
+    fi
+  fi
+}
+
+# delete rclone log backups older than 30 days
+cleanup_old_logs() {
+  find "$LOG_DIR" -name "rclone.log.*" -type f -mtime +30 -delete
+}
+
+# signal handler for clean termination
+cleanup() {
+  # handle termination signels (SIGINT, SIGTERM, SIGHUP) and cleanup
+  echo "[$(date)] received termination signal. cleaning up..." >>"$LOG_DIR/rclone.log"
+  jobs -p | xargs -r kill
+  exit 1
 }
 
 # check network connectivity
@@ -123,53 +116,57 @@ perform_sync() {
   local dest="$2"
   local extra_excludes="$3"
 
-  # Choose flags based on remote
+  # sanitize dest for filename
+  local dest_log="${dest//[:\/]/_}"
+  local log_file="$LOG_DIR/rclone-$dest_log.log"
+
+  # choose flags based on remote
   local flags=("${RCLONE_FLAGS[@]}")
   if [[ "$dest" == proton:* ]]; then
     flags=("${PROTON_RCLONE_FLAGS[@]}")
   fi
 
+  local extra_filter_file=""
   if [ -n "$extra_excludes" ]; then
-    # create temporary filter file for additional exclusions
-    local extra_filter_file=$(mktemp)
-    if ! extra_filter_file=$(mktemp); then
-      log_message "Failed to create temporary filter file"
+    extra_filter_file=$(mktemp)
+    if [ -z "$extra_filter_file" ]; then
+      log_message "failed to create temporary filter file"
       return 1
     fi
     echo "$extra_excludes" >"$extra_filter_file"
 
-    log_message "Syncing $source to $dest with additional filters"
+    # ensure temp file is cleaned up on any exit
+    trap 'rm -f "$extra_filter_file"' RETURN
+
+    log_message "syncing $source to $dest with additional filters"
 
     if ! rclone sync "${flags[@]}" \
       --filter-from="$extra_filter_file" \
-      "$source" "$dest"; then
-      log_message "Error syncing @$source to $dest"
-      rm -f "$extra_filter_file"
+      "$source" "$dest" --log-file="$log_file" 2>rclone_error.log; then
+      log_message "error syncing @$source to $dest"
+      log_message "rclone error: $(cat rclone_error.log)"
+      rm -f rclone_error.log
       return 1
     fi
-
-    rm -f "$extra_filter_file"
+    rm -f rclone_error.log
   else
-    log_message "Syncing $source to $dest"
+    log_message "syncing $source to $dest"
 
     if ! rclone sync "${flags[@]}" \
-      "$source" "$dest"; then
-      log_message "Error syncing @$source to $dest"
+      "$source" "$dest" --log-file="$log_file" 2>rclone_error.log; then
+      log_message "error syncing @$source to $dest"
+      log_message "rclone error: $(cat rclone_error.log)"
+      rm -f rclone_error.log
       return 1
     fi
+    rm -f rclone_error.log
   fi
-}
-
-cleanup_old_logs() {
-  # Delete logs older than 30 days
-  find "$LOG_DIR" -name "rclone.log.*" -type f -mtime +30 -delete
 }
 
 # main function
 main() {
   # check network connectivity
   if ! check_network; then
-    rm -f "$LOCK_FILE" # Clean up lock file
     exit 1
   fi
 
@@ -180,14 +177,13 @@ main() {
   # check for global filters file
   if [ ! -f "$HOME/.config/rclone/filters.txt" ]; then
     log_message "Error: Global filters file missing"
-    rm -f "$LOCK_FILE" # Clean up lock file
     exit 1
   fi
 
-  # check for existing instance (lock mechanism)
-  if [ -f "$LOCK_FILE" ]; then
+  # atomic locking using flock
+  exec 200>"$LOCK_FILE"
+  if ! flock -n 200; then
     log_message "Another instance is already running. Exiting..."
-    rm -f "$LOCK_FILE" # Clean up lock file
     exit 1
   fi
 
@@ -200,22 +196,43 @@ main() {
   # log start
   log_message "Sync started"
 
-  # perform syncs
+  # perform syncs in parallel with job limit
+  local max_jobs=3
   local exit_status=0
+  declare -a pids=()
   for dest in "${!SYNC_PATHS[@]}"; do
     source="${SYNC_PATHS[$dest]}"
-    if ! perform_sync "$source" "$dest" "${EXTRA_EXCLUDES[$dest]:-}"; then
-      exit_status=1
-      log_message "Failed to sync $source to $dest"
+    perform_sync "$source" "$dest" "${EXTRA_EXCLUDES[$dest]:-}" &
+    pids+=($!)
+    # limit parallel jobs
+    if [ "${#pids[@]}" -ge "$max_jobs" ]; then
+      wait -n
+      mapfile -t pids < <(jobs -rp)
+    fi
+  done
+
+  # wait for all syncs to finish and check exit codes
+  for pid in "${pids[@]}"; do
+    wait "$pid" || exit_status=1
+  done
+
+  # append per remote logs to main log and delete them
+  echo >>"$LOG_DIR/rclone.log"
+  for dest in "${!SYNC_PATHS[@]}"; do
+    dest_log="${dest//[:\/]/_}"
+    log_file="$LOG_DIR/rclone-$dest_log.log"
+    if [ -f "$log_file" ]; then
+      echo "===== Log for $dest =====" >>"$LOG_DIR/rclone.log"
+      cat "$log_file" >>"$LOG_DIR/rclone.log"
+      rm -f "$log_file"
     fi
   done
 
   # log end
   log_message "Sync finished"
+  echo "All syncs finished. see $LOG_DIR/rclone.log for details."
 
-  # cleanup
-  rm -f "$LOCK_FILE"
-
+  # cleanup (lock released automatically on exit)
   return $exit_status
 }
 
