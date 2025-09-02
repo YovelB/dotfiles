@@ -1,12 +1,12 @@
-# First load .zprofile
+# first load .zprofile
 if [[ -f "$XDG_CONFIG_HOME/zsh/.zprofile" ]]; then
     source "$XDG_CONFIG_HOME/zsh/.zprofile"
 fi
 
-# Enable profiling if needed
+# enable profiling if needed
 # zmodload zsh/zprof
 
-# History configuration
+# history configuration
 HISTFILE="$XDG_STATE_HOME/zsh/history"
 HISTSIZE=5000
 SAVEHIST=$HISTSIZE
@@ -14,26 +14,26 @@ HISTDUP=erase
 setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups hist_find_no_dups
 
-# Tmux startup (only if not in VS Code and tmux isn't running)
+# tmux startup (only if not in VS Code and tmux isn't running)
 [[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" ]] && exec tmux -f "$TMUX_CONF"
 
-# Load completions more efficiently
+# load completions more efficiently
 () {
-    # Load completion system
+    # load completion system
     autoload -Uz compinit
 
-    # Setup completion cache path
+    # setup completion cache path
     zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
-    
-    # Define dump file location
+
+    # define dump file location
     local dump_file="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
-    
-    # Only regenerate dump file once per hour
+
+    # only regenerate dump file once per hour
     if [[ -f "$dump_file" && (! -f "$dump_file.zwc" || "$dump_file" -nt "$dump_file.zwc") ]]; then
         zcompile "$dump_file"
     fi
-    
-    # Load dump file, regenerate if older than 1 hour
+
+    # load dump file, regenerate if older than 1 hour
     if [[ -f "$dump_file"(#qN.mh+1) ]]; then
         compinit -d "$dump_file"
     else
@@ -41,12 +41,12 @@ setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups
     fi
 }
 
-# Basic completion styling (before plugins)
+# basic completion styling (before plugins)
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu no
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# Initialize Zinit
+# initialize Zinit
 () {
     if [[ ! -d "$ZINIT_HOME" ]]; then
         mkdir -p "$(dirname $ZINIT_HOME)"
@@ -55,22 +55,22 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
     source "${ZINIT_HOME}/zinit.zsh"
 }
 
-# Plugin loading with improved timing
+# plugin loading with improved timing
 zinit ice wait"0" lucid
 zinit light zsh-users/zsh-completions
 
 zinit ice wait"1" lucid atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
 
-# Load fzf-tab before syntax highlighting
+# load fzf tab before syntax highlighting
 zinit ice wait"1" lucid
 zinit light Aloxaf/fzf-tab
 
-# Syntax highlighting loaded last
+# syntax highlighting loaded last
 zinit ice wait"2" lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
 zinit light zsh-users/zsh-syntax-highlighting
 
-# Turbo load snippets
+# turbo load snippets
 zinit ice wait"1" lucid
 zinit snippet OMZP::git
 
@@ -80,7 +80,7 @@ zinit snippet OMZP::sudo
 zinit ice wait"2" lucid
 zinit snippet OMZP::command-not-found
 
-# Lazy load shell integrations
+# lazy load shell integrations
 () {
     local fzf_dir="/usr/share/fzf"
     if [[ -d $fzf_dir ]]; then
@@ -89,30 +89,30 @@ zinit snippet OMZP::command-not-found
     fi
 }
 
-# Initialize zoxide
+# initialize zoxide
 () {
     (( $+commands[zoxide] )) && eval "$(zoxide init --cmd cd zsh)"
 }
 
-# Load completions
+# load completions
 zinit cdreplay -q
 
-# Prompt engine (keep this non-lazy as requested)
+# prompt engine (keep this non-lazy as requested)
 eval "$(oh-my-posh init zsh --config ${XDG_CONFIG_HOME}/ohmyposh/zen.toml)"
 
-# Keybindings
+# keybindings
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 
-# FZF-tab styling
+# FZF tab styling
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Function to load aliases
+# function to load aliases
 function load_aliases() {
-    # Basic aliases
+    # basic aliases
     alias vim=nvim
     alias md='mkdir -p'
     alias ls='ls --color=auto'
@@ -122,11 +122,14 @@ function load_aliases() {
     # task managment
     alias ttui='taskwarrior-tui'
     alias tbd='task burndown'
+
+    # translate and dictionary aliases
+    alias transhe="trans -b -w 80 :he -shell"
   }
 load_aliases
 
-# Copilot CLI
+# copilot CLI
 # eval "$(gh copilot alias -- zsh)"
 
-# Enable profiling output if needed
+# enable profiling output if needed
 # zprof

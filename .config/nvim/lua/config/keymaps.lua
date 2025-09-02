@@ -93,3 +93,9 @@ local function toggle_copilot()
 end
 map("n", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions" })
 map("i", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions", expr = true })
+
+-- Hebrew/RTL utilities
+map("n", "<leader>uHr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
+map("n", "<space>uHt", "viw:Translate HE<CR>", { desc = "Translate English word to Hebrew", noremap = true })
+map("n", "<space>uHl", "V:Translate HE<CR>", { desc = "Translate English line to Hebrew", noremap = true })
+map("v", "<space>uHs", ":Translate HE<CR>", { desc = "Translate selected text to Hebrew", noremap = true })
