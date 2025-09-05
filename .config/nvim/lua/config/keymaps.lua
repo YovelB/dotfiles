@@ -29,8 +29,10 @@ vim.keymap.del("n", "<leader>uT") -- disable treesitter highlighter
 vim.keymap.del("n", "<leader>uf") -- disable auto format (Global)
 vim.keymap.del("n", "<leader>uF") -- disable auto format (Buffer)
 vim.keymap.del("n", "<leader>up") -- disable mini pairs
-vim.keymap.del("n", "<leader>ui") -- inspect pos (not important)
-vim.keymap.del("n", "<leader>uI") -- inspect tree (not important)
+vim.keymap.del("n", "<leader>ui") -- inspect pos
+vim.keymap.del("n", "<leader>uI") -- inspect tree
+vim.keymap.del("n", "<leader>ft") -- toggle terminal (root dir)
+vim.keymap.del("n", "<leader>fT") -- toggle terminal (cwd)
 if pcall(require, "gitsigns") then
   pcall(vim.keymap.del, "n", "<leader>uG") -- disable git signs
 end

@@ -5,6 +5,7 @@ local opt = vim.opt
 opt.relativenumber = false
 opt.smoothscroll = false
 opt.winminwidth = 0
+opt.winminheight = 0
 
 vim.g.snacks_animate = false
 
