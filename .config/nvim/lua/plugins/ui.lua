@@ -1,5 +1,5 @@
 return {
-  -- adds fun coding stats and achievements
+  -- fun coding stats and achievements
   {
     "grzegorzszczepanek/gamify.nvim",
     lazy = false,
@@ -7,15 +7,71 @@ return {
       require("gamify")
     end,
   },
-  -- change colorscheme
+  -- change color scheme
   {
     "folke/tokyonight.nvim",
     opts = { style = "night" },
   },
-  -- hide unrelated comments (todo-comments plugin in snacks)
+  -- costomize mini files
+  {
+    "echasnovski/mini.files",
+    lazy = false,
+    keys = {
+      {
+        "<leader>e",
+        function()
+          require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+        end,
+        desc = "Open mini.files (directory of current file)",
+      },
+      {
+        "<leader>E",
+        function()
+          require("mini.files").open(vim.uv.cwd(), true)
+        end,
+        desc = "Open mini.files (cwd)",
+      },
+      {
+        "<leader>fm",
+        function()
+          require("mini.files").open(LazyVim.root(), true)
+        end,
+        desc = "Open mini.files (root)",
+      },
+    },
+    opts = {
+      mappings = {
+        go_in = "<Right>",
+        go_out = "<Left>",
+      },
+      windows = {
+        width_nofocus = 20,
+        width_focus = 50,
+        width_preview = 100,
+      },
+      options = {
+        use_as_default_explorer = true,
+      },
+    },
+  },
+  --  disable explorer uses mini files instead
+  "folke/snacks.nvim",
+  opts = {
+    explorer = { enabled = false },
+  },
+  keys = {
+    { "<leader>fe", false },
+    { "<leader>fE", false },
+    { "<leader>E", false },
+    { "<leader>e", false },
+  },
+  -- customize snacks
   {
     "folke/snacks.nvim",
     opts = {
+      -- customize zen and zoom modes
+      styles = { zen = { minimal = true } },
+      -- hide unrelated comments (todo-comments plugin)
       picker = {
         sources = {
           todo_comments = {
