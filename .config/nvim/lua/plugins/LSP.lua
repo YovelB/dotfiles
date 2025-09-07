@@ -1,4 +1,11 @@
 return {
+  -- configure treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, { "latex", "css" })
+    end,
+  },
   {
     "williamboman/mason.nvim",
     opts = {
