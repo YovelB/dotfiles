@@ -11,12 +11,12 @@
 vim.api.nvim_del_augroup_by_name("lazyvim_resize_splits")
 
 -- disable spell checking for markdown files
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
-  callback = function()
-    vim.opt_local.spell = false
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "markdown",
+--   callback = function()
+--     vim.opt_local.spell = false
+--   end,
+-- })
 -- disable blink.lua for tex files (temp fix until blink.lua supports filetype)
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.tex",

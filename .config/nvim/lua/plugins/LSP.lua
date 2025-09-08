@@ -60,24 +60,4 @@ return {
       },
     },
   },
-  -- translate vim plugin
-  {
-    "uga-rosa/translate.nvim",
-    config = function()
-      require("translate").setup({
-        default = {
-          command = "translate_shell",
-          output = "split",
-          parse_before = "trim",
-        },
-        preset = {
-          output = {
-            split = {
-              append = true,
-            },
-          },
-        },
-      })
-    end,
-  },
 }

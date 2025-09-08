@@ -36,11 +36,33 @@ vim.keymap.del("n", "<leader>fT") -- toggle terminal (cwd)
 if pcall(require, "gitsigns") then
   pcall(vim.keymap.del, "n", "<leader>uG") -- disable git signs
 end
+-- overriding problematic keymaps
+vim.keymap.del("x", "a") -- around
+vim.keymap.del("x", "an") -- next
+vim.keymap.del("x", "al") -- last
+vim.keymap.del("x", "ai") -- indent
 
--- overriding default commands
+vim.keymap.del("o", "an") -- next
+vim.keymap.del("o", "al") -- last
+vim.keymap.del("o", "ai") -- indent
+
+vim.keymap.del("x", "in") -- next
+vim.keymap.del("x", "il") -- last
+vim.keymap.del("x", "ii") -- indent
+
+vim.keymap.del("o", "in") -- next
+vim.keymap.del("o", "il") -- last
+vim.keymap.del("o", "ii") -- indent
+
+vim.keymap.del("n", "gc") -- toggle comment
+vim.keymap.del("n", "gra") -- LSP code action
+vim.keymap.del("n", "grn") -- LSP rename
+vim.keymap.del("n", "grt") -- LSP definition
+vim.keymap.del("n", "gri") -- LSP implementation
+vim.keymap.del("n", "grr") -- LSP references
 
 -- adding custom keymaps
-map("i", "jk", "<ESC>", { desc = "enter  mode exit" })
+map("i", "jk", "<ESC>", { desc = "enter mode exit" })
 map("n", ";", ":", { desc = "enter command mode" })
 map("n", "<M-a>", "ggVG", { desc = "selection select all" })
 
@@ -96,8 +118,8 @@ end
 map("n", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions" })
 map("i", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions", expr = true })
 
+-- CopilotChat disable copilot tab mapping
+vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+
 -- Hebrew/RTL utilities
 map("n", "<leader>uHr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
-map("n", "<space>uHt", "viw:Translate HE<CR>", { desc = "Translate English word to Hebrew", noremap = true })
-map("n", "<space>uHl", "V:Translate HE<CR>", { desc = "Translate English line to Hebrew", noremap = true })
-map("v", "<space>uHs", ":Translate HE<CR>", { desc = "Translate selected text to Hebrew", noremap = true })

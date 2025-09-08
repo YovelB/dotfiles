@@ -28,6 +28,7 @@ return {
       -- disable unused mapping
       { "<leader>aa", false, mode = { "n", "v" } },
       { "<leader>ax", false, mode = { "n", "v" } },
+      { "<leader>a]", "gc", ft = "copilot-chat", desc = "Show info about current chat", remap = true },
       -- adding new mappings
       {
         "<leader>as",
