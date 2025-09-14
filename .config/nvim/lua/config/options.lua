@@ -8,8 +8,6 @@ opt.winminwidth = 0
 opt.winminheight = 0
 
 vim.g.snacks_animate = false
--- disable copilot tab mapping
-vim.g.copilot_no_tab_map = true
 
 -- disable not needed providers
 vim.g.loaded_ruby_provider = 0

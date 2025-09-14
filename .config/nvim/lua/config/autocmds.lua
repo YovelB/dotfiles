@@ -17,6 +17,7 @@ vim.api.nvim_del_augroup_by_name("lazyvim_resize_splits")
 --     vim.opt_local.spell = false
 --   end,
 -- })
+
 -- disable blink.lua for tex files (temp fix until blink.lua supports filetype)
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.tex",
@@ -25,5 +26,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
--- vim.cmd("silent! Copilot disable")
--- disable copilot by default
+-- save and remove trailing whitespace on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  command = [[%s/\s\+$//e]],
+})
