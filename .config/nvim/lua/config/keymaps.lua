@@ -100,5 +100,26 @@ map("n", "<leader>ct", function()
   end
 end, { desc = "Toggle LSP diagnostics visibility" })
 
+-- toggle Copilot suggestios
+local enabled = false
+local function toggle_copilot()
+  require("copilot.suggestion").dismiss()
+  enabled = not enabled
+  if enabled then
+    vim.cmd("silent! Copilot enable")
+    require("copilot.suggestion").toggle_auto_trigger()
+    -- vim.notify("Copilot enabled", vim.log.levels.INFO)
+  else
+    vim.cmd("silent! Copilot disable")
+    -- vim.notify("Copilot disabled", vim.log.levels.INFO)
+  end
+  return ""
+end
+map("n", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions" })
+map("i", "<M-c>", toggle_copilot, { desc = "Toggle Copilot suggestions", expr = true })
+
+-- CopilotChat disable copilot tab mapping
+vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+
 -- Hebrew/RTL utilities
 map("n", "<leader>uHr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
