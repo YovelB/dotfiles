@@ -3,7 +3,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "latex", "css" })
+      vim.list_extend(opts.ensure_installed, { "latex" })
     end,
   },
   {
@@ -11,16 +11,13 @@ return {
     opts = {
       ensure_installed = {
         -- lsps
-        "bash-language-server", -- bash
         "lua-language-server", -- lua
         "clangd", -- c/c++
-        "pyright", -- python
         "neocmakelsp", -- cmake
         "matlab-language-server", -- matlab
 
         "marksman", -- markdown
         "json-lsp", -- json
-        "taplo", -- toml
 
         -- debug adapters
         "codelldb", -- c/c++ and rust
