@@ -1,16 +1,29 @@
 return {
-  -- fun coding stats and achievements
-  {
-    "grzegorzszczepanek/gamify.nvim",
-    lazy = false,
-    config = function()
-      require("gamify")
-    end,
-  },
   -- change color scheme
   {
     "folke/tokyonight.nvim",
     opts = { style = "night" },
+  },
+  {
+    "folke/noice.nvim",
+    opts = function(_, opts)
+      opts.debug = false
+      opts.routes = opts.routes or {}
+      -- never focus Noice windows
+      opts.views = vim.tbl_deep_extend("force", opts.views or {}, {
+        cmdline_popup = { enter = false },
+        popup = { enter = false },
+        hover = { enter = false },
+        notify = { enter = false },
+        split = { enter = false },
+      })
+      -- skip noisy message
+      table.insert(opts.routes, {
+        filter = { event = "notify", find = "No information available" },
+        opts = { skip = true },
+      })
+      return opts
+    end,
   },
   -- customize snacks
   {
