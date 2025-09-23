@@ -1,11 +1,39 @@
 return {
-  -- configure treesitter
   {
+    -- treesitter with additional langs
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "latex" })
-    end,
+    opts = {
+      ensure_installed = {
+        -- editor support
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "regex",
+        -- zephyr embedded
+        "c",
+        "cpp",
+        "cmake",
+        "devicetree",
+        "make",
+        "kconfig",
+        -- scripting langs
+        "python",
+        "matlab",
+        "bash",
+        "json",
+        "yaml",
+        -- version control
+        "gitcommit",
+        "gitignore",
+        -- docs
+        "markdown",
+        "latex",
+      },
+    },
   },
+  -- general log highlight
+  { "fei6409/log-highlight.nvim", event = "BufRead *.log", opts = {} },
   {
     "mason-org/mason.nvim",
     opts = {

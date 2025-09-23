@@ -10,8 +10,16 @@
 -- disable autocmd resize splis if window gets resized
 vim.api.nvim_del_augroup_by_name("lazyvim_resize_splits")
 
--- save and remove trailing whitespace on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  command = [[%s/\s\+$//e]],
+-- disable spell checking for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = false
+  end,
 })
+
+-- save and remove trailing whitespace on save
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*",
+--   command = [[%s/\s\+$//e]],
+-- })
