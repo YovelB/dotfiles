@@ -1,0 +1,15 @@
+# semi full screen
+set window-height 3000
+set window-width 3000
+
+# disable statusbar
+set guioptions none
+
+set selection-clipboard clipboard
+
+# UI colors and spacing
+set default-bg "#2f2f2f"
+set default-fg "#d0d0d0"
+set render-loading-bg "#2f2f2f"
+set render-loading-fg "#d0d0d0"
+set page-padding 12
