@@ -9,6 +9,9 @@ opt.winminheight = 0
 
 vim.g.snacks_animate = false
 
+-- for latex editing
+vim.g.vimtex_quickfix_autoclose_after_keystrokes = 2
+
 -- disable not needed providers
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
