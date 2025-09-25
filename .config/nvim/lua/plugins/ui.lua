@@ -41,9 +41,44 @@ return {
       styles = {
         zen = { minimal = true },
       },
-      -- hide unrelated comments (todo-comments plugin)
       picker = {
         sources = {
+          -- snacks picker projects
+          projects = {
+            -- finder = "recent_projects", -- This tells the picker to use the finder defined above
+            -- format = "file",
+            -- 'dev' and 'patterns' are removed from here
+            -- confirm = "load_session",
+            recent = false,
+            patterns = {
+              ".git",
+              -- c/c++
+              "Makefile",
+              "CMakeLists.txt",
+              "meson.build",
+              "configure.ac",
+              "compile_commands.json",
+              -- stm32
+              "*.ioc",
+              ".project",
+              ".cproject",
+              -- python
+              "pyproject.toml",
+              "setup.cfg",
+              "setup.py",
+              "requirements.txt",
+              -- kicad
+              "*.kicad_pro",
+            },
+            -- dev is a dir just above root
+            dev = {
+              "~/",
+              "~/UserWorkspace/KiCad/projects/",
+              "~/UserWorkspace/STM32/",
+              "~/UserWorkspace/zephyr-workspace/projects/",
+            },
+          },
+          -- hide unrelated comments (todo-comments plugin)
           todo_comments = {
             exclude = {
               -- general
@@ -71,13 +106,16 @@ return {
   },
   -- dashboard config
   {
-    "snacks.nvim",
+    "folke/snacks.nvim",
     priority = 1000,
+    lazy = false,
     opts = {
       dashboard = {
-        enabled = true,
         pane_gap = 0,
         preset = {
+          pick = function(cmd, opts)
+            return LazyVim.pick(cmd, opts)()
+          end,
           header = [[
                                                                    
       ████ ██████           █████      ██                    
