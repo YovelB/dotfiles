@@ -1,0 +1,41 @@
+gui:
+  authorColors: {}
+  branchColors: {}
+  scrollHeight: 2
+  scrollPastBottom: true
+  mouseEvents: true
+  nerdFontsVersion: "3"
+  skipDiscardChangeWarning: false
+  skipStashWarning: false
+  sidePanelWidth: 0.3333
+  commitLength:
+    show: true
+  skipNoStagedFilesWarning: false
+  showListFooter: true
+  showFileTree: true
+  showRandomTip: true
+  showCommandLog: true
+  showBottomLine: true
+  commandLogSize: 8
+  splitDiff: auto
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+    useConfig: false
+  commit:
+    signOff: false
+  merging:
+    manualCommit: false
+    args: ""
+  autoFetch: true
+  autoRefresh: true
+  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --
+  overrideGpg: false
+  disableForcePushing: false
+  log:
+    order: topo-order
+    showGraph: "always"
+    showWholeGraph: false
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
