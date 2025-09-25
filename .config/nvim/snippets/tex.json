@@ -32,26 +32,17 @@
       "",
       "\\end{document}"
     ],
-    "description": "Initial LaTeX article configuration with common packages"
+    "description": "init LaTeX article config with common packages"
   },
-  "Tight Subsection Spacing": {
-    "prefix": "subsecspace",
+  "Figure Environment": {
+    "prefix": "fig",
     "body": [
-      "% tighter section & subsection spacing",
-      "\\makeatletter",
-      "\\renewcommand{\\section}{%",
-      "  \\@startsection{subsection}{2}{\\z@}%",
-      "    {0.5em} % space before",
-      "    {0.5em} % space after",
-      "    {\\normalfont\\large\\bfseries}}",
-      "",
-      "\\renewcommand{\\subsection}{%",
-      "  \\@startsection{subsubsection}{3}{\\z@}%",
-      "    {0.5em} % space before",
-      "    {0.5em} % space after",
-      "    {\\normalfont\\normalsize\\bfseries}}",
-      "\\makeatother"
+      "\\begin{figure}[h]",
+      "  \\centering",
+      "  \\includegraphics[width=${1:0.5}\\textwidth]{imgs/${2:example}.png}",
+      "  \\caption{${3:caption}}",
+      "\\end{figure}"
     ],
-    "description": "Tight section and subsection spacing macro"
+    "description": "insert a LaTeX figure"
   }
 }
