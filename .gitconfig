@@ -3,7 +3,7 @@
 
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
-[credential "https://gist.github.com"] 
+[credential "https://gist.github.com"]
 	helper = !/usr/bin/gh auth git-credential
 
 [user]
@@ -41,7 +41,7 @@
   navigate = true  # use n and N to move between diff sections
   dark = true
   theme = "Monokai Extended"
-  side-by-side = true
+  side-by-side = false
 
 [merge]
   conflictStyle = zdiff3
