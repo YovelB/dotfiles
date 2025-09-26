@@ -17,6 +17,8 @@ return {
         "devicetree",
         "make",
         "kconfig",
+        "ini", -- for stm32cubeide .ioc files
+        "asm", -- for assembly
         -- scripting langs
         "python",
         "matlab",
@@ -34,6 +36,7 @@ return {
   },
   -- general log highlight
   { "fei6409/log-highlight.nvim", event = "BufRead *.log", opts = {} },
+  -- mason lsp config
   {
     "mason-org/mason.nvim",
     opts = {
@@ -67,6 +70,19 @@ return {
       },
     },
   },
+  -- cmake tools
+  {
+    "Civitasv/cmake-tools.nvim",
+  },
+  -- stm32cubeide integration
+  {
+    "alex-schulster/stm_lsp_nvim",
+    config = function()
+      require("stm_lsp_nvim").setup({
+        -- Custom configuration, or leave empty for default config
+      })
+    end,
+  },
   -- use global config for markdownlint-cli2 linter
   {
     "mfussenegger/nvim-lint",
@@ -77,10 +93,5 @@ return {
         },
       },
     },
-  },
-  -- cmake tools
-  {
-    "Civitasv/cmake-tools.nvim",
-    opts = {},
   },
 }
