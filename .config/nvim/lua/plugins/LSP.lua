@@ -70,18 +70,31 @@ return {
       },
     },
   },
+  -- clangd override:
+  -- add --query-driver for STM32CubeIDE toolchain
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        clangd = {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+            -- adjust globs to your install locations as needed (use stm32cubeide option if not avialiable use system wide option)
+            "--query-driver=/opt/stm32cubeide/**/tools/bin/arm-none-eabi-*,/usr/bin/arm-none-eabi-*",
+          },
+        },
+      },
+    },
+  },
   -- cmake tools
   {
     "Civitasv/cmake-tools.nvim",
-  },
-  -- stm32cubeide integration
-  {
-    "alex-schulster/stm_lsp_nvim",
-    config = function()
-      require("stm_lsp_nvim").setup({
-        -- Custom configuration, or leave empty for default config
-      })
-    end,
   },
   -- use global config for markdownlint-cli2 linter
   {

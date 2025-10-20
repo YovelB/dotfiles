@@ -74,7 +74,7 @@ return {
             dev = {
               "~/",
               "~/UserWorkspace/KiCad/projects/",
-              "~/UserWorkspace/STM32/",
+              "~/UserWorkspace/STM32/projects/",
               "~/UserWorkspace/zephyr-workspace/projects/",
             },
           },
