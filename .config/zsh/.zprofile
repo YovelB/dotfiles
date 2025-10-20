@@ -48,8 +48,10 @@ export GOMODCACHE="$GOPATH/pkg/mod"
 path=(
     # development tools
     "$ZEPHYR_SDK_INSTALL_DIR/zephyr-sdk-0.17.2/sysroots/x86_64-pokysdk-linux/usr/bin"
+    "/opt/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin"
     "$ZEPHYR_SDK_INSTALL_DIR/usr/bin"
     # local binaries
+    "/usr/bin"
     "$HOME/.local/bin"
     $path
 )
