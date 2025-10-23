@@ -4,12 +4,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        -- editor support
-        "lua",
-        "vim",
-        "vimdoc",
-        "query",
-        "regex",
         -- zephyr embedded
         "c",
         "cpp",
@@ -57,7 +51,6 @@ return {
         -- linters
         "ruff", -- python
         "shellcheck", -- shell
-        "cmakelint", -- cmake
 
         -- formatters
         "stylua", -- lua
