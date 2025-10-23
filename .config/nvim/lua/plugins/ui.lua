@@ -50,6 +50,7 @@ return {
             -- 'dev' and 'patterns' are removed from here
             -- confirm = "load_session",
             recent = false,
+            max_depth = 2,
             patterns = {
               ".git",
               -- c/c++
