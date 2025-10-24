@@ -118,6 +118,7 @@ function load_aliases() {
     alias ls='ls --color=auto'
     alias ll='ls -lah'
     alias grep='grep --color=auto'
+    alias zathura='zathura --mode=fullscreen'
 
     # task managment
     alias ttui='taskwarrior-tui'

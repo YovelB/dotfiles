@@ -13,3 +13,6 @@ set default-fg "#d0d0d0"
 set render-loading-bg "#2f2f2f"
 set render-loading-fg "#d0d0d0"
 set page-padding 12
+
+# use basename for window title
+set window-title-basename true
