@@ -5,14 +5,6 @@ return {
     opts = { style = "night" },
   },
   {
-    "gbprod/yanky.nvim",
-    opts = {
-      system_clipboard = {
-        sync_with_ring = false,
-      },
-    },
-  },
-  {
     "folke/noice.nvim",
     opts = function(_, opts)
       opts.debug = false
