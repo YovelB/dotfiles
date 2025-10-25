@@ -94,6 +94,7 @@ return {
               "UserWorkspace/KiCad/projects/Archive/",
               "UserWorkspace/KiCad/projects/Precision_Scope_Test/",
               "UserWorkspace/KiCad/projects/Precision_Scope/hardware/",
+              "UserWorkspace/KiCad/projects/Precision_Scope/firmware/",
               "UserWorkspace/KiCad/projects/Precision_Scope/manufacturing/",
               "UserWorkspace/KiCad/projects/Power_Supply_Analyzer/",
               -- zephyr
