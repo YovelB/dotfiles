@@ -22,6 +22,7 @@ declare -A SYNC_PATHS=(
 )
 
 # path-specific exclusion patterns
+#- /KiCad/Precision_Scope/**
 declare -A EXTRA_EXCLUDES=(
   ["proton:Arch/Yovel"]="
 - /Reading/**
@@ -33,6 +34,8 @@ declare -A EXTRA_EXCLUDES=(
 - /archive/**
 - /zephyr-workspace/**
 - /KiCad/exercises/imported/**
+- /STM32/Repository/**
+- /STM32/examples/**
 "
 )
 
