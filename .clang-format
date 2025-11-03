@@ -1,0 +1,30 @@
+---
+BasedOnStyle: LLVM
+Language: C
+
+# Indentation
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+IndentCaseLabels: true
+
+# line length
+ColumnLimit: 140
+
+# braces - K&R style common in embedded/RTOS
+BreakBeforeBraces: Linux
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# pointers - align right for embedded C convention
+PointerAlignment: Right
+DerivePointerAlignment: false
+
+# spacing
+SpaceAfterCStyleCast: false
+SpaceBeforeParens: ControlStatements
+
+# comments
+ReflowComments: false
+AlignTrailingComments: Leave
