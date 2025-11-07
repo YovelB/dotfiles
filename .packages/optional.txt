@@ -1,0 +1,133 @@
+# gnome desktop Environment
+gdm
+gnome-shell
+gnome-control-center
+gnome-terminal
+gnome-tweaks
+gnome-settings-daemon
+gnome-session
+gnome-keyring
+gnome-backgrounds
+gnome-shell-extensions
+xdg-desktop-portal-gnome
+xdg-user-dirs-gtk
+
+# gnome applications
+nautilus
+gnome-calculator
+gnome-calendar
+gnome-clocks
+gnome-disk-utility
+gnome-font-viewer
+gnome-logs
+gnome-system-monitor
+gnome-software
+gnome-color-manager
+baobab
+evince
+loupe
+simple-scan
+shotwell
+sushi
+yelp
+
+# gnome integration
+gnome-browser-connector
+gnome-menus
+gnome-remote-desktop
+gnome-user-docs
+gnome-user-share
+gvfs
+gvfs-afc
+gvfs-google
+gvfs-gphoto2
+gvfs-mtp
+gvfs-smb
+grilo-plugins
+rygel
+orca
+packagekit
+
+# system
+cups
+system-config-printer
+cnijfilter2
+
+# fonts
+ttf-jetbrains-mono
+ttf-nerd-fonts-symbols
+ttf-ms-fonts
+noto-fonts-emoji
+
+# graphics
+vulkan-intel
+qt6-wayland
+
+# gaming/compatibility
+lib32-gcc-libs
+lib32-glibc
+
+# theming
+oh-my-posh
+sassc
+gtk2
+
+# misc
+yay
+archlinux-appstream-data
+lsb-release
+
+# applications
+firefox
+keepassxc
+libreoffice-fresh
+mpv
+obs-studio
+visual-studio-code-bin
+localsend-bin
+prospect-mail
+zoom
+parsec-bin
+
+# utilities
+task
+taskwarrior-tui
+zathura
+zathura-pdf-mupdf
+rclone
+visidata
+jq
+duf
+tldr
+tesseract-data-heb
+
+# embedded dev (STM32)
+arm-none-eabi-binutils
+arm-none-eabi-gcc
+arm-none-eabi-gdb
+arm-none-eabi-newlib
+stlink-server
+stm32cubeide
+stm32cubemx
+stm32cubeprog
+dfu-util
+
+# electronics
+kicad
+
+# latex
+texlive-basic
+texlive-binextra
+texlive-fontsextra
+texlive-langarabic
+texlive-langother
+texlive-latexextra
+texlive-mathscience
+texlive-plaingeneric
+texlive-xetex
+pandoc-cli
+
+# python notebook
+jupyter-notebook
+python-jupyter-client
+python-ipykernel

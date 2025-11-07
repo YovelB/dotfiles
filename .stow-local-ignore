@@ -1,8 +1,8 @@
 # stow ignore patterns for dotfiles repository
 
 # essentail to ignore
-^/packages
-^/scripts
+^/.packages
+^/.scripts
 ^/archive
 
 # version control

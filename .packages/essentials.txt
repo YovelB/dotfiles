@@ -1,0 +1,72 @@
+# core system
+base
+base-devel
+linux
+linux-firmware
+linux-headers
+intel-ucode
+grub
+efibootmgr
+btrfs-progs
+snapper
+snap-pac
+snap-pac-grub
+
+# system utilities
+git
+stow
+networkmanager
+openssh
+ufw
+reflector
+pacman-contrib
+
+# shell and terminal
+zsh
+tmux
+kitty
+alacritty
+
+# editor
+neovim
+
+# modern CLI tools
+ripgrep
+fd
+fzf
+btop
+htop
+tree
+fastfetch
+zoxide
+eza
+bat
+git-delta
+
+# development essentials
+gcc
+make
+clang
+cmake
+ninja
+ccache
+bear
+gdb
+nodejs-lts-jod
+npm
+python-pip
+python-setuptools
+jdk21-openjdk
+ruby
+lua51
+luajit
+luarocks
+
+# build tools
+doxygen
+patchelf
+pkg-config
+
+# git tools
+lazygit
+github-cli
