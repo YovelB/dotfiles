@@ -1,26 +1,29 @@
-# Comments and blank lines are allowed.
+# stow ignore patterns for dotfiles repository
 
-RCS
-.+,v
+# essentail to ignore
+^/packages
+^/scripts
+^/archive
 
-CVS
-\.\#.+       # CVS conflict files / emacs lock files
-\.cvsignore
-
-\.svn
-_darcs
-\.hg
-
+# version control
 \.git
 \.gitignore
-\.gitmodules
+\.gitattributes
 
-.+~          # emacs backup files
-\#.*\#       # emacs autosave files
-
+# docs
 ^/README.*
 ^/LICENSE.*
-^/COPYING
 
-# User additions
-Archive
+# editor temp and backup
+.*~
+\#.*\#
+\.#.*
+^\..*\.sw[op]$  # vim swap files
+\.bak$
+\.tmp$
+
+# build artifacts and caches
+\.cache
+\.tmp
+__pycache__
+node_modules
