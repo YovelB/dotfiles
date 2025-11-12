@@ -1,10 +1,17 @@
 return {
   -- fun coding stats and achievements
   {
-    "grzegorzszczepanek/gamify.nvim",
-    lazy = false,
+    "gisketch/triforce.nvim",
+    dependencies = {
+      "nvzone/volt",
+    },
     config = function()
-      require("gamify")
+      require("triforce").setup({
+        -- Optional: Add your configuration here
+        keymap = {
+          show_profile = "<leader>tp", -- Open profile with <leader>tp
+        },
+      })
     end,
   },
   -- for splitting and joining code blocks
