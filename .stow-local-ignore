@@ -2,7 +2,6 @@
 
 # essentail to ignore
 ^/.packages
-^/.scripts
 ^/archive
 
 # version control
