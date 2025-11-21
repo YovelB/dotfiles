@@ -45,11 +45,11 @@ return {
         sources = {
           -- snacks picker projects
           projects = {
-            -- finder = "recent_projects", -- This tells the picker to use the finder defined above
+            finder = "recent_projects",
             -- format = "file",
             -- 'dev' and 'patterns' are removed from here
             -- confirm = "load_session",
-            recent = false,
+            recent = true,
             max_depth = 2,
             patterns = {
               ".git",
@@ -68,7 +68,7 @@ return {
               "setup.cfg",
               "setup.py",
               "requirements.txt",
-              -- kicad
+              -- KiCad
               "*.kicad_pro",
             },
             -- dev is a dir just above root
@@ -168,7 +168,7 @@ return {
           },
 
           lualine_c = {
-            { LazyVim.lualine.pretty_path({ length = 3 }) },
+            { LazyVim.lualine.pretty_path({ length = 4 }) },
           },
           lualine_x = {
             -- command status
@@ -231,6 +231,12 @@ return {
                 end
               end,
             },
+            function()
+              return require("triforce.lualine").level({
+                bar_chars = { filled = "◆", empty = "◇" },
+                bar_length = 5,
+              })
+            end,
           },
           lualine_y = { "filetype" },
           lualine_z = {

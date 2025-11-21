@@ -7,12 +7,21 @@ return {
     },
     config = function()
       require("triforce").setup({
-        -- Optional: Add your configuration here
         keymap = {
-          show_profile = "<leader>tp", -- Open profile with <leader>tp
+          show_profile = "<leader>tp",
         },
       })
     end,
+  },
+  {
+    "m4xshen/hardtime.nvim",
+    lazy = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
+    keys = {
+      { "<leader>ht", "<cmd>Hardtime toggle<cr>", desc = "Hardtime toggle" },
+      { "<leader>hr", "<cmd>Hardtime report<cr>", desc = "Hardtime report" },
+    },
   },
   -- nice UI for showing key strokes
   {
@@ -20,7 +29,7 @@ return {
     cmd = "ShowkeysToggle",
     opts = { position = "top-right" },
     keys = {
-      { "<leader>uk", "<cmd>ShowkeysToggle<cr>", desc = "Toggle Showkeys" },
+      { "<leader>uk", "<cmd>ShowkeysToggle<cr>", desc = "Showkeys toggle" },
     },
   },
   -- for splitting and joining code blocks
