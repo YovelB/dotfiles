@@ -78,17 +78,18 @@ return {
             "--completion-style=detailed",
             "--function-arg-placeholders",
             "--fallback-style=llvm",
-            -- adjust globs to your install locations as needed (use stm32cubeide option if not avialiable use system wide option)
-            "--query-driver=/opt/stm32cubeide/**/tools/bin/arm-none-eabi-*,/usr/bin/arm-none-eabi-*",
+            -- query the needed driver (use stm32cubeide option if not avialiable use system wide option)
+            "--query-driver=/opt/stm32cubeide/plugins/*/tools/bin/arm-none-eabi-gcc",
+            -- "--query-driver=/usr/bin/arm-none-eabi-gcc", -- newer version
           },
         },
       },
     },
   },
-  -- cmake tools
-  {
-    "Civitasv/cmake-tools.nvim",
-  },
+  -- cmake tools (disabled until learned)
+  -- {
+  --   "Civitasv/cmake-tools.nvim",
+  -- },
   -- use global config for markdownlint-cli2 linter
   {
     "mfussenegger/nvim-lint",

@@ -2,7 +2,7 @@
 BasedOnStyle: LLVM
 Language: C
 
-# Indentation
+# indentation
 IndentWidth: 2
 TabWidth: 2
 UseTab: Never
