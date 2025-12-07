@@ -44,7 +44,7 @@
     "body": [
       "$",
       "  ${1}",
-      "$ $0"
+      "$$0"
     ],
     "description": "multiline math block"
   },
@@ -53,7 +53,7 @@
     "body": [
       "#align(center)[",
       "  ${1}",
-      "] $0"
+      "]$0"
     ],
     "description": "center alignment block"
   },

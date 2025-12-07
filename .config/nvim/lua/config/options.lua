@@ -20,3 +20,8 @@ vim.g.vimtex_quickfix_autoclose_after_keystrokes = 2
 -- cause issues with stm32cubeide projects
 vim.opt.modeline = false
 vim.opt.modelines = 0
+
+vim.opt.termbidi = true
+vim.opt.keymap = "hebrew"
+vim.opt.iminsert = 0 -- start in English
+vim.opt.imsearch = 0 -- start search in English

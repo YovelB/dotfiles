@@ -90,9 +90,7 @@ return {
         tinymist = {
           cmd = { "tinymist" },
           filetypes = { "typst" },
-          settings = {
-            formatterMode = "typstyle",
-          },
+          settings = { formatterMode = "typstyle" },
         },
       },
     },

@@ -102,7 +102,7 @@ map("n", "<leader>ct", function()
 end, { desc = "Toggle LSP diagnostics visibility" })
 
 -- Hebrew/RTL utilities
-map("n", "<leader>uHr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
+-- map("n", "<leader>uhr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
 
 -- typst commands
 map("n", "<leader>pc", ":!typst compile % && xdg-open %:r.pdf<CR>", { desc = "Typst Compile & Open PDF" })
