@@ -7,7 +7,7 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
--- disable autocmd resize splis if window gets resized
+-- disable autocmd resize splits if window gets resized
 vim.api.nvim_del_augroup_by_name("lazyvim_resize_splits")
 
 -- disable spell checking for markdown files
@@ -29,3 +29,20 @@ vim.api.nvim_create_autocmd("FileType", {
 --     end
 --   end,
 -- })
+
+-- disable auto comment continuation
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "r", "o" })
+  end,
+})
+
+-- fix python tab spacing to 2 from 4
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+  end,
+})

@@ -65,6 +65,7 @@ vim.keymap.del("n", "grr") -- LSP references
 map("i", "jk", "<ESC>", { desc = "enter mode exit" })
 map("n", ";", ":", { desc = "enter command mode" })
 map("n", "<M-a>", "ggVG", { desc = "selection select all" })
+map("i", "<C-l>", "<C-o>A", { desc = "jump to end of line" })
 
 -- toggle statusline
 local function toggle_statusline()
