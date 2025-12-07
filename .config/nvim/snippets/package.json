@@ -7,6 +7,14 @@
         "path": "./c.json"
       },
       {
+        "language": "python",
+        "path": "./python.json"
+      },
+      {
+        "language": "tpyst",
+        "path": "./tpyst.json"
+      },
+      {
         "language": "tex",
         "path": "./tex.json"
       }

@@ -1,0 +1,54 @@
+{
+  "main template": {
+    "prefix": "main",
+    "body": [
+      "#include <stdio.h>",
+      "#include <stdlib.h>",
+      "",
+      "int main(int argc, char *argv[]) {",
+      "    ${0}",
+      "    return EXIT_SUCCESS;",
+      "}"
+    ],
+    "description": "standard main function with imports"
+  },
+  "header guard": {
+    "prefix": "guard",
+    "body": [
+      "#ifndef ${1:HEADER_NAME_H}",
+      "#define $1",
+      "",
+      "${0}",
+      "",
+      "#endif // $1"
+    ],
+    "description": "include header guards"
+  },
+  "typedef struct": {
+    "prefix": "tstruct",
+    "body": [
+      "typedef struct {",
+      "    ${2:int data;}",
+      "} ${1:Name};"
+    ],
+    "description": "typedef struct definition"
+  },
+  "safe malloc": {
+    "prefix": "smalloc",
+    "body": [
+      "${1:type} *${2:ptr} = malloc(sizeof($1) * ${3:count});",
+      "if ($2 == NULL) {",
+      "    fprintf(stderr, \"Memory allocation failed for $2\\n\");",
+      "    exit(EXIT_FAILURE);",
+      "}"
+    ],
+    "description": "malloc with NULL check"
+  },
+  "debug print (int)": {
+    "prefix": "pvari",
+    "body": [
+      "printf(\"${1:var} = %d\\n\", $1);"
+    ],
+    "description": "printf int variable"
+  }
+}

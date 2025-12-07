@@ -25,6 +25,7 @@ return {
         -- docs
         "markdown",
         "latex",
+        "typst",
       },
     },
   },
@@ -60,6 +61,9 @@ return {
         "markdown-toc", -- markdown toc generator
         "markdownlint-cli2", -- markdown linter
         "texlab", -- latex
+        "tinymist", -- typst LSP
+        "typstyle", -- typst formatter
+        -- "harper-ls", -- grammer and style checker
       },
     },
   },
@@ -83,6 +87,13 @@ return {
             -- "--query-driver=/usr/bin/arm-none-eabi-gcc", -- newer version
           },
         },
+        tinymist = {
+          cmd = { "tinymist" },
+          filetypes = { "typst" },
+          settings = {
+            formatterMode = "typstyle",
+          },
+        },
       },
     },
   },
@@ -99,6 +110,12 @@ return {
           args = { "--config", "~/.markdownlint-cli2.jsonc", "--" },
         },
       },
+    },
+    {
+      "chomosuke/typst-preview.nvim",
+      lazy = false, -- or ft = 'typst'
+      version = "1.*",
+      opts = { dependencies_bin = { ["tinymist"] = "tinymist" } },
     },
   },
 }

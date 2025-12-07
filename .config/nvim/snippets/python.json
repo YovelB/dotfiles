@@ -1,0 +1,50 @@
+{
+  "if main": {
+    "prefix": "ifmain",
+    "body": [
+      "if __name__ == \"__main__\":",
+      "    ${1:main()}"
+    ],
+    "description": "standard entry point"
+  },
+  "debug print": {
+    "prefix": "pvar",
+    "body": [
+      "print(f\"${1:var}={${1}}\")"
+    ],
+    "description": "print variable name and value (f string debug)"
+  },
+  "try except block": {
+    "prefix": "telr",
+    "body": [
+      "try:",
+      "    ${1:pass}",
+      "except ${2:Exception} as e:",
+      "    ${3|LOG.error(f\"Error: {e}\"),raise e,print(f\"Error: {e}\")|}"
+    ],
+    "description": "try/except with choice for logging/raising"
+  },
+  "context manager": {
+    "prefix": "with",
+    "body": [
+      "with open(\"${1:file.txt}\", \"${2:r}\") as ${3:f}:",
+      "    $0"
+    ],
+    "description": "with open statement"
+  },
+  "google style docstring (static)": {
+    "prefix": "doc",
+    "body": [
+      "\"\"\"${1:Summary of function.}",
+      "",
+      "Args:",
+      "    ${2:param1}: ${3:Description}",
+      "",
+      "Returns:",
+      "    ${4:Description of return value}",
+      "\"\"\"",
+      "$0"
+    ],
+    "description": "insert google style docstring template"
+  }
+}
