@@ -63,7 +63,7 @@ return {
         "texlab", -- latex
         "tinymist", -- typst LSP
         "typstyle", -- typst formatter
-        -- "harper-ls", -- grammer and style checker
+        "harper-ls", -- grammer and style checker
       },
     },
   },
@@ -85,6 +85,22 @@ return {
             -- query the needed driver (use stm32cubeide option if not avialiable use system wide option)
             "--query-driver=/opt/stm32cubeide/plugins/*/tools/bin/arm-none-eabi-gcc",
             -- "--query-driver=/usr/bin/arm-none-eabi-gcc", -- newer version
+          },
+        },
+        harper_ls = {
+          filetypes = { "typst", "tex", "bib" },
+          settings = {
+            ["harper-ls"] = {
+              userDictPath = vim.fn.stdpath("config") .. "/spell/harper_dict.txt",
+              linters = {
+                SentenceCapitalization = false,
+                SpellCheck = false,
+                -- LongSentences = false,
+              },
+              -- isolateEnglish = true,
+              -- ignores checking in [here] and [[here (links)]]
+              markdown = { IgnoreLinkTitle = true },
+            },
           },
         },
         tinymist = {
