@@ -3,7 +3,7 @@
 
 -- override defaults
 local opt = vim.opt
-opt.relativenumber = false
+-- opt.relativenumber = false
 opt.smoothscroll = false
 opt.winminwidth = 0
 opt.winminheight = 0

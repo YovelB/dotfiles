@@ -103,8 +103,3 @@ end, { desc = "Toggle LSP diagnostics visibility" })
 
 -- Hebrew/RTL utilities
 -- map("n", "<leader>uhr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
-
--- typst commands
-map("n", "<leader>pc", ":!typst compile % && xdg-open %:r.pdf<CR>", { desc = "Typst Compile & Open PDF" })
-map("n", "<leader>pw", ":!typst watch % & xdg-open %:r.pdf<CR>", { desc = "Typst Watch & Open PDF" })
-map("n", "<leader>pp", ":TypstPreview<CR>", { desc = "Typst Preview" })
