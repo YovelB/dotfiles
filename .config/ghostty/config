@@ -1,0 +1,34 @@
+# font
+font-family = "JetBrainsMono Nerd Font"
+font-size = 14
+
+# mouse
+mouse-hide-while-typing = true
+
+# theme
+theme = TokyoNight
+background-opacity = 0.95
+window-theme = ghostty
+
+# cursor
+cursor-invert-fg-bg = true
+cursor-style = bar
+cursor-style-blink = false
+
+# window
+gtk-single-instance = true
+window-decoration = false
+window-padding-y = 2,0
+window-padding-balance = true
+scrollback-limit = 10000
+shell-integration = zsh
+gtk-titlebar = false
+gtk-toolbar-style = flat
+
+# other
+copy-on-select = clipboard
+shell-integration-features = cursor,sudo,no-title,ssh-env
+app-notifications = no-clipboard-copy
+
+# bindings
+keybind = super+shift+r=reload_config
