@@ -165,7 +165,7 @@ return {
                   else
                     vim.notify("pdf not ready yet, change waiting time in config", vim.log.levels.WARN)
                   end
-                end, 100) -- wait 100 ms
+                end, 250) -- wait 250 ms
               end,
               desc = "typst watch toggle",
             },

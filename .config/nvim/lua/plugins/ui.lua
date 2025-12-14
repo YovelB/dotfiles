@@ -32,10 +32,11 @@ return {
       -- enable snacks image
       image = {
         doc = {
-          enabled = true,
+          -- enabled = true,
           inline = false,
+          float = true,
         },
-        math = { latex = { font_size = "small" } },
+        -- math = { latex = { font_size = "small" } },
       },
       -- customize zen and zoom modes
       styles = {

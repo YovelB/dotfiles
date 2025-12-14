@@ -133,8 +133,8 @@ function load_aliases() {
   }
 load_aliases
 
-# copilot CLI
-# eval "$(gh copilot alias -- zsh)"
+# initialize ssh agent and add your specific key
+eval $(keychain --eval --quiet ~/.ssh/github_ed25519)
 
 # enable profiling output if needed
 # zprof
