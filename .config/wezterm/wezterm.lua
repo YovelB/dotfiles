@@ -2,11 +2,19 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- general
-config.term = "wezterm"
-config.enable_wayland = false
+-- config.term = "wezterm"
+
+-- to fix snacks image rendering
+-- https://github.com/kovidgoyal/kitty/blob/master/terminfo/kitty.terminfo
+-- run this cmd for the github link above to install xterm kitty
+-- tempfile=$(mktemp) && curl -o "$tempfile" https://raw.githubusercontent.com/kovidgoyal/kitty/master/terminfo/kitty.terminfo && tic -x -o ~/.terminfo "$tempfile"
+config.term = "xterm-kitty"
+config.enable_kitty_graphics = true
+
+config.front_end = "WebGpu"
+config.enable_wayland = true
 config.webgpu_power_preference = "HighPerformance"
 config.scrollback_lines = 10000
-config.enable_kitty_graphics = true
 
 -- tab
 config.use_fancy_tab_bar = false
