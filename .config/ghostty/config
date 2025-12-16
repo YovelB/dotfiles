@@ -1,6 +1,7 @@
 # font
 font-family = "JetBrainsMono Nerd Font"
-font-family = "Noto Sans Hebrew" # fallback for hebrew
+font-family = "Miriam Mono CLM" # fallback for hebrew
+# font-family = "Noto Sans Hebrew" 
 font-size = 14
 
 # mouse

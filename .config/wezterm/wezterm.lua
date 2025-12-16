@@ -11,9 +11,9 @@ local config = wezterm.config_builder()
 config.term = "xterm-kitty"
 config.enable_kitty_graphics = true
 
-config.front_end = "WebGpu"
+-- config.front_end = "WebGpu"
+-- config.webgpu_power_preference = "HighPerformance"
 config.enable_wayland = true
-config.webgpu_power_preference = "HighPerformance"
 config.scrollback_lines = 10000
 
 -- tab
@@ -31,6 +31,7 @@ config.font = wezterm.font_with_fallback({ "JetBrains Mono Nerd Font", "JetBrain
 config.color_scheme = "Tokyo Night"
 -- cursor
 config.default_cursor_style = "SteadyBar"
+config.cursor_blink_rate = 0
 
 -- hebrew / bidi support
 config.bidi_enabled = true
