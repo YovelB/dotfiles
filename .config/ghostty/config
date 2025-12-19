@@ -9,7 +9,7 @@ mouse-hide-while-typing = true
 
 # theme
 theme = TokyoNight
-background-opacity = 0.95
+# background-opacity = 0.95
 window-theme = ghostty
 
 # cursor

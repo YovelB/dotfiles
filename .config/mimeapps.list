@@ -1,0 +1,32 @@
+[Default Applications]
+image/jpeg=org.gnome.Loupe.desktop
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+x-scheme-handler/eclipse+command x-scheme-handler/eclipse+mpc=_opt_stm32cubeide_.desktop
+image/png=org.gnome.Loupe.desktop
+text/plain=nvim.desktop
+text/x-matlab=nvim.desktop
+application/x-ipynb+json=jetbrains-pycharm-5bdd7823-3e0e-49bc-8ec9-b6c2a86e6652.desktop
+audio/mpeg=vlc.desktop
+x-scheme-handler/discord-647066573147996161=discord-647066573147996161.desktop
+audio/x-mod=nvim.desktop
+x-scheme-handler/freetube=FreeTube.desktop
+image/gif=org.gnome.Loupe.desktop
+image/webp=org.gnome.Loupe.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+text/html=firefox.desktop
+inode/directory=yazi-wezterm.desktop
+
+[Added Associations]
+image/jpeg=org.gnome.Loupe.desktop;
+application/pdf=org.gnome.Evince.desktop;org.pwmt.zathura-pdf-mupdf.desktop;
+image/png=org.gnome.Loupe.desktop;
+text/plain=nvim.desktop;
+application/xslt+xml=org.kicad.kicad.desktop;
+application/x-ole-storage=org.kicad.eeschema.desktop;
+text/x-matlab=nvim.desktop;
+application/x-ipynb+json=jetbrains-pycharm-5bdd7823-3e0e-49bc-8ec9-b6c2a86e6652.desktop;
+application/vnd.microsoft.portable-executable=nvim.desktop;
+audio/mpeg=vlc.desktop;
+audio/x-mod=nvim.desktop;
