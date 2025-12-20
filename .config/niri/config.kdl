@@ -116,8 +116,8 @@ prefer-no-csd
 // screenshot-path "~/Documents/Pictures/screenshots/Screenshot_from_%Y-%m-%d_%H-%M-%S.png"
 screenshot-path null
 
-workspace "main"
-workspace "dev"
+// workspace "main"
+// workspace "dev"
 
 window-rule {
   match app-id=r#"^org\.pwmt\.zathura$"#

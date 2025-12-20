@@ -129,7 +129,8 @@ function load_aliases() {
     alias tbd='task burndown'
 
     # translate and dictionary aliases
-    alias transhe="trans -b -w 80 :he -shell"
+    alias he="trans -b :he -shell"
+    alias en="trans -b :en -shell"
   }
 load_aliases
 

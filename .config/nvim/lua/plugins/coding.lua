@@ -10,7 +10,8 @@ return {
         keymap = {
           show_profile = "<leader>tp",
         },
-        ignore_ft = { "LaTex", "Conf" },
+        custom_languages = { typst = { icon = "𝐭", name = "Typst" } },
+        ignore_ft = { "conf" }, -- tex is another option
       })
     end,
   },

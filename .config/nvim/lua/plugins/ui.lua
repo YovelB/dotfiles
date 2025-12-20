@@ -36,7 +36,7 @@ return {
           inline = false,
           float = true,
         },
-        -- math = { latex = { font_size = "small" } },
+        math = { latex = { font_size = "small" } },
       },
       -- customize zen and zoom modes
       styles = {
@@ -234,8 +234,7 @@ return {
             },
             function()
               return require("triforce.lualine").level({
-                bar_chars = { filled = "◆", empty = "◇" },
-                bar_length = 5,
+                bar = { chars = { filled = "◆", empty = "◇" }, length = 5 },
               })
             end,
           },
