@@ -16,8 +16,9 @@ vim.g.loaded_python3_provider = 0
 
 -- latex editing
 vim.g.vimtex_quickfix_autoclose_after_keystrokes = 2
+vim.g.typst_watch_autoclose_after_keystrokes = 2
 
--- cause issues with stm32cubeide projects
+-- maybe cause issues with stm32cubeide projects
 vim.opt.modeline = false
 vim.opt.modelines = 0
 
