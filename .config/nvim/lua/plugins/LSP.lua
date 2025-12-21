@@ -109,66 +109,111 @@ return {
             {
               "\\w",
               function()
-                local file = vim.fn.expand("%")
-                -- helper to auto-hide window on typing
-                local function setup_autohide()
-                  vim.api.nvim_create_autocmd({ "InsertEnter", "TextChanged" }, {
-                    buffer = 0, -- attach to current code buffer
-                    once = true,
-                    callback = function()
-                      if _G.TypstWatchBuf and vim.api.nvim_buf_is_valid(_G.TypstWatchBuf) then
-                        local win = vim.fn.bufwinnr(_G.TypstWatchBuf)
-                        if win ~= -1 then
-                          vim.cmd(win .. "close")
-                        end
-                      end
-                    end,
-                  })
-                end
+                local state = _G.TypstWatch or {}
+                _G.TypstWatch = state
 
-                -- 1. if job exists, just toggle window
-                if _G.TypstJobId then
-                  if _G.TypstWatchBuf and vim.api.nvim_buf_is_valid(_G.TypstWatchBuf) then
-                    local win = vim.fn.bufwinnr(_G.TypstWatchBuf)
-                    if win ~= -1 then
-                      vim.cmd(win .. "close") -- hide
-                    else
-                      vim.cmd("botright 10split") -- show
-                      vim.api.nvim_win_set_buf(0, _G.TypstWatchBuf)
-                      vim.cmd("normal! G")
-                      vim.cmd("wincmd p")
-                      setup_autohide()
-                    end
+                -- Stop existing watch
+                if state.job_id then
+                  pcall(vim.fn.jobstop, state.job_id)
+                  if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
+                    vim.api.nvim_buf_delete(state.buf, { force = true })
                   end
+                  if state.autocmd then
+                    pcall(vim.api.nvim_del_autocmd, state.autocmd)
+                  end
+                  if state.exit_autocmd then
+                    pcall(vim.api.nvim_del_autocmd, state.exit_autocmd)
+                  end
+                  if state.ns then
+                    vim.on_key(nil, state.ns)
+                  end
+                  _G.TypstWatch = {}
+                  vim.notify("Typst watch stopped", vim.log.levels.INFO)
                   return
                 end
 
-                -- 2. start new watch process
+                -- Start new watch
+                local file = vim.fn.expand("%")
                 vim.cmd("botright 10split")
-                -- using jobstart inside term to get job_id easily
                 vim.cmd("term typst watch " .. vim.fn.shellescape(file))
-                _G.TypstWatchBuf = vim.api.nvim_get_current_buf()
-                _G.TypstJobId = vim.b.terminal_job_id -- capture job id from terminal buffer
+                local buf = vim.api.nvim_get_current_buf()
+                state.job_id = vim.b.terminal_job_id
+                state.buf = buf
+                state.ns = vim.api.nvim_create_namespace("typst_autohide")
 
-                -- configure buffer
-                vim.bo[_G.TypstWatchBuf].buflisted = false
-                vim.keymap.set("n", "q", ":close<CR>", { buffer = _G.TypstWatchBuf, silent = true })
+                vim.bo[buf].buflisted = false
+                vim.keymap.set("n", "q", ":close<CR>", { buffer = buf, silent = true })
+                vim.cmd("wincmd p") -- focus back
 
-                vim.cmd("wincmd p") -- focus back to code
-                setup_autohide()
+                -- auto hide logic
+                local function arm_autohide()
+                  local limit = vim.g.typst_watch_autoclose_after_keystrokes or 2
+                  local keystrokes = 0
+                  vim.on_key(nil, state.ns)
+                  vim.on_key(function()
+                    vim.schedule(function()
+                      if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) then
+                        return
+                      end
+                      -- reset counter if focused on watch window (allows Ctrl+w w)
+                      if vim.api.nvim_get_current_buf() == state.buf then
+                        keystrokes = 0
+                        return
+                      end
+                      keystrokes = keystrokes + 1
+                      if keystrokes >= limit then
+                        local win = vim.fn.bufwinnr(state.buf)
+                        if win ~= -1 then
+                          vim.cmd(win .. "close")
+                        end
+                        vim.on_key(nil, state.ns)
+                      end
+                    end)
+                  end, state.ns)
+                end
+                arm_autohide()
 
-                -- 3. try to open pdf (with delay to allow generation)
+                -- reopen watch window on save
+                state.autocmd = vim.api.nvim_create_autocmd("BufWritePost", {
+                  buffer = vim.api.nvim_get_current_buf(),
+                  callback = function()
+                    if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
+                      if vim.fn.bufwinnr(state.buf) == -1 then
+                        vim.cmd("botright 10split")
+                        vim.api.nvim_win_set_buf(0, state.buf)
+                        vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(state.buf), 0 })
+                        vim.cmd("wincmd p")
+                        arm_autohide()
+                      end
+                    end
+                  end,
+                })
+
+                -- clean exit (fixes :wqa)
+                state.exit_autocmd = vim.api.nvim_create_autocmd("QuitPre", {
+                  callback = function()
+                    if state.job_id then
+                      vim.fn.jobstop(state.job_id)
+                    end
+                    if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
+                      vim.api.nvim_buf_delete(state.buf, { force = true })
+                    end
+                  end,
+                })
+
+                -- try to open pdf
                 vim.defer_fn(function()
                   local pdf = vim.fn.expand("%:r") .. ".pdf"
                   if vim.fn.filereadable(pdf) == 1 then
                     vim.fn.jobstart({ "xdg-open", pdf }, { detach = true })
                   else
-                    vim.notify("pdf not ready yet, change waiting time in config", vim.log.levels.WARN)
+                    vim.notify("pdf not ready yet", vim.log.levels.WARN)
                   end
-                end, 250) -- wait 250 ms
+                end, 100) -- delay to open (problematic only on big files and first compilation)
               end,
               desc = "typst watch toggle",
             },
+            -- regular compile
             {
               "\\c",
               function()
@@ -188,7 +233,7 @@ return {
                   end,
                 })
               end,
-              desc = "Typst Compile (Async)",
+              desc = "typst compile",
             },
           },
         },
