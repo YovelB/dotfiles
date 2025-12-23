@@ -31,8 +31,8 @@ return {
     opts = {
       -- enable snacks image
       image = {
+        enabled = vim.env.WEZTERM_PANE == nil,
         doc = {
-          -- enabled = true,
           inline = false,
           float = true,
         },
