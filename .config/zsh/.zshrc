@@ -134,8 +134,8 @@ function load_aliases() {
   }
 load_aliases
 
-# initialize ssh agent and add your specific key
-eval $(keychain --eval --quiet ~/.ssh/github_ed25519)
+# init ssh agent with optional lifetime option -t 12h
+eval "$(ssh-agent -s)" > /dev/null
 
 # enable profiling output if needed
 # zprof

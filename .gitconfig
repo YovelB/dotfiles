@@ -8,8 +8,8 @@
 
 [user]
 	name = yovelb
-  email = yovelb2j@gmail.com
-	signingkey = E2A7C5F036AF8E14066A0D3CCB35C8E60AB3CE1E
+	email = yovelb2j@proton.me
+	signingkey = 6FFFAD675778032F
 
 [alias]
     st = status
