@@ -176,7 +176,7 @@ binds {
   Mod+N                 { spawn "dms" "ipc" "call" "notifications" "toggle"; }
   Mod+A                 { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
   Mod+W                 { spawn "dms" "ipc" "call" "wallpaper" "next"; }
-  Shift+Ctrl+L          { spawn "dms" "ipc" "call" "lock" "lock"; }
+  Shift+Alt+Ctrl+L      { spawn "dms" "ipc" "call" "lock" "lock"; }
 
   Shift+Alt+S           { screenshot show-pointer=false; }
   Print                 { screenshot show-pointer=false; }

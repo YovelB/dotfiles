@@ -63,7 +63,7 @@ return {
         "texlab", -- latex
         "tinymist", -- typst LSP
         "typstyle", -- typst formatter
-        "harper-ls", -- grammer and style checker
+        -- "harper-ls", -- grammer and style checker
       },
     },
   },
@@ -87,24 +87,28 @@ return {
             -- "--query-driver=/usr/bin/arm-none-eabi-gcc", -- newer version
           },
         },
-        harper_ls = {
-          filetypes = { "typst", "tex", "bib" },
-          settings = {
-            ["harper-ls"] = {
-              userDictPath = vim.fn.stdpath("config") .. "/spell/harper_dict.txt",
-              linters = {
-                SentenceCapitalization = false,
-                SpellCheck = false,
-                -- LongSentences = false,
-              },
-              -- isolateEnglish = true,
-              -- ignores checking in [here] and [[here (links)]]
-              markdown = { IgnoreLinkTitle = true },
-            },
-          },
-        },
+        -- harper_ls = {
+        --   filetypes = { "typst", "tex", "bib" },
+        --   settings = {
+        --     ["harper-ls"] = {
+        --       userDictPath = vim.fn.stdpath("config") .. "/spell/harper_dict.txt",
+        --       linters = {
+        --         SentenceCapitalization = false,
+        --         SpellCheck = false,
+        --         -- LongSentences = false,
+        --       },
+        --       -- isolateEnglish = true,
+        --       -- ignores checking in [here] and [[here (links)]]
+        --       markdown = { IgnoreLinkTitle = true },
+        --     },
+        --   },
+        -- },
         tinymist = {
           single_file_support = true,
+          settings = {
+            exportPdf = "onSave", -- should replace watch cmd (doesnt work currently)
+            outputPath = "$root/$dir/$name", -- ensure output goes to the right place
+          },
           keys = {
             {
               "\\w",
@@ -112,7 +116,7 @@ return {
                 local state = _G.TypstWatch or {}
                 _G.TypstWatch = state
 
-                -- Stop existing watch
+                -- stop existing watch
                 if state.job_id then
                   pcall(vim.fn.jobstop, state.job_id)
                   if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
@@ -132,10 +136,16 @@ return {
                   return
                 end
 
-                -- Start new watch
+                local function get_root()
+                  local root = vim.fs.find({ "typst.toml", ".git" }, { upward = true })[1]
+                  return root and vim.fs.dirname(root) or vim.fn.getcwd()
+                end
+
                 local file = vim.fn.expand("%")
+                local root_path = get_root()
                 vim.cmd("botright 10split")
-                vim.cmd("term typst watch " .. vim.fn.shellescape(file))
+                vim.cmd("term typst watch " .. vim.fn.shellescape(file) .. " --root " .. vim.fn.shellescape(root_path))
+
                 local buf = vim.api.nvim_get_current_buf()
                 state.job_id = vim.b.terminal_job_id
                 state.buf = buf
@@ -155,7 +165,7 @@ return {
                       if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) then
                         return
                       end
-                      -- reset counter if focused on watch window (allows Ctrl+w w)
+                      -- reset counter if focused on watch window (allows ctrl+w w)
                       if vim.api.nvim_get_current_buf() == state.buf then
                         keystrokes = 0
                         return
@@ -209,7 +219,7 @@ return {
                   else
                     vim.notify("pdf not ready yet", vim.log.levels.WARN)
                   end
-                end, 100) -- delay to open (problematic only on big files and first compilation)
+                end, 200)
               end,
               desc = "typst watch toggle",
             },
@@ -218,8 +228,12 @@ return {
               "\\c",
               function()
                 local file = vim.fn.expand("%")
-                vim.notify("compiling typst...", vim.log.levels.INFO)
-                vim.fn.jobstart({ "typst", "compile", file }, {
+                local root = vim.fs.find({ "typst.toml", ".git" }, { upward = true })[1]
+                local root_path = root and vim.fs.dirname(root) or vim.fn.getcwd()
+                vim.notify("compiling typst with root: " .. root_path, vim.log.levels.INFO)
+
+                -- Added --root flag here
+                vim.fn.jobstart({ "typst", "compile", file, "--root", root_path }, {
                   on_exit = function(_, code)
                     if code == 0 then
                       vim.notify("typst compiled successfully", vim.log.levels.INFO)
