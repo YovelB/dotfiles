@@ -40,6 +40,7 @@ environment {
   QT_FFMPEG_ENCODING_HW_DEVICE_TYPES "vaapi"
   GTK_THEME "Adwaita:dark"
   GTK_APPLICATION_PREFER_DARK_THEME "1"
+  _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
 cursor {
