@@ -1,5 +1,12 @@
 [mgr]
 
 prepend_keymap = [
-  { on = [ "g", "s" ], run = "cd ~/Documents/School/Year-4/Sem-C", desc = "Go to School Sem-C" },
+  { on = [
+    "g",
+    "s",
+  ], run = "cd ~/Documents/School/Year-4/Sem-C", desc = "school sem c" },
+  { on = [
+    "g",
+    "p",
+  ], run = "cd ~/UserWorkspace/KiCad/projects/Precision_Scope/docs", desc = "final project kicad" },
 ]
