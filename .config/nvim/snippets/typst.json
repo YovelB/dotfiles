@@ -13,20 +13,35 @@
     "description": "init document"
   },
   "figure": {
-    "prefix": "fig",
+    "prefix": "img",
     "body": [
-      "#figure(",
-      "  image(\"${1:path/to/image.png}\", width: ${2:80%}),",
-      "  caption: [${3:Caption}]",
-      ") <${4:label}>",
+      "#figure(image(\"imgs/${1}\", width: ${2:80%}), caption: [${3:caption}])",
       "$0"
     ],
     "description": "insert a figure"
   },
+  "table": {
+    "prefix": "table",
+    "body": [
+      "#figure(",
+      "  table(",
+      "    columns: (auto, auto, auto),",
+      "    align: center + horizon,",
+      "    fill: (col, row) => if row == 0 { rgb(\"#001F52\") } else { white },",
+      "    stroke: 0.5pt + gray,",
+      "    table.header(..([*${1:header}*], [*${2:header}*], [*${3:header}*]).map(x => text(white, x))),",
+      "    [${4:content}], [${5:content}], [${6:content}]",
+      "  ),",
+      "  caption: [${7:caption}],",
+      ")",
+      "$0"
+    ],
+    "description": "styled table with header"
+  },
   "code block": {
     "prefix": "code",
     "body": [
-      "```${1:python}",
+      "```${1:c}",
       "$0",
       "```"
     ],
@@ -56,18 +71,5 @@
       "]$0"
     ],
     "description": "center alignment block"
-  },
-  "table": {
-    "prefix": "table",
-    "body": [
-      "#table(",
-      "  columns: (${1:1fr}, ${2:1fr}),",
-      "  inset: 10pt,",
-      "  align: horizon,",
-      "  [${3:Header 1}], [${4:Header 2}],",
-      "  [${5:Content 1}], [${6:Content 2}]",
-      ")"
-    ],
-    "description": "basic table"
   }
 }
