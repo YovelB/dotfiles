@@ -40,7 +40,9 @@ environment {
   QT_FFMPEG_ENCODING_HW_DEVICE_TYPES "vaapi"
   GTK_THEME "Adwaita:dark"
   GTK_APPLICATION_PREFER_DARK_THEME "1"
+  // fix stm32cubemx rendering and anti alaising for fonts
   _JAVA_AWT_WM_NONREPARENTING "1"
+  _JAVA_OPTIONS "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
 }
 
 cursor {
@@ -260,12 +262,12 @@ binds {
   // Mod+Alt+8 { move-column-to-workspace 8; }
   // Mod+Alt+9 { move-column-to-workspace 9; }
 
-  // Mod+C         { center-column; }
+  Mod+0     { center-column; }
   // Mod+Alt+C     { center-visible-columns; }
-  // Mod+Minus     { set-column-width "-10%"; }
-  // Mod+Equal     { set-column-width "+10%"; }
-  // Mod+Alt+Minus { set-window-height "-10%"; }
-  // Mod+Alt+Equal { set-window-height "+10%"; }
+  Mod+Minus     { set-column-width "-10%"; }
+  Mod+Equal     { set-column-width "+10%"; }
+  Mod+Alt+Minus { set-window-height "-10%"; }
+  Mod+Alt+Equal { set-window-height "+10%"; }
   // Mod+T         { toggle-window-floating; }
   // Mod+Alt+T     { switch-focus-between-floating-and-tiling; }
   // Mod+W         { toggle-column-tabbed-display; }
