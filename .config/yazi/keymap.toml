@@ -9,4 +9,8 @@ prepend_keymap = [
     "g",
     "p",
   ], run = "cd ~/UserWorkspace/KiCad/projects/Precision_Scope/docs", desc = "final project kicad" },
+  { on = [
+    "g",
+    "b",
+  ], run = "cd ~/Documents/Yovel/Books", desc = "books" },
 ]

@@ -16,7 +16,7 @@ image/webp=org.gnome.Loupe.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 text/html=firefox.desktop
-inode/directory=yazi-wezterm.desktop
+inode/directory=org.gnome.Nautilus.desktop
 
 [Added Associations]
 image/jpeg=org.gnome.Loupe.desktop;

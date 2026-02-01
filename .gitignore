@@ -5,3 +5,6 @@
 .config/kitty/dank-theme.conf
 .config/niri/dms/colors.kdl
 .config/wezterm/colors
+.config/niri/config.kdl.backup1768489636
+/.config/nvim/lua/plugins/stash.lua.bak
+/.config/nvim/lua/config/keymaps.lua.bak

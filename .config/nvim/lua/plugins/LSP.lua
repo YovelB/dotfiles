@@ -148,7 +148,8 @@ return {
     opts = {
       linters = {
         ["markdownlint-cli2"] = {
-          args = { "--config", "~/.markdownlint-cli2.jsonc", "--" },
+          -- args = { "--config", "~/.markdownlint-cli2.jsonc", "--" },
+          prepend_args = { "--config", vim.env.HOME .. "/.config/nvim/.markdownlint-cli2.jsonc", "--" },
         },
       },
     },

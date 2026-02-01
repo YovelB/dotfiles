@@ -103,6 +103,7 @@ layout {
   }
 }
   spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+  spawn-at-startup "xhost" "+SI:localuser:root"
   spawn-at-startup "udiskie"
   spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 
@@ -168,7 +169,7 @@ binds {
 
   Mod+1                 { spawn "nautilus" "--new-window"; }
   Mod+2                 { spawn "pear-desktop"; }
-  Mod+3                 { spawn "kicad"; }
+  Mod+3                 { spawn "env" "GDK_BACKEND=x11" "kicad"; }
   Mod+4                 { spawn "stm32cubemx"; }
 
   Mod+C                 { spawn "dms" "ipc" "call" "control-center" "toggle"; }
@@ -277,3 +278,5 @@ binds {
 include "dms/layout.kdl"
 include "dms/alttab.kdl"
 include "dms/binds.kdl"
+
+include "dms/cursor.kdl"
