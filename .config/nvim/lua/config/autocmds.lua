@@ -31,12 +31,12 @@ vim.api.nvim_create_autocmd("FileType", {
 -- })
 
 -- disable auto comment continuation
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.formatoptions:remove({ "r", "o" })
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "*",
+--   callback = function()
+--     vim.opt_local.formatoptions:remove({ "r", "o" })
+--   end,
+-- })
 
 -- fix python tab spacing to 2 from 4
 vim.api.nvim_create_autocmd("FileType", {

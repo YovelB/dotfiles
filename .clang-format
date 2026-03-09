@@ -8,6 +8,30 @@ TabWidth: 2
 UseTab: Never
 IndentCaseLabels: true
 
+# array/struct packing
+AlignArrayOfStructures: Left
+BinPackArguments: false
+BinPackParameters: false
+Cpp11BracedListStyle: true
+
+# alignment - critical for register maps and config tables
+AlignConsecutiveAssignments: true
+AlignConsecutiveBitFields: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+AlignTrailingComments: true
+
+# function declarations - professional style for scanning large files
+AlwaysBreakAfterReturnType: AllDefinitions
+AllowShortFunctionsOnASingleLine: None
+IndentWrappedFunctionNames: true
+
+# qualifiers - standardizes 'static const volatile'
+QualifierAlignment: Right
+
+# preprocessor - helps with nested #ifdefs in drivers/HALs
+IndentPPDirectives: AfterHash
+
 # line length
 ColumnLimit: 140
 
@@ -22,9 +46,37 @@ PointerAlignment: Right
 DerivePointerAlignment: false
 
 # spacing
-SpaceAfterCStyleCast: false
+SpaceAfterCStyleCast: true
 SpaceBeforeParens: ControlStatements
+
+# includes
+SortIncludes: true
+IncludeBlocks: Regroup
 
 # comments
 ReflowComments: false
-AlignTrailingComments: Leave
+
+# stm32 attribute macros
+# AttributeMacros:
+#   - '__RAM_D1'
+#   - '__RAM_D2'
+#   - '__RAM_D3'
+#   - '__ALIGN_BEGIN'
+#   - '__ALIGN_END'
+#   - '__IO'
+#   - '__I'
+#   - '__O'
+
+# statement macros - prevents indentation issues with common HAL/CMSIS macros
+# StatementMacros:
+#   - 'UNUSED'
+#   - 'HAL_LOCK'
+#   - 'HAL_UNLOCK'
+#   - 'WRITE_REG'
+#   - 'MODIFY_REG'
+#   - 'READ_REG'
+#   - 'SET_BIT'
+#   - 'CLEAR_BIT'
+#   - 'READ_BIT'
+
+---

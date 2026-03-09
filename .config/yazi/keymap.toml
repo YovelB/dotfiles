@@ -12,5 +12,5 @@ prepend_keymap = [
   { on = [
     "g",
     "b",
-  ], run = "cd ~/Documents/Yovel/Books", desc = "books" },
+  ], run = "cd ~/Documents/Yovel/books", desc = "books" },
 ]
