@@ -1,5 +1,23 @@
 return {
   {
+    "saghen/blink.cmp",
+    opts = {
+      -- experimental compact signature help support
+      signature = { enabled = true },
+    },
+  },
+  -- disable extended signature from noice
+  {
+    "folke/noice.nvim",
+    opts = {
+      lsp = {
+        signature = {
+          enabled = false,
+        },
+      },
+    },
+  },
+  {
     -- treesitter with additional langs
     "nvim-treesitter/nvim-treesitter",
     opts = {
