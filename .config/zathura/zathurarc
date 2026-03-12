@@ -2,6 +2,9 @@
 set window-height 3000
 set window-width 3000
 
+# further zoom capability
+# set zoom-max 2000
+
 # disable statusbar
 set guioptions none
 

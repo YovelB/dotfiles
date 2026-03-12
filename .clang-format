@@ -14,20 +14,13 @@ BinPackArguments: false
 BinPackParameters: false
 Cpp11BracedListStyle: true
 
-# alignment - critical for register maps and config tables
+# alignment - needed for register maps and config tables
 AlignConsecutiveAssignments: true
 AlignConsecutiveBitFields: true
 AlignConsecutiveDeclarations: true
 AlignConsecutiveMacros: true
 AlignTrailingComments: true
-
-# function declarations - professional style for scanning large files
-AlwaysBreakAfterReturnType: AllDefinitions
-AllowShortFunctionsOnASingleLine: None
-IndentWrappedFunctionNames: true
-
-# qualifiers - standardizes 'static const volatile'
-QualifierAlignment: Right
+# QualifierAlignment: right
 
 # preprocessor - helps with nested #ifdefs in drivers/HALs
 IndentPPDirectives: AfterHash
@@ -40,6 +33,7 @@ BreakBeforeBraces: Linux
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
+IndentWrappedFunctionNames: true
 
 # pointers - align right for embedded C convention
 PointerAlignment: Right
