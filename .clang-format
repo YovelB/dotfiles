@@ -26,7 +26,7 @@ AlignTrailingComments: true
 IndentPPDirectives: AfterHash
 
 # line length
-ColumnLimit: 140
+ColumnLimit: 100
 
 # braces - K&R style common in embedded/RTOS
 BreakBeforeBraces: Linux

@@ -7,10 +7,14 @@ prepend_keymap = [
   ], run = "cd ~/Documents/School/Year-4/Sem-C", desc = "school sem c" },
   { on = [
     "g",
-    "p",
-  ], run = "cd ~/UserWorkspace/KiCad/projects/Precision_Scope/docs", desc = "final project kicad" },
-  { on = [
-    "g",
     "b",
   ], run = "cd ~/Documents/Yovel/books", desc = "books" },
+  { on = [
+    "g",
+    "r",
+  ], run = "cd ~/Documents/Yovel/personal/private/resumes/", desc = "resumes" },
+  { on = [
+    "g",
+    "p",
+  ], run = "cd ~/UserWorkspace/KiCad/projects/Precision_Scope/docs", desc = "final project kicad" },
 ]

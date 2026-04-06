@@ -2,7 +2,7 @@
 font-family = "JetBrainsMono Nerd Font"
 font-family = "Miriam Mono CLM" # fallback for hebrew
 # font-family = "Noto Sans Hebrew" 
-font-size = 14
+font-size = 14.7
 
 # mouse
 mouse-hide-while-typing = true
@@ -20,7 +20,7 @@ cursor-style-blink = false
 # window
 gtk-single-instance = true
 window-decoration = false
-window-padding-y = 2,0
+window-padding-y = 0,0
 window-padding-balance = true
 scrollback-limit = 10000
 shell-integration = zsh

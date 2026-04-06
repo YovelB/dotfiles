@@ -180,7 +180,7 @@ binds {
   Mod+N                 { spawn "dms" "ipc" "call" "notifications" "toggle"; }
   Mod+A                 { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
   Mod+W                 { spawn "dms" "ipc" "call" "wallpaper" "next"; }
-  Shift+Alt+Ctrl+L      { spawn "dms" "ipc" "call" "lock" "lock"; }
+  // Shift+Alt+Ctrl+L      { spawn "dms" "ipc" "call" "lock" "lock"; }
 
   Shift+Alt+S           { screenshot show-pointer=false; }
   Print                 { screenshot show-pointer=false; }
@@ -242,6 +242,14 @@ binds {
   Mod+Shift+Ctrl+P      { power-off-monitors; }
 
   Mod+Escape            allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+  // mouse movement via keyd + ydotool
+  Ctrl+Alt+Shift+Space { spawn "sh" "-c" "sudo ydotool click 0xC0"; }
+  Ctrl+Alt+Shift+O     { spawn "sh" "-c" "sudo ydotool click 0xC1"; }
+  Ctrl+Alt+Shift+H     { spawn "sh" "-c" "sudo ydotool mousemove -- -15 0"; }
+  Ctrl+Alt+Shift+J     { spawn "sh" "-c" "sudo ydotool mousemove -- 0 15"; }
+  Ctrl+Alt+Shift+K     { spawn "sh" "-c" "sudo ydotool mousemove -- 0 -15"; }
+  Ctrl+Alt+Shift+L     { spawn "sh" "-c" "sudo ydotool mousemove -- 15 0"; }
 
   // Mod+1 { focus-workspace 1; }
   // Mod+2 { focus-workspace 2; }
