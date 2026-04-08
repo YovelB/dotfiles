@@ -1,284 +1,322 @@
-return {
-  -- change color scheme
-  {
-    "folke/tokyonight.nvim",
-    opts = { style = "night" },
-  },
-  {
-    "folke/noice.nvim",
-    opts = function(_, opts)
-      opts.debug = false
-      opts.routes = opts.routes or {}
-      -- never focus Noice windows
-      opts.views = vim.tbl_deep_extend("force", opts.views or {}, {
-        cmdline_popup = { enter = false },
-        popup = { enter = false },
-        hover = { enter = false },
-        notify = { enter = false },
-        split = { enter = false },
-      })
-      -- skip noisy message
-      table.insert(opts.routes, {
-        filter = { event = "notify", find = "No information available" },
-        opts = { skip = true },
-      })
-      return opts
-    end,
-  },
-  -- customize snacks
-  {
-    "folke/snacks.nvim",
-    opts = {
-      -- enable snacks image
-      image = {
-        enabled = vim.env.WEZTERM_PANE == nil,
-        doc = {
-          inline = false,
-          float = true,
-        },
-        math = { latex = { font_size = "small" } },
-      },
-      -- customize zen and zoom modes
-      styles = {
-        zen = { minimal = true },
-      },
-      picker = {
-        sources = {
-          -- snacks picker projects
-          projects = {
-            finder = "recent_projects",
-            -- format = "file",
-            -- 'dev' and 'patterns' are removed from here
-            -- confirm = "load_session",
-            recent = true,
-            max_depth = 2,
-            patterns = {
-              ".git",
-              -- c/c++
-              "Makefile",
-              "CMakeLists.txt",
-              "meson.build",
-              "configure.ac",
-              "compile_commands.json",
-              -- stm32
-              "*.ioc",
-              ".project",
-              ".cproject",
-              -- python
-              "pyproject.toml",
-              "setup.cfg",
-              "setup.py",
-              "requirements.txt",
-              -- KiCad
-              "*.kicad_pro",
-            },
-            -- dev is a dir just above root
-            dev = {
-              "~/",
-              "~/UserWorkspace/KiCad/projects/",
-              "~/UserWorkspace/STM32/projects/",
-              "~/UserWorkspace/zephyr-workspace/projects/",
-            },
-          },
-          -- hide unrelated comments (todo-comments plugin)
-          todo_comments = {
-            exclude = {
-              -- general
-              "Documents/",
-              -- stm32
-              "STM32Cube/",
-              "UserWorkspace/STM32/",
-              -- kicad
-              "UserWorkspace/KiCad/ngspice/",
-              "UserWorkspace/KiCad/exercises/",
-              "UserWorkspace/KiCad/custom-libraries/",
-              "UserWorkspace/KiCad/projects/Archive/",
-              "UserWorkspace/KiCad/projects/Precision_Scope_Test/",
-              "UserWorkspace/KiCad/projects/Precision_Scope/hardware/",
-              "UserWorkspace/KiCad/projects/Precision_Scope/firmware/",
-              "UserWorkspace/KiCad/projects/Precision_Scope/manufacturing/",
-              "UserWorkspace/KiCad/projects/Power_Supply_Analyzer/",
-              -- zephyr
-              "UserWorkspace/zephyr-workspace/zephyr/",
-              "UserWorkspace/zephyr-workspace/modules/",
-            },
-          },
-        },
-      },
-    },
-  },
-  -- dashboard config
-  {
-    "folke/snacks.nvim",
-    priority = 1000,
-    lazy = false,
-    opts = {
-      dashboard = {
-        pane_gap = 0,
-        preset = {
-          pick = function(cmd, opts)
-            return LazyVim.pick(cmd, opts)()
-          end,
-          header = [[
-                                                                   
-      ████ ██████           █████      ██                    
-     ███████████             █████                            
-     █████████ ███████████████████ ███   ███████████  
-    █████████  ███    █████████████ █████ ██████████████  
-   █████████ ██████████ █████████ █████ █████ ████ █████  
- ███████████ ███    ███ █████████ █████ █████ ████ █████ 
-██████  █████████████████████ ████ █████ █████ ████ ██████
-        ]],
-        },
-      },
-    },
-  },
-  -- update statusline
-  {
-    "nvim-lualine/lualine.nvim",
-    opts = function()
-      local lualine_require = require("lualine_require")
-      lualine_require.require = require
-      local icons = LazyVim.config.icons
-      vim.o.laststatus = vim.g.lualine_laststatus
+-- mini.icons - icon provider
+vim.pack.add({ "https://github.com/echasnovski/mini.icons" }, { confirm = false })
 
-      local opts = {
-        options = {
-          theme = "auto",
-          globalstatus = vim.o.laststatus == 3,
-          disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = {
-            function()
-              -- cache git root to avoid repeated system calls
-              if not vim.b._git_root_cache then
-                local git_root = vim.fn
-                  .system("git -C " .. vim.fn.expand("%:p:h") .. " rev-parse --show-toplevel 2>/dev/null")
-                  :gsub("\n", "")
-                if vim.v.shell_error == 0 and git_root ~= "" then
-                  vim.b._git_root_cache = " " .. vim.fn.fnamemodify(git_root, ":t")
-                else
-                  -- fallback to cwd if not in git repo
-                  vim.b._git_root_cache = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-                end
-              end
-              return vim.b._git_root_cache
-            end,
-          },
+local ok_icons, mini_icons = pcall(require, "mini.icons")
+if ok_icons then
+	mini_icons.setup()
+	mini_icons.mock_nvim_web_devicons() -- tells older plugins to use mini.icons
+end
 
-          lualine_c = {
-            { LazyVim.lualine.pretty_path({ length = 4 }) },
-          },
-          lualine_x = {
-            -- command status
-            -- stylua: ignore
-            {
-              ---@diagnostic disable-next-line: undefined-field
-              function() return require("noice").api.status.command.get() end,
-              ---@diagnostic disable-next-line: undefined-field
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              color = function() return { fg = Snacks.util.color("Statement") } end,
-            },
-            Snacks.profiler.status(),
-            {
-              "diagnostics",
-              symbols = {
-                error = icons.diagnostics.Error,
-                warn = icons.diagnostics.Warn,
-                info = icons.diagnostics.Info,
-                hint = icons.diagnostics.Hint,
-              },
-            },
-            -- mode status color
-            -- stylua: ignore
-            {
-              ---@diagnostic disable-next-line: undefined-field
-              function() return require("noice").api.status.mode.get() end,
-              ---@diagnostic disable-next-line: undefined-field
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-              color = function() return { fg = Snacks.util.color("Constant") } end,
-            },
-            -- dap status
-            -- stylua: ignore
-            {
-              function() return "  " .. require("dap").status() end,
-              cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-              color = function() return { fg = Snacks.util.color("Debug") } end,
-            },
-            -- lazy updates
-            -- stylua: ignore
-            {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-              color = function() return { fg = Snacks.util.color("Special") } end,
-            },
-            {
-              "diff",
-              symbols = {
-                added = icons.git.added,
-                modified = icons.git.modified,
-                removed = icons.git.removed,
-              },
-              source = function()
-                local gitsigns = vim.b.gitsigns_status_dict
-                if gitsigns then
-                  return {
-                    added = gitsigns.added,
-                    modified = gitsigns.changed,
-                    removed = gitsigns.removed,
-                  }
-                end
-              end,
-            },
-            function()
-              return require("triforce.lualine").level({
-                bar = { chars = { filled = "◆", empty = "◇" }, length = 5 },
-              })
-            end,
-          },
-          lualine_y = { "filetype" },
-          lualine_z = {
-            { "progress", separator = " ", padding = { left = 1, right = 1 } },
-            { "branch", padding = { right = 1 } },
-          },
-        },
-        extensions = { "neo-tree", "lazy", "fzf" },
-      }
+-- bufferline - fancy tabs
+vim.pack.add({ "https://github.com/akinsho/bufferline.nvim" }, { confirm = false })
 
-      -- do not add trouble symbols if aerial is enabled
-      -- And allow it to be overriden for some buffer types (see autocmds)
-      if vim.g.trouble_lualine and LazyVim.has("trouble.nvim") then
-        local trouble = require("trouble")
-        local symbols = trouble.statusline({
-          mode = "symbols",
-          groups = {},
-          title = false,
-          filter = { range = true },
-          format = "{kind_icon}{symbol.name:Normal}",
-          hl_group = "lualine_c_normal",
-        })
-        table.insert(opts.sections.lualine_c, {
-          symbols and symbols.get,
-          cond = function()
-            if vim.b.trouble_lualine == false or not symbols.has() then
-              return false
-            end
-            local symbol_text = symbols.get()
-            if not symbol_text then
-              return false
-            end
-            -- check if the symbol text is not too long
-            local max_width = 120
-            return #symbol_text <= max_width
-          end,
-        })
-      end
-      -- change section and component separators
-      opts.options.section_separators = { left = "", right = "" }
-      opts.options.component_separators = { left = "╱", right = "╱" }
-      return opts
-    end,
-  },
+local ok_bl, bufferline = pcall(require, "bufferline")
+if ok_bl then
+	bufferline.setup({
+		options = {
+			diagnostics = "nvim_lsp",
+			always_show_bufferline = false,
+			offsets = {
+				{ filetype = "neo-tree", text = "File Explorer", highlight = "Directory", text_align = "left" },
+			},
+		},
+	})
+
+	-- keymaps
+	local map = vim.keymap.set
+	map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "prev buffer" })
+	map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "next buffer" })
+	map("n", "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", { desc = "toggle pin" })
+	map("n", "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", { desc = "delete non-pinned buffers" })
+end
+
+-- noice - replaces UI for messages, cmdline and popmenus
+vim.pack.add({ "https://github.com/MunifTanjim/nui.nvim", "https://github.com/folke/noice.nvim" }, { confirm = false })
+local ok_noice, noice = pcall(require, "noice")
+if ok_noice then
+	noice.setup({
+		lsp = {
+			-- override markdown rendering so that cmp and other plugins use Treesitter
+			override = {
+				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+				["vim.lsp.util.stylize_markdown"] = true,
+				["cmp.entry.get_documentation"] = true,
+			},
+		},
+		routes = {
+			{
+				filter = {
+					event = "msg_show",
+					any = {
+						{ find = "%d+L, %d+B" },
+						{ find = "; after #%d+" },
+						{ find = "; before #%d+" },
+					},
+				},
+				view = "mini", -- sends "File Saved" messages to a tiny corner popup
+			},
+		},
+		presets = {
+			bottom_search = true, -- use a classic bottom cmdline for search (/)
+			command_palette = true, -- centers your command line (:)
+			long_message_to_split = true, -- long messages will be sent to a split
+			inc_rename = false, -- enables an input dialog for inc rename.nvim
+			lsp_doc_border = false, -- add a border to hover docs and signature help
+		},
+	})
+
+	local map = vim.keymap.set
+	-- map("c", "<S-Enter>", function()
+	-- 	noice.redirect(vim.fn.getcmdline())
+	-- end, { desc = "Redirect Cmdline" })
+	-- map("n", "<leader>snl", function()
+	-- 	noice.cmd("last")
+	-- end, { desc = "Noice Last Message" })
+	map("n", "<leader>snh", function()
+		noice.cmd("history")
+	end, { desc = "Noice History" })
+	map("n", "<leader>sna", function()
+		noice.cmd("all")
+	end, { desc = "Noice All" })
+	map("n", "<leader>snd", function()
+		noice.cmd("dismiss")
+	end, { desc = "Dismiss All" })
+end
+
+-- presistance
+vim.pack.add({ "https://github.com/folke/persistence.nvim" }, { confirm = false })
+
+local ok_p, persistence = pcall(require, "persistence")
+if ok_p then
+	persistence.setup({})
+
+	local map = vim.keymap.set
+	map("n", "<leader>qs", persistence.load, { desc = "Restore Session" })
+	map("n", "<leader>qS", persistence.select, { desc = "Select Session" })
+	map("n", "<leader>ql", function()
+		persistence.load({ last = true })
+	end, { desc = "Restore Last Session" })
+	map("n", "<leader>qd", persistence.stop, { desc = "Don't Save Current Session" })
+end
+
+-- dashboard
+vim.pack.add({ "https://github.com/nvimdev/dashboard-nvim" }, { confirm = false })
+
+local ok_d, dashboard = pcall(require, "dashboard")
+if not ok_d then
+	return
+end
+local locked_time = nil
+
+local logo = {
+	[[                                                                   ]],
+	[[      ████ ██████           █████      ██                    ]],
+	[[     ███████████             █████                            ]],
+	[[     █████████ ███████████████████ ███   ███████████  ]],
+	[[    █████████  ███    █████████████ █████ ██████████████  ]],
+	[[   █████████ ██████████ █████████ █████ █████ ████ █████  ]],
+	[[ ███████████ ███    ███ █████████ █████ █████ ████ █████ ]],
+	[[██████  █████████████████████ ████ █████ █████ ████ ██████]],
 }
+local header = {}
+-- empty lines above and below logo
+for _ = 1, 4 do
+	table.insert(header, "")
+end
+for _, line in ipairs(logo) do
+	table.insert(header, line)
+end
+for _ = 1, 5 do
+	table.insert(header, "")
+end
+
+dashboard.setup({
+	theme = "doom",
+	-- change_to_vcs_root = true,
+
+	config = {
+		header = header,
+		center = {
+			{
+				action = "lua Snacks.picker.files()",
+				desc = " Find File",
+				icon = " ",
+				key = "f",
+			},
+			{
+				action = "ene | startinsert",
+				desc = " New File",
+				icon = " ",
+				key = "n",
+			},
+			{
+				action = "lua Snacks.picker.grep()",
+				desc = " Find Text",
+				icon = " ",
+				key = "g",
+			},
+			{
+				action = "lua Snacks.picker.recent()",
+				desc = " Recent Files",
+				icon = " ",
+				key = "r",
+			},
+			{
+				action = "lua Snacks.picker.projects()",
+				desc = " Projects",
+				icon = "󰉋 ",
+				key = "p",
+			},
+			{
+				action = 'lua require("persistence").load()',
+				desc = " Restore Session",
+				icon = " ",
+				key = "s",
+			},
+			{
+				action = 'lua Snacks.picker.files({cwd = vim.fn.stdpath("config")})',
+				desc = " Config",
+				icon = " ",
+				key = "c",
+			},
+		},
+		footer = function()
+			if not locked_time then
+				locked_time = math.floor((vim.uv.hrtime() - vim.g.start_time) / 1e6 + 0.5)
+			end
+			local v = vim.version()
+			local version_str = string.format("v%d.%d.%d", v.major, v.minor, v.patch)
+			return { "", "⚡Neovim " .. version_str .. " loaded in " .. locked_time .. " ms" }
+		end,
+	},
+})
+
+-- format buttons to be evenly spaced
+local opts = require("dashboard.theme.doom")
+if opts and opts.center then
+	for _, button in ipairs(opts.center) do
+		button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+		button.key_format = "  %s"
+	end
+end
+
+-- hidden shortcuts
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "dashboard",
+	callback = function()
+		vim.keymap.set("n", "q", "<cmd>qa<cr>", { buffer = true, silent = true, desc = "Quit" })
+	end,
+})
+
+-- lualine - status bar at the bottom
+vim.pack.add({ "https://github.com/nvim-lualine/lualine.nvim" }, { confirm = false })
+
+local ok_ll, lualine = pcall(require, "lualine")
+if ok_ll then
+	-- hardcoded icons to replace LazyVim.config.icons
+	local icons = {
+		diagnostics = { Error = " ", Warn = " ", Info = " ", Hint = " " },
+		git = { added = " ", modified = " ", removed = " " },
+	}
+
+	local opts_l = {
+		options = {
+			theme = "tokyonight",
+			globalstatus = true,
+			disabled_filetypes = { statusline = { "dashboard", "alpha", "snacks_dashboard" } },
+			-- Your custom angular separators!
+			section_separators = { left = "", right = "" },
+			component_separators = { left = "╱", right = "╱" },
+		},
+		sections = {
+			lualine_a = { "mode" },
+			lualine_b = {
+				function()
+					-- cache git root to avoid repeated system calls
+					if not vim.b._git_root_cache then
+						local git_root = vim.fn
+							.system("git -C " .. vim.fn.expand("%:p:h") .. " rev-parse --show-toplevel 2>/dev/null")
+							:gsub("\n", "")
+						if vim.v.shell_error == 0 and git_root ~= "" then
+							vim.b._git_root_cache = " " .. vim.fn.fnamemodify(git_root, ":t")
+						else
+							vim.b._git_root_cache = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+						end
+					end
+					return vim.b._git_root_cache
+				end,
+			},
+			lualine_c = {
+				-- built in lualine path formatter (1 = relative path, 2 = absolute, 3 = absolute with ~)
+				{ "filename", path = 1 },
+			},
+			lualine_x = {
+				{
+					"diagnostics",
+					symbols = {
+						error = icons.diagnostics.Error,
+						warn = icons.diagnostics.Warn,
+						info = icons.diagnostics.Info,
+						hint = icons.diagnostics.Hint,
+					},
+				},
+				{
+					"diff",
+					symbols = {
+						added = icons.git.added,
+						modified = icons.git.modified,
+						removed = icons.git.removed,
+					},
+					source = function()
+						local gitsigns = vim.b.gitsigns_status_dict
+						if gitsigns then
+							return { added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed }
+						end
+					end,
+				},
+				-- Triforce icons
+				function()
+					local ok_tri, triforce = pcall(require, "triforce.lualine")
+					if ok_tri then
+						return triforce.level({ bar = { chars = { filled = "◆", empty = "◇" }, length = 5 } })
+					end
+					return ""
+				end,
+			},
+			lualine_y = { "filetype" },
+			lualine_z = {
+				{ "progress", separator = " ", padding = { left = 1, right = 1 } },
+				{ "branch", padding = { right = 1 } },
+			},
+		},
+		extensions = { "neo-tree", "fzf" },
+	}
+
+	-- trouble symbols
+	local ok_trouble, trouble = pcall(require, "trouble")
+	if ok_trouble then
+		local symbols = trouble.statusline({
+			mode = "symbols",
+			groups = {},
+			title = false,
+			filter = { range = true },
+			format = "{kind_icon}{symbol.name:Normal}",
+			hl_group = "lualine_c_normal",
+		})
+		table.insert(opts_l.sections.lualine_c, {
+			symbols and symbols.get,
+			cond = function()
+				if vim.b.trouble_lualine == false or not symbols.has() then
+					return false
+				end
+				local symbol_text = symbols.get()
+				if not symbol_text then
+					return false
+				end
+				return #symbol_text <= 120
+			end,
+		})
+	end
+
+	lualine.setup(opts_l)
+end
