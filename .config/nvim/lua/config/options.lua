@@ -18,6 +18,8 @@ g.typst_watch_autoclose_after_keystrokes = 2
 -- appearance and UI
 -- ===============================
 opt.termguicolors = true
+opt.sessionoptions = { "buffers", "curdir", "winsize", "help", "globals", "skiprtp", "folds" }
+opt.showtabline = 0 -- hide the tabline
 opt.number = true
 opt.relativenumber = true
 opt.showmode = false -- dont show mode since we have a statusline

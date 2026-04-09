@@ -22,6 +22,7 @@ snacks.setup({
 
   picker = {
     ui_select = true,
+    todo_comments = {},
     -- toggle between cwd and git root
     win = {
       input = {
@@ -273,8 +274,13 @@ end, { desc = "keymaps" })
 map("n", "<leader>sm", function()
   snacks.picker.marks()
 end, { desc = "marks" })
-map("n", "<leader>st", "<cmd>TodoTrouble<cr>", { desc = "search todos (trouble)" })
-map("n", "<leader>sT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", { desc = "search todos (todo/fix)" })
+-- TODO: fix todo to be snacks picker
+map("n", "<leader>st", function()
+  snacks.picker("todo_comments")
+end, { desc = "todo (project)" })
+map("n", "<leader>sT", function()
+  snacks.picker("todo_comments", { keywords = { "FIX", "BUG", "HACK" } })
+end, { desc = "fix/bug/hack (project)" })
 map("n", "<leader>ss", function()
   snacks.picker.lsp_symbols()
 end, { desc = "document symbols" })

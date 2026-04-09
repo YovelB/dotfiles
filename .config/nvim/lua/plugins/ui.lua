@@ -15,7 +15,10 @@ if ok_bl then
   bufferline.setup({
     options = {
       diagnostics = "nvim_lsp",
-      always_show_bufferline = true,
+      show_buffer_close_icons = false,
+      always_show_bufferline = false,
+      show_close_icon = false,
+      mode = "buffers",
       offsets = {
         { filetype = "neo-tree", text = "File Explorer", highlight = "Directory", text_align = "left" },
       },

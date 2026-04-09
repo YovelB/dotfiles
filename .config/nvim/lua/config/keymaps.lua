@@ -162,7 +162,6 @@ map("n", "]q", vim.cmd.cnext, { desc = "next quickfix" })
 -- ===============================
 -- snacks integration
 -- ===============================
-
 local ok, snacks = pcall(require, "snacks")
 if ok then
   -- ui toggles
@@ -194,3 +193,17 @@ if ok then
     snacks.gitbrowse()
   end, { desc = "git browse (open)" })
 end
+
+-- ===============================
+-- package manager
+-- ===============================
+map("n", "<leader>pu", function()
+  vim.pack.update()
+end, { desc = "vimpack update - code action to skip some" })
+map("n", "<leader>pr", function()
+  vim.pack.update(nil, { target = "lockfile", force = true })
+end, { desc = "vimpack to lockfile versions" })
+map("n", "<leader>pi", function()
+  vim.pack.update(nil, { offline = true })
+end, { desc = "vimpack info" })
+-- to delete plugin after removing from config files: `:lua vim.pack.del({ 'nameOfPlugin', ... })`

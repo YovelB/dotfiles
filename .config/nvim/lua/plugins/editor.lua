@@ -1,6 +1,8 @@
+-- plenary - common lua functions used by many plugins
+vim.pack.add({ "https://github.com/nvim-lua/plenary.nvim" }, { confirm = false })
+
 -- mini.pairs - inserts matching closing char ("", [], ())
 vim.pack.add({ "https://github.com/echasnovski/mini.pairs" }, { confirm = false })
-
 local ok_p, pairs = pcall(require, "mini.pairs")
 if ok_p then
   pairs.setup({
@@ -51,18 +53,26 @@ if ok_wk then
     },
     { "<leader>c", group = "code", icon = " " },
     { "<leader>d", group = "debug", icon = " " },
-    -- { "<leader>dp", group = "profiler", icon = "󰄖 " },
     { "<leader>f", group = "file/find", icon = " " },
     { "<leader>g", group = "git", icon = " " },
+    { "<leader>p", group = "package", icon = "󰏖 " },
     { "<leader>q", group = "quit/session", icon = " " },
     { "<leader>s", group = "search", icon = " " },
     { "<leader>t", group = "triforce/stats", icon = "󰓫 " },
     { "<leader>u", group = "ui/toggles", icon = " " },
-    -- { "<leader>w", group = "windows", icon = " ", proxy = "<c-w>", expand = function() return require("which-key.extras").expand.win() end, },
+    {
+      "<leader>w",
+      group = "windows",
+      icon = " ",
+      proxy = "<c-w>",
+      expand = function()
+        return require("which-key.extras").expand.win()
+      end,
+    },
     { "<leader>x", group = "diagnostics", icon = "󰒡 " },
-    -- { "[", group = "prev" },
-    -- { "]", group = "next" },
-    -- { "g", group = "goto" },
+    { "[", group = "prev" },
+    { "]", group = "next" },
+    { "g", group = "goto" },
     { "gs", group = "surround" },
     { "z", group = "fold" },
     { "gx", desc = "open with system app" },
@@ -163,6 +173,8 @@ if ok_tr then
   map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "diagnostics (trouble)" })
   map("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "buffer diagnostics (trouble)" })
   map("n", "<leader>cs", "<cmd>Trouble symbols toggle<cr>", { desc = "document symbols (trouble)" })
+  map("n", "<leader>xt", "<cmd>Trouble todo toggle<cr>", { desc = "todo list (project)" })
+  map("n", "<leader>xT", "<cmd>Trouble todo toggle filter.buf=0<cr>", { desc = "todo list (buffer)" })
 end
 
 -- todo comments -- list of all TODO, HACK, BUG, WARN, INFO
