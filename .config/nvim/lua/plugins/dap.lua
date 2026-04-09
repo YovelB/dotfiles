@@ -3,42 +3,42 @@ vim.pack.add({ "https://github.com/mfussenegger/nvim-dap" }, { confirm = false }
 
 local ok, dap = pcall(require, "dap")
 if not ok then
-	return
+  return
 end
 
 -- configure codelldb for c/c++ and rust
 if not dap.adapters["codelldb"] then
-	dap.adapters["codelldb"] = {
-		type = "server",
-		host = "localhost",
-		port = "${port}",
-		executable = {
-			command = "codelldb",
-			args = { "--port", "${port}" },
-		},
-	}
+  dap.adapters["codelldb"] = {
+    type = "server",
+    host = "localhost",
+    port = "${port}",
+    executable = {
+      command = "codelldb",
+      args = { "--port", "${port}" },
+    },
+  }
 end
 
 -- assign the adapter to c and cpp filetypes
 for _, lang in ipairs({ "c", "cpp" }) do
-	dap.configurations[lang] = {
-		{
-			type = "codelldb",
-			request = "launch",
-			name = "launch file",
-			program = function()
-				return vim.fn.input("path to executable: ", vim.fn.getcwd() .. "/", "file")
-			end,
-			cwd = "${workspaceFolder}",
-		},
-		{
-			type = "codelldb",
-			request = "attach",
-			name = "attach to process",
-			pid = require("dap.utils").pick_process,
-			cwd = "${workspaceFolder}",
-		},
-	}
+  dap.configurations[lang] = {
+    {
+      type = "codelldb",
+      request = "launch",
+      name = "launch file",
+      program = function()
+        return vim.fn.input("path to executable: ", vim.fn.getcwd() .. "/", "file")
+      end,
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "codelldb",
+      request = "attach",
+      name = "attach to process",
+      pid = require("dap.utils").pick_process,
+      cwd = "${workspaceFolder}",
+    },
+  }
 end
 
 local map = vim.keymap.set

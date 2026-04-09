@@ -26,12 +26,12 @@ opt.cursorline = true -- highlight the current line
 opt.laststatus = 3 -- global statusline (for lualine)
 opt.cmdheight = 1 -- keep at 1 for noice.nvim to work properly
 opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
-	fold = " ",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ", -- hides the '~' at the end of buffers
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ", -- hides the '~' at the end of buffers
 }
 -- fix STM32CubeIDE modeline parsing errors
 opt.modeline = false

@@ -11,35 +11,35 @@ map("n", "<M-a>", "ggVG", { desc = "select all" })
 
 -- hebrew specific exit mapping
 map("i", "חל", function()
-	vim.cmd("stopinsert")
-	vim.fn.jobstart({ "setxkbmap", "us" })
+  vim.cmd("stopinsert")
+  vim.fn.jobstart({ "setxkbmap", "us" })
 end, { desc = "enter mode exit and switch to english" })
 
 -- toggle statusline
 local function toggle_statusline()
-	local current_status = vim.o.laststatus
-	if current_status == 0 then
-		vim.o.laststatus = 3
-		vim.notify("Statusline shown")
-	else
-		vim.o.laststatus = 0
-		vim.notify("Statusline hidden")
-	end
+  local current_status = vim.o.laststatus
+  if current_status == 0 then
+    vim.o.laststatus = 3
+    vim.notify("Statusline shown")
+  else
+    vim.o.laststatus = 0
+    vim.notify("Statusline hidden")
+  end
 end
 map("n", "<leader>ue", toggle_statusline, { desc = "Toggle statusline" })
 
 -- toggle LSP diagnostics visibility
-local lsp_hidden = false
-map("n", "<leader>ct", function()
-	lsp_hidden = not lsp_hidden
-	if lsp_hidden then
-		vim.diagnostic.config({ virtual_text = false, signs = false, underline = false })
-		vim.notify("LSP diagnostics hidden")
-	else
-		vim.diagnostic.config({ virtual_text = true, signs = true, underline = true })
-		vim.notify("LSP diagnostics shown")
-	end
-end, { desc = "Toggle lsp visibility" })
+-- local lsp_hidden = false
+-- map("n", "<leader>ct", function()
+-- 	lsp_hidden = not lsp_hidden
+-- 	if lsp_hidden then
+-- 		vim.diagnostic.config({ virtual_text = false, signs = false, underline = false })
+-- 		vim.notify("LSP diagnostics hidden")
+-- 	else
+-- 		vim.diagnostic.config({ virtual_text = true, signs = true, underline = true })
+-- 		vim.notify("LSP diagnostics shown")
+-- 	end
+-- end, { desc = "Toggle lsp visibility" })
 
 -- ===============================
 -- movement and operation
@@ -83,8 +83,8 @@ map("x", "<", "<gv", { desc = "indent left" })
 map("x", ">", ">gv", { desc = "indent right" })
 
 -- commenting
-map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment below" })
-map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment above" })
+-- map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment below" })
+-- map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment above" })
 
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "quit all" })
@@ -96,20 +96,20 @@ map("n", "<s-h>", "<cmd>bprevious<cr>", { desc = "prev buffer" })
 map("n", "<s-l>", "<cmd>bnext<cr>", { desc = "next buffer" })
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "prev buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "next buffer" })
-map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "switch to other buffer" })
+-- map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "switch to other buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "switch to other buffer" })
 map("n", "<leader>bd", function()
-	require("snacks").bufdelete()
+  require("snacks").bufdelete()
 end, { desc = "delete buffer" })
 map("n", "<leader>bo", function()
-	require("snacks").bufdelete.other()
+  require("snacks").bufdelete.other()
 end, { desc = "delete other buffers" })
-map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "delete buffer and window" })
+-- map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "delete buffer and window" })
 
 -- windows
 map("n", "<leader>-", "<c-w>s", { desc = "split window below", remap = true })
 map("n", "<leader>|", "<c-w>v", { desc = "split window right", remap = true })
--- map("n", "<leader>wd", "<c-w>c", { desc = "delete window", remap = true })
+map("n", "<leader>wd", "<c-w>c", { desc = "delete window", remap = true })
 
 -- tabs
 -- map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "last tab" })
@@ -132,18 +132,18 @@ map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "prev search result
 
 -- native formatting via conform.nvim
 map({ "n", "x" }, "<leader>cf", function()
-	require("conform").format({ lsp_fallback = true })
+  require("conform").format({ lsp_fallback = true })
 end, { desc = "format document" })
 
 -- native diagnostic jumps
 local diagnostic_goto = function(next, severity)
-	return function()
-		vim.diagnostic.jump({
-			count = (next and 1 or -1) * vim.v.count1,
-			severity = severity and vim.diagnostic.severity[severity] or nil,
-			float = true,
-		})
-	end
+  return function()
+    vim.diagnostic.jump({
+      count = (next and 1 or -1) * vim.v.count1,
+      severity = severity and vim.diagnostic.severity[severity] or nil,
+      float = true,
+    })
+  end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "line diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "next diagnostic" })
@@ -165,32 +165,32 @@ map("n", "]q", vim.cmd.cnext, { desc = "next quickfix" })
 
 local ok, snacks = pcall(require, "snacks")
 if ok then
-	-- ui toggles
-	snacks.toggle.option("spell", { name = "spelling" }):map("<leader>us")
-	snacks.toggle.option("wrap", { name = "wrap" }):map("<leader>uw")
-	snacks.toggle.option("relativenumber", { name = "relative number" }):map("<leader>ul")
-	snacks.toggle.diagnostics():map("<leader>ud")
-	snacks.toggle.line_number():map("<leader>ul")
-	snacks.toggle.treesitter():map("<leader>ut")
-	-- snacks.toggle.option("background", { off = "light", on = "dark" , name = "dark background" }):map("<leader>ub")
-	snacks.toggle.dim():map("<leader>ud")
-	snacks.toggle.zen():map("<leader>uz")
-	snacks.toggle.zoom():map("<leader>uz")
+  -- ui toggles
+  snacks.toggle.option("spell", { name = "spelling" }):map("<leader>us")
+  snacks.toggle.option("wrap", { name = "wrap" }):map("<leader>uw")
+  snacks.toggle.option("relativenumber", { name = "relative number" }):map("<leader>ul")
+  snacks.toggle.diagnostics():map("<leader>ud")
+  snacks.toggle.line_number():map("<leader>ul")
+  snacks.toggle.treesitter():map("<leader>ut")
+  -- snacks.toggle.option("background", { off = "light", on = "dark" , name = "dark background" }):map("<leader>ub")
+  snacks.toggle.dim():map("<leader>ud")
+  snacks.toggle.zen():map("<leader>uz")
+  snacks.toggle.zoom():map("<leader>uz")
 
-	-- git
-	map("n", "<leader>gg", function()
-		snacks.lazygit()
-	end, { desc = "lazygit" })
-	map("n", "<leader>gl", function()
-		snacks.picker.git_log()
-	end, { desc = "git log" })
-	map("n", "<leader>gb", function()
-		snacks.picker.git_log_line()
-	end, { desc = "git blame line" })
-	map("n", "<leader>gf", function()
-		snacks.picker.git_log_file()
-	end, { desc = "git file history" })
-	map({ "n", "x" }, "<leader>gb", function()
-		snacks.gitbrowse()
-	end, { desc = "git browse (open)" })
+  -- git
+  map("n", "<leader>gg", function()
+    snacks.lazygit()
+  end, { desc = "lazygit" })
+  map("n", "<leader>gl", function()
+    snacks.picker.git_log()
+  end, { desc = "git log" })
+  map("n", "<leader>gb", function()
+    snacks.picker.git_log_line()
+  end, { desc = "git blame line" })
+  map("n", "<leader>gf", function()
+    snacks.picker.git_log_file()
+  end, { desc = "git file history" })
+  map({ "n", "x" }, "<leader>gb", function()
+    snacks.gitbrowse()
+  end, { desc = "git browse (open)" })
 end

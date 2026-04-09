@@ -1,0 +1,48 @@
+{
+  "Initial Article Config": {
+    "prefix": "initcfg",
+    "body": [
+      "\\documentclass[a4paper,11pt]{article}",
+      "",
+      "% required packages",
+      "\\usepackage{times}        % Times for text",
+      "\\usepackage{amsmath}      % advanced math formatting",
+      "\\usepackage{amssymb}      % mathematical symbols",
+      "\\usepackage{physics}      % physics notation",
+      "\\usepackage{siunitx}      % SI units",
+      "\\usepackage{xcolor}       % colored text",
+      "\\usepackage{microtype}    % better typography",
+      "\\usepackage{graphicx}     % graphics support",
+      "\\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref} % hyperlinks",
+      "\\usepackage[margin=1cm,nohead,nofoot]{geometry}",
+      "",
+      "% resolve siunitx-physics conflict",
+      "\\AtBeginDocument{\\RenewCommandCopy\\qty\\SI}",
+      "",
+      "% globally disable paragraph indentation",
+      "\\setlength{\\parindent}{0pt}",
+      "",
+      "% globally disable underfull hbox warnings",
+      "\\hbadness=10000",
+      "",
+      "\\begin{document}",
+      "",
+      "% PAGE 1",
+      "{\\LARGE\\bfseries Stackup config}",
+      "",
+      "\\end{document}"
+    ],
+    "description": "init LaTeX article config with common packages"
+  },
+  "Figure Environment": {
+    "prefix": "fig",
+    "body": [
+      "\\begin{figure}[h]",
+      "  \\centering",
+      "  \\includegraphics[width=${1:0.5}\\textwidth]{imgs/${2:example}.png}",
+      "  \\caption{${3:caption}}",
+      "\\end{figure}"
+    ],
+    "description": "insert a LaTeX figure"
+  }
+}

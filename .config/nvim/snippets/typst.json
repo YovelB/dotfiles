@@ -1,0 +1,75 @@
+{
+  "init project": {
+    "prefix": "init",
+    "body": [
+      "#set page(margin: 5%)",
+      "#set text(font: \"New Computer Modern\", size: 11pt)",
+      "#set heading(numbering: \"1.1.\")",
+      "",
+      "= ${1:Title}",
+      "",
+      "$0"
+    ],
+    "description": "init document"
+  },
+  "figure": {
+    "prefix": "img",
+    "body": [
+      "#figure(image(\"imgs/${1}\", width: ${2:80%}), caption: [${3:caption}])",
+      "$0"
+    ],
+    "description": "insert a figure"
+  },
+  "table": {
+    "prefix": "table",
+    "body": [
+      "#figure(",
+      "  table(",
+      "    columns: (auto, auto, 1fr),",
+      "    align: (left, center, left),",
+      "    fill: (col, row) => if row == 0 { rgb(\"#001F52\") } else { white },",
+      "    stroke: 0.5pt + gray,",
+      "    table.header(..([*${Parameter}*], [*${Value}*], [*${Explained}*]).map(x => text(white, x))),",
+      "    [${1:content}], [${2:content}], [${3:content}]",
+      "  ),",
+      "  caption: [${4:caption}],",
+      ")",
+      "$0"
+    ],
+    "description": "styled table with header"
+  },
+  "code block": {
+    "prefix": "code",
+    "body": [
+      "```${1:c}",
+      "$0",
+      "```"
+    ],
+    "description": "insert code block"
+  },
+  "inline math": {
+    "prefix": "mt",
+    "body": [
+      "$${1}$"
+    ],
+    "description": "inline math"
+  },
+  "block math": {
+    "prefix": "mmt",
+    "body": [
+      "$",
+      "  ${1}",
+      "$$0"
+    ],
+    "description": "multiline math block"
+  },
+  "center align": {
+    "prefix": "cent",
+    "body": [
+      "#align(center)[",
+      "  ${1}",
+      "]$0"
+    ],
+    "description": "center alignment block"
+  }
+}

@@ -1,5 +1,5 @@
 local function augroup(name)
-	return vim.api.nvim_create_augroup("custom_" .. name, { clear = true })
+  return vim.api.nvim_create_augroup("custom_" .. name, { clear = true })
 end
 
 -- ===============================
@@ -7,40 +7,40 @@ end
 -- ===============================
 -- disable spell checking but enable wrapping for markup languages
 vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("wrap_nospell"),
-	pattern = { "markdown", "typst", "tex", "plaintex" },
-	callback = function()
-		vim.opt_local.wrap = true
-		vim.opt_local.spell = false
-	end,
+  group = augroup("wrap_nospell"),
+  pattern = { "markdown", "typst", "tex", "plaintex" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = false
+  end,
 })
 
 -- stop nvim from automatically inserting comment leaders when hitting enter
 vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("no_comment_leader"),
-	pattern = "*",
-	callback = function()
-		vim.opt_local.formatoptions:remove({ "r", "o" })
-	end,
+  group = augroup("no_comment_leader"),
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "r", "o" })
+  end,
 })
 
 -- force python files to use 2 spaces instead of the standard 4
 vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("python_indent"),
-	pattern = "python",
-	callback = function()
-		vim.opt_local.tabstop = 2
-		vim.opt_local.shiftwidth = 2
-	end,
+  group = augroup("python_indent"),
+  pattern = "python",
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+  end,
 })
 
 -- fix conceallevel for json files
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = augroup("json_conceal"),
-	pattern = { "json", "jsonc", "json5" },
-	callback = function()
-		vim.opt_local.conceallevel = 0
-	end,
+  group = augroup("json_conceal"),
+  pattern = { "json", "jsonc", "json5" },
+  callback = function()
+    vim.opt_local.conceallevel = 0
+  end,
 })
 
 -- ===============================
@@ -48,60 +48,60 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- ===============================
 -- check if we need to reload the file when it changed outside of nvim
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-	group = augroup("checktime"),
-	callback = function()
-		if vim.o.buftype ~= "nofile" then
-			vim.cmd("checktime")
-		end
-	end,
+  group = augroup("checktime"),
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
 })
 
 -- highlight text on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-	group = augroup("highlight_yank"),
-	callback = function()
-		(vim.hl or vim.highlight).on_yank()
-	end,
+  group = augroup("highlight_yank"),
+  callback = function()
+    (vim.hl or vim.highlight).on_yank()
+  end,
 })
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-	group = augroup("resize_splits"),
-	callback = function()
-		local current_tab = vim.fn.tabpagenr()
-		vim.cmd("tabdo wincmd =")
-		vim.cmd("tabnext " .. current_tab)
-	end,
+  group = augroup("resize_splits"),
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd("tabdo wincmd =")
+    vim.cmd("tabnext " .. current_tab)
+  end,
 })
 
 -- go to last location when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
-	group = augroup("last_loc"),
-	callback = function(event)
-		local exclude = { "gitcommit" }
-		local buf = event.buf
-		if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].custom_last_loc then
-			return
-		end
-		vim.b[buf].custom_last_loc = true
-		local mark = vim.api.nvim_buf_get_mark(buf, '"')
-		local lcount = vim.api.nvim_buf_line_count(buf)
-		if mark[1] > 0 and mark[1] <= lcount then
-			pcall(vim.api.nvim_win_set_cursor, 0, mark)
-		end
-	end,
+  group = augroup("last_loc"),
+  callback = function(event)
+    local exclude = { "gitcommit" }
+    local buf = event.buf
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].custom_last_loc then
+      return
+    end
+    vim.b[buf].custom_last_loc = true
+    local mark = vim.api.nvim_buf_get_mark(buf, '"')
+    local lcount = vim.api.nvim_buf_line_count(buf)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
 })
 
 -- auto create dir when saving a file, in case intermediate directory does not exist
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = augroup("auto_create_dir"),
-	callback = function(event)
-		if event.match:match("^%w%w+:[\\/][\\/]") then
-			return
-		end
-		local file = vim.uv.fs_realpath(event.match) or event.match
-		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-	end,
+  group = augroup("auto_create_dir"),
+  callback = function(event)
+    if event.match:match("^%w%w+:[\\/][\\/]") then
+      return
+    end
+    local file = vim.uv.fs_realpath(event.match) or event.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+  end,
 })
 
 -- ===============================
@@ -110,50 +110,50 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
 -- close certain transient filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("close_with_q"),
-	pattern = {
-		"PlenaryTestPopup",
-		"checkhealth",
-		"dap-float",
-		"dbout",
-		"gitsigns-blame",
-		"help",
-		"lspinfo",
-		"notify",
-		"qf",
-		"startuptime",
-		"tsplayground",
-	},
-	callback = function(event)
-		vim.bo[event.buf].buflisted = false
-		vim.schedule(function()
-			vim.keymap.set("n", "q", function()
-				vim.cmd("close")
-				pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
-			end, {
-				buffer = event.buf,
-				silent = true,
-				desc = "quit buffer",
-			})
-		end)
-	end,
+  group = augroup("close_with_q"),
+  pattern = {
+    "PlenaryTestPopup",
+    "checkhealth",
+    "dap-float",
+    "dbout",
+    "gitsigns-blame",
+    "help",
+    "lspinfo",
+    "notify",
+    "qf",
+    "startuptime",
+    "tsplayground",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.schedule(function()
+      vim.keymap.set("n", "q", function()
+        vim.cmd("close")
+        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        silent = true,
+        desc = "quit buffer",
+      })
+    end)
+  end,
 })
 
 -- make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("man_unlisted"),
-	pattern = { "man" },
-	callback = function(event)
-		vim.bo[event.buf].buflisted = false
-	end,
+  group = augroup("man_unlisted"),
+  pattern = { "man" },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+  end,
 })
 
 -- terminal tweaks: remove line numbers and auto-enter insert mode
 vim.api.nvim_create_autocmd("TermOpen", {
-	group = augroup("term_tweaks"),
-	callback = function()
-		vim.opt_local.number = false
-		vim.opt_local.relativenumber = false
-		vim.cmd("startinsert")
-	end,
+  group = augroup("term_tweaks"),
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.cmd("startinsert")
+  end,
 })
