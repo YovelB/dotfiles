@@ -2,6 +2,16 @@
 vim.pack.add({ "https://github.com/williamboman/mason.nvim" }, { confirm = false })
 -- clangd extensions
 vim.pack.add({ "https://github.com/p00f/clangd_extensions.nvim" }, { confirm = false })
+-- friendly snippets - basic snippets
+vim.pack.add({ "https://github.com/rafamadriz/friendly-snippets" }, { confirm = false })
+-- lazydev - lua language server autocompletion
+vim.pack.add({ "https://github.com/folke/lazydev.nvim" }, { confirm = false })
+-- conform - light formatting engine
+vim.pack.add({ "https://github.com/stevearc/conform.nvim" }, { confirm = false })
+-- nvim-lint - async liner
+vim.pack.add({ "https://github.com/mfussenegger/nvim-lint" }, { confirm = false })
+-- blink - autocompletion engine
+vim.pack.add({ "https://github.com/saghen/blink.cmp" }, { confirm = false })
 
 local ok_mason, mason = pcall(require, "mason")
 if not ok_mason then
@@ -90,6 +100,7 @@ capabilities.offsetEncoding = { "utf-16" }
 -- lsp config
 -- lua
 vim.lsp.config("lua_ls", {
+  capabilities = capabilities,
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
   root_markers = {
@@ -149,6 +160,7 @@ vim.lsp.config("clangd", {
 
 -- tinymist (typst)
 vim.lsp.config("tinymist", {
+  capabilities = capabilities,
   cmd = { "tinymist" },
   filetypes = { "typst" },
   root_markers = { "typst.toml", ".git" },
@@ -173,13 +185,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- standard mappings
+    map("gd", function()
+      require("snacks").picker.lsp_definitions()
+    end, "goto definition")
+    map("gr", function()
+      require("snacks").picker.lsp_references()
+    end, "goto references")
+    map("gI", function()
+      require("snacks").picker.lsp_implementations()
+    end, "goto implementation")
+    map("gy", function()
+      require("snacks").picker.lsp_type_definitions()
+    end, "goto type definition")
+    map("gD", vim.lsp.buf.declaration, "goto declaration")
+    map("K", vim.lsp.buf.hover, "hover")
     map("<leader>ca", vim.lsp.buf.code_action, "code action")
     map("<leader>cr", vim.lsp.buf.rename, "rename symbol")
     map("<leader>cR", function()
       require("snacks").rename.rename_file()
     end, "rename file")
-    map("gI", vim.lsp.buf.implementation, "goto implementation")
-    map("gy", vim.lsp.buf.type_definition, "goto type definition")
 
     -- clangd specific mappings
     if client and client.name == "clangd" then
@@ -227,10 +251,7 @@ vim.diagnostic.config({
 })
 
 -- friendly snippets - basic snippets
-vim.pack.add({ "https://github.com/rafamadriz/friendly-snippets" }, { confirm = false })
 -- lazydev - lua language server autocompletion
-vim.pack.add({ "https://github.com/folke/lazydev.nvim" }, { confirm = false })
-
 local ok_ldev, lazydev = pcall(require, "lazydev")
 if ok_ldev then
   lazydev.setup({
@@ -241,8 +262,6 @@ if ok_ldev then
 end
 
 -- conform - light formatting engine
-vim.pack.add({ "https://github.com/stevearc/conform.nvim" }, { confirm = false })
-
 local ok_conform, conform = pcall(require, "conform")
 if not ok_conform then
   return
@@ -282,8 +301,6 @@ vim.keymap.set({ "n", "v" }, "<leader>cf", function()
 end, { desc = "format buffer" })
 
 -- nvim-lint - async liner
-vim.pack.add({ "https://github.com/mfussenegger/nvim-lint" }, { confirm = false })
-
 local ok_lint, lint = pcall(require, "lint")
 if not ok_lint then
   return
@@ -327,8 +344,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
 })
 
 -- blink - autocompletion engine
-vim.pack.add({ "https://github.com/saghen/blink.cmp" }, { confirm = false })
-
 local ok_bl, blink = pcall(require, "blink.cmp")
 if not ok_bl then
   return

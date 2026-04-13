@@ -8,6 +8,11 @@ map("i", "jk", "<esc>", { desc = "enter normal mode" })
 map("i", "<C-l>", "<C-o>A", { desc = "jump to end of line" })
 map("n", ";", ":", { desc = "enter command mode" })
 map("n", "<M-a>", "ggVG", { desc = "select all" })
+vim.keymap.set("n", "<leader>R", function()
+  local session = vim.fn.stdpath("state") .. "/restart_session.vim"
+  vim.cmd("mksession! " .. vim.fn.fnameescape(session))
+  vim.cmd("restart source " .. vim.fn.fnameescape(session))
+end, { desc = "Restart Neovim" })
 
 -- hebrew specific exit mapping
 map("i", "חל", function()

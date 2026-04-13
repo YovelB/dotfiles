@@ -189,3 +189,24 @@ if ok_todo then
   map("n", "[t", todo.jump_prev, { desc = "prev todo comment" })
   map("n", "<leader>xt", "<cmd>Trouble todo toggle<cr>", { desc = "project todos (trouble)" })
 end
+
+-- markdown preview - live browser preview
+vim.pack.add({ "https://github.com/iamcco/markdown-preview.nvim" }, { confirm = false })
+
+-- setup the keymap specifically for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function(event)
+    vim.keymap.set(
+      "n",
+      "<leader>cp",
+      "<cmd>MarkdownPreviewToggle<cr>",
+      { buffer = event.buf, desc = "Markdown Preview" }
+    )
+  end,
+})
+
+-- automatic build hook like lazy.nvim,
+vim.api.nvim_create_user_command("MarkdownPreviewInstall", function()
+  vim.fn["mkdp#util#install"]()
+end, { desc = "Install dependencies for markdown-preview.nvim" })
