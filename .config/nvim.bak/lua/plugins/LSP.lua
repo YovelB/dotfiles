@@ -65,6 +65,7 @@ return {
 
         -- debug adapters
         "codelldb", -- c/c++ and rust
+        "cortex-debug", -- embedded ARM (used for Cortex M4 or M7)
         "debugpy", -- python
 
         -- linters

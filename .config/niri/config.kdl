@@ -135,7 +135,7 @@ window-rule {
   default-column-width {}
 }
 
-// open the Firefox picture-in-picture player as floating by default.
+// open the firefox picture-in-picture player as floating by default.
 window-rule {
   match app-id=r#"firefox$"# title="^Picture-in-Picture$"
   open-floating true
@@ -171,12 +171,13 @@ binds {
   Mod+2                 { spawn "pear-desktop"; }
   Mod+3                 { spawn "env" "GDK_BACKEND=x11" "kicad"; }
   Mod+4                 { spawn "stm32cubemx"; }
+  Mod+5                 { spawn "libreoffice" "--calc"; }
 
   Mod+C                 { spawn "dms" "ipc" "call" "control-center" "toggle"; }
   Mod+Alt+C             { spawn "dms" "ipc" "call" "settings" "toggle"; }
   Mod+X                 { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
   Mod+B                 { spawn "dms" "ipc" "call" "bar" "toggle" "index" "0"; }
-  Mod+Alt+V             { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+  Mod+V                 { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
   Mod+N                 { spawn "dms" "ipc" "call" "notifications" "toggle"; }
   Mod+A                 { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
   Mod+W                 { spawn "dms" "ipc" "call" "wallpaper" "next"; }

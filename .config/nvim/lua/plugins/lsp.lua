@@ -11,6 +11,7 @@ vim.pack.add({ "https://github.com/stevearc/conform.nvim" }, { confirm = false }
 -- nvim-lint - async liner
 vim.pack.add({ "https://github.com/mfussenegger/nvim-lint" }, { confirm = false })
 -- blink - autocompletion engine
+vim.pack.add({ "https://github.com/saghen/blink.lib" }, { confirm = false })
 vim.pack.add({ "https://github.com/saghen/blink.cmp" }, { confirm = false })
 
 local ok_mason, mason = pcall(require, "mason")

@@ -107,3 +107,11 @@ end, { desc = "Toggle LSP diagnostics visibility" })
 
 -- Hebrew/RTL utilities
 -- map("n", "<leader>uhr", ":set rightleft!<CR>", { desc = "Toggle RTL display" })
+
+-- STM32CubeMX projects building
+map("n", "<leader>cb", function()
+  require("snacks").terminal("cmake --preset Debug && cmake --build --preset Debug -j16", {
+    cwd = vim.fn.getcwd(),
+    interactive = false, -- close automatically if successful (optional)
+  })
+end, { desc = "code: build project (cmake)" })
