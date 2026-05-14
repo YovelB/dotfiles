@@ -11,7 +11,7 @@ set -euo pipefail
 
 # array mapping remote:paths to local paths
 declare -A SYNC_PATHS=(
-  ["protondrive:Arch/Yovel"]="$HOME/Documents/Yovel"
+  ["protondrive:Arch"]="$HOME/Documents/Yovel"
   ["gdrive:Arch/School"]="$HOME/Documents/School"
   ["gdrive:Arch/UserWorkspace"]="$HOME/UserWorkspace"
   ["gdrive:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
@@ -19,7 +19,7 @@ declare -A SYNC_PATHS=(
 
 # path exclusion patterns
 declare -A EXTRA_EXCLUDES=(
-  ["protondrive:Arch/Yovel"]="
+  ["protondrive:Arch"]="
 - /books/**
 "
   ["gdrive:Arch/UserWorkspace"]="
