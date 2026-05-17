@@ -46,6 +46,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- ===============================
 -- system
 -- ===============================
+-- fetch and download blink.cmp silently after update then build
+vim.api.nvim_create_autocmd("User", {
+  pattern = "PackChanged",
+  callback = function(event)
+    if event.data and event.data.plugin == "blink.cmp" then
+      require("blink.cmp").build()
+    end
+  end,
+})
+
 -- check if we need to reload the file when it changed outside of nvim
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   group = augroup("checktime"),
@@ -139,7 +149,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- make it easier to close man-files when opened inline
+-- make it easier to close man files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("man_unlisted"),
   pattern = { "man" },
@@ -148,7 +158,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- terminal tweaks: remove line numbers and auto-enter insert mode
+-- terminal tweaks: remove line numbers and auto enter insert mode
 vim.api.nvim_create_autocmd("TermOpen", {
   group = augroup("term_tweaks"),
   callback = function()
