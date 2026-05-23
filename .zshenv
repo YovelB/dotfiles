@@ -5,5 +5,5 @@ export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$UID}"
 
-# Set Zsh directory
+# set zsh dir
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"

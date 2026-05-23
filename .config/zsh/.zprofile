@@ -1,8 +1,3 @@
-# source ~/.profile if it exists
-if [ -f ~/.profile ]; then
-    . ~/.profile
-fi
-
 # ensure XDG dirs exist
 () {
     local -a dirs=(
@@ -36,6 +31,7 @@ export EDITOR=nvim
 export SSH_CONFIG_DIR="$XDG_CONFIG_HOME/ssh"
 # GPG config
 export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 
 # stm32 programmer path
 export STM32_PRG_PATH="$XDG_DATA_HOME/STM32CubeIDE/programmer/bin"

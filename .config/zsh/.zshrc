@@ -1,8 +1,3 @@
-# first load .zprofile
-if [[ -f "$XDG_CONFIG_HOME/zsh/.zprofile" ]]; then
-    source "$XDG_CONFIG_HOME/zsh/.zprofile"
-fi
-
 # enable profiling if needed
 # zmodload zsh/zprof
 
@@ -133,9 +128,6 @@ function load_aliases() {
     alias en="trans -b :en -shell"
   }
 load_aliases
-
-# init ssh agent with optional lifetime option -t 12h
-eval "$(ssh-agent -s)" > /dev/null
 
 # enable profiling output if needed
 # zprof
