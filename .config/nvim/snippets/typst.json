@@ -29,10 +29,10 @@
       "    align: (left, center, left),",
       "    fill: (col, row) => if row == 0 { rgb(\"#001F52\") } else { white },",
       "    stroke: 0.5pt + gray,",
-      "    table.header(..([*${Parameter}*], [*${Value}*], [*${Explained}*]).map(x => text(white, x))),",
-      "    [${1:content}], [${2:content}], [${3:content}]",
+      "    table.header(..([*${1:Parameter}*], [*${2:Value}*], [*${3:Explained}*]).map(x => text(white, x))),",
+      "    [${4:content}], [${5:content}], [${6:content}]",
       "  ),",
-      "  caption: [${4:caption}],",
+      "  caption: [${7:caption}],",
       ")",
       "$0"
     ],
@@ -50,16 +50,16 @@
   "inline math": {
     "prefix": "mt",
     "body": [
-      "$${1}$"
+      "\\$${1}\\$"
     ],
     "description": "inline math"
   },
   "block math": {
     "prefix": "mmt",
     "body": [
-      "$",
+      "\\$",
       "  ${1}",
-      "$$0"
+      "\\$$0"
     ],
     "description": "multiline math block"
   },
