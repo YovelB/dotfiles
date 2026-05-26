@@ -1,28 +1,23 @@
 # stow ignore patterns for dotfiles repository
 
-# essentail to ignore
-^/.packages
-^/archive
-
-# version control
-\.git
-\.gitignore
-\.gitattributes
+# archived
+kitty
+alacritty
+nvim\.bak
+code-composer-studio
 
 # docs
 ^/README.*
 ^/LICENSE.*
 
+# version control
+^\.git
+^\.gitignore
+
 # editor temp and backup
 .*~
 \#.*\#
 \.#.*
-^\..*\.sw[op]$  # vim swap files
+\..*\.sw[op]$  # vim swap files
 \.bak$
 \.tmp$
-
-# build artifacts and caches
-\.cache
-\.tmp
-__pycache__
-node_modules
