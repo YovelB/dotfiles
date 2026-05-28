@@ -1,0 +1,8 @@
+[Unit]
+Description=Rclone Sync Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/yovel/.scripts/rclone-sync.sh

@@ -6,7 +6,10 @@ alacritty
 nvim\.bak
 code-composer-studio
 
-# docs
+# general
+^/.packages
+^/.scripts
+^/.system_config
 ^/README.*
 ^/LICENSE.*
 
