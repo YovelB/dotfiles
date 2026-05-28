@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = linux
+Target = linux-lts
+Target = systemd
+
+[Action]
+Description = backing up working UKIs before upgrade
+When = PreTransaction
+Exec = /usr/bin/bash -c 'mkdir -p /boot/EFI/Linux-backup && rsync -a --delete /boot/EFI/Linux/ /boot/EFI/Linux-backup/'
+Depends = rsync
