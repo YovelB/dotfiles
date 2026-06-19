@@ -51,7 +51,21 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "PackChanged",
   callback = function(event)
     if event.data and event.data.plugin == "blink.cmp" then
-      require("blink.cmp").build()
+      -- path to the blink.cmp directory (linux / windows compatible)
+      local blink_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "site", "pack", "core", "opt", "blink.cmp")
+      -- run cargo build --release async
+      vim.system({ "cargo", "build", "--release" }, { cwd = blink_dir }, function(obj)
+        -- schedule the neovim API calls back to the main thread
+        vim.schedule(function()
+          if obj.code == 0 then
+            vim.notify("cargo build successful, triggering native build", vim.log.levels.INFO)
+            -- call the native blink build function after cargo finishes
+            require("blink.cmp").build()
+          else
+            vim.notify("cargo build for blink.cmp failed:\n" .. (obj.stderr or ""), vim.log.levels.ERROR)
+          end
+        end)
+      end)
     end
   end,
 })

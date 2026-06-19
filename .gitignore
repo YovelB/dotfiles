@@ -8,3 +8,5 @@
 .config/niri/config.kdl.backup1768489636
 /.config/nvim/lua/plugins/stash.lua.bak
 /.config/nvim/lua/config/keymaps.lua.bak
+/.config/niri/dms/outputs.kdl
+/.config/niri/config.kdl.backup*

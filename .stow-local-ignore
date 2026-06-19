@@ -7,7 +7,6 @@ nvim\.bak
 code-composer-studio
 
 # general
-^/.packages
 ^/.scripts
 ^/.system_config
 ^/README.*
