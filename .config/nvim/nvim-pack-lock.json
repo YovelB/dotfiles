@@ -1,7 +1,7 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "50c696b5c3ca359305f8e241e9458b0d2d787540",
+      "rev": "bda905a4bf1b3edfa708b0be193b8c63d8620c96",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "blink.lib": {
@@ -53,11 +53,11 @@
       "src": "https://github.com/echasnovski/mini.icons"
     },
     "mini.pairs": {
-      "rev": "4a014143fcb4e9df26198ccb3ecff3b9e77a048c",
+      "rev": "db0fac0a25884183650352ccf92b362a41ed2e9c",
       "src": "https://github.com/echasnovski/mini.pairs"
     },
     "mini.surround": {
-      "rev": "580e4cb98c5900d9fe743865fb5a5b2178b4ab18",
+      "rev": "a2f644f3759edd3d3f8b6a6d55378408bfe6d290",
       "src": "https://github.com/echasnovski/mini.surround"
     },
     "noice.nvim": {
@@ -69,7 +69,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-dap": {
-      "rev": "531771530d4f82ad2d21e436e3cc052d68d7aebb",
+      "rev": "9e848e09a697ee95302a3ef2dd43fd6eb709e570",
       "src": "https://github.com/mfussenegger/nvim-dap"
     },
     "nvim-dap-cortex-debug": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
     "nvim-lint": {
-      "rev": "fd87a7ab27ee0ce1b15b56c1250fc4668fe8ac58",
+      "rev": "a219b2c9e5b4765e5c845aba119dad55806fcaf1",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-nio": {
