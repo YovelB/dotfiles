@@ -5,4 +5,4 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/yovel/.scripts/rclone-sync.sh
+ExecStart=/home/yovel/.dotfiles/.scripts/rclone-sync.sh

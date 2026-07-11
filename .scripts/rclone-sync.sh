@@ -13,6 +13,7 @@ set -euo pipefail
 declare -A SYNC_PATHS=(
   ["protondrive:Arch"]="$HOME/Documents/Yovel"
   ["gdrive:Arch/School"]="$HOME/Documents/School"
+  ["gdrive:Arch/Pictures"]="$HOME/Documents/Pictures"
   ["gdrive:Arch/UserWorkspace"]="$HOME/UserWorkspace"
   ["gdrive:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
 )
@@ -23,7 +24,6 @@ declare -A EXTRA_EXCLUDES=(
 - /books/**
 "
   ["gdrive:Arch/UserWorkspace"]="
-- /zephyr-workspace/**
 - /codeberg/**
 - /kicad/custom-libraries/**
 - /kicad/exercises/**
@@ -31,6 +31,8 @@ declare -A EXTRA_EXCLUDES=(
 - /stm32/**
 - /stm32/Repository/**
 - /stm32/examples/**
+- xilinx/**
+- /zephyr-workspace/**
 "
 )
 
