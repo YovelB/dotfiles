@@ -11,8 +11,7 @@ vim.pack.add({ "https://github.com/stevearc/conform.nvim" }, { confirm = false }
 -- nvim-lint - async liner
 vim.pack.add({ "https://github.com/mfussenegger/nvim-lint" }, { confirm = false })
 -- blink - autocompletion engine
-vim.pack.add({ "https://github.com/saghen/blink.lib" }, { confirm = false })
-vim.pack.add({ "https://github.com/saghen/blink.cmp" }, { confirm = false })
+vim.pack.add({ "https://github.com/saghen/blink.lib", "https://github.com/saghen/blink.cmp" })
 
 local ok_mason, mason = pcall(require, "mason")
 if not ok_mason then
@@ -345,10 +344,9 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
 })
 
 -- blink - autocompletion engine
-local ok_bl, blink = pcall(require, "blink.cmp")
-if not ok_bl then
-  return
-end
+local cmp = require("blink.cmp")
+cmp.build():pwait()
+cmp.setup()
 
 blink.setup({
   snippets = {

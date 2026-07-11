@@ -219,12 +219,10 @@ vim.pack.add({ "https://github.com/gisketch/triforce.nvim" }, { confirm = false 
 local ok_tri, triforce = pcall(require, "triforce")
 if ok_tri then
   triforce.setup({
-    keymap = {
-      show_profile = "<leader>tp",
-    },
     custom_languages = {
       typst = { icon = "𝐭", name = "Typst" },
     },
     ignore_ft = { "conf", "typst" },
   })
+  vim.keymap.set("n", "<leader>tp", triforce.show_profile, { desc = "Show Triforce Profile" })
 end
