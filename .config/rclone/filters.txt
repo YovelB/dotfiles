@@ -1,0 +1,77 @@
+# System and temp files
+- .DS_Store
+- ._*
+- .Trashes
+- .Trash-*
+- Thumbs.db
+- desktop.ini
+- .directory
+
+# Version control
+- .git/**
+- .gitignore
+- .svn/**
+- .hg/**
+
+# Build and compilation directories
+- node_modules/**
+- target/**
+- build/**
+- dist/**
+- .cache/**
+- cmake-build-*/**
+- out/**
+- Debug/**
+- Release/**
+- build_*/**    # Zephyr build folders
+
+# Language specific
+## Python
+- __pycache__/**
+- *.pyc
+- .pytest_cache/**
+- .coverage
+- venv/**
+- env/**
+
+## C/C++
+- *.o
+- *.obj
+- *.exe
+- *.dll
+- *.so
+- *.dylib
+
+# Temporary files
+- *~
+- *.tmp
+- *.temp
+- *.swp
+- *.swo
+
+# Log files
+- *.log
+- logs/**
+
+# IDE specific
+- .idea/**
+- .vscode/**
+- .settings/**
+- .project
+- .classpath
+- .cproject
+
+# Package manager files
+- package-lock.json
+- yarn.lock
+- poetry.lock
+- Cargo.lock
+
+# Compressed files
+- *.zip
+- *.rar
+- *.7z
+- *.tar
+- *.gz
+- *.bz2
+- *.xz
