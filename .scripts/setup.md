@@ -1,7 +1,7 @@
 # Arch Linux Setup
 
 ## ArchInstall script 
--  [pre installation](https://wiki.archlinux.org/title/Installation_guide#Pre-installation) acquire an installation image (`iso`) and the respective pgp signature for USB drive using `turrent` and verify using `gpg`
+-  [pre installation](https://wiki.archlinux.org/title/Installation_guide#Pre-installation) acquire an installation image (`iso`) and the respective pgp signature for USB drive using `torrent` and verify using `gpg`
 - prepare installation medium to create a USB bootable arch installation using gnome disk utility:
   - right click the `iso` file to open with `Disk Image Writer`
   - specify the USB drive as destination and start restoring
@@ -11,23 +11,24 @@
   - `station wlan0 get-networks` - list networks
   - `station --passphrase passphrase wlan0 connect SSID` - connect to network with password
 - launch arch install with current configuration:
-  - Locales: keyboard layout: us, language: en_IL, encoding: UTF-8
-  - Mirrors: regions: Israel, Germany, France, Netherlands repositories: multilib
-  - Disk Configuration: best effort partition layout, file system: btrfs with default sub volumes structure with CoW enabled:
+  - locales: keyboard layout: us, language: en_IL, encoding: UTF-8, console font: default8x16
+  - mirrors: regions: Israel, Germany, France, Netherlands repositories: multilib
+  - disk Configuration: best effort partition layout, file system: btrfs with default sub volumes structure with CoW enabled:
     - 1 GiB of fat32 for /boot and the rest of btrfs, NO LVM.
-    - mount points: /, /home, /var/log, /var/cache/packman/pkg
+    - mount points: /, /home, /var/log, /var/cache/pacman/pkg
+    - disk encryption: LUKS passphrase, iteration time: 2000 ms
     - btrfs snapshots: snapper
-  - Swap: zram with zstd compression
-  - Bootloader: systemd-boot + unified kernal images (UKI)
-  - Kernels: linux, linux-lts
-  - Authentication: root: locked account (empty password), user: yovel, no U2F (no Yubikey)
-  - profile: minimal
-  - applications: Bluetooth, audio: pipewire + wireplumber, print: cups, firewall: ufw
+  - swap: zram with zstd compression
+  - bootloader: systemd-boot + unified kernel images (UKI)
+  - kernels: linux, linux-lts
+  - authentication: root: locked account (empty password), user: yovel, no U2F (no Yubikey)
+  - profile: desktop: niri - DankMaterialShell, graphics driver: intel (open source), greeter: dms-greeter
+    - installed packages: 
+    alacritty, cava, cups-pk-helper, dms-shell-niri, kimageformats, matugen, niri, polkit, tuned-ppd, xdg-desktop-portal-gnome, xorg-xwayland
+  - applications: bluetooth, audio: pipewire, print: cups, firewall: ufw, fonts: noto-fonts, noto-fonts-emoji, ttf-liberation
   - network configuration: use network manager (default backend)
-  - additional packages: 
-  - bash script (packages that need setup): greetd-tuigreet (greetd and tuigreetd)
 
-note: if using systemd-boot + UKI, there is a need for pacman hook to backup the UKI before kernal updates
+note: if using systemd-boot + UKI, there is a need for pacman hook to backup the UKI before kernel updates
 
 ## setup.sh script
 ### before script
@@ -42,12 +43,17 @@ chmod +x setup.sh
 
 ### after script:
 - `secure_boot.md` to enable secure boot and TPM2 LUKS binding
-- rclone config:
+- rclone setup:
 ```bash
 # with two drives gdrive - google drive, protondrive - proton drive
 rclone config
-# enable rclone sync
+# make sure that the files you /.dotfiles/.scripts/rclone-sync.sh enable rclone sync
 systemctl --user enable --now rclone-sync.timer
+```
+- tailscale setup:
+```bash
+sudo systemctl enable --now tailscaled
+sudo tailscale up
 ```
 
 ## system architecture
@@ -56,10 +62,10 @@ systemctl --user enable --now rclone-sync.timer
 - bootloader: systemd-boot + UKI
 - display server: wayland
 - compositor: niri
-- greeter (login): greetd with tuigreet
+- greeter (login): greetd with dms-greeter
 - shell and status bar: DankMaterialShell (dms)
-- terminal emulator: ghostty / wezterm
-- audio subsystem: pipeWire and wireplumber
+- terminal emulator: ghostty, wezterm, alacritty
+- audio subsystem: pipeWire
 - dotfiles: gnu stow
 
 ## packages
@@ -88,8 +94,7 @@ systemctl --user enable --now rclone-sync.timer
 
 ### fonts
 - monospace coding: ttf-jetbrains-mono-nerd
-- system: noto-fonts, consolas-font, ttf-ms-fonts, 
-<!-- - symbols: noto-fonts-emoji, ttf-nerd-fonts-symbols,  ttf-linux-libertine, ttf-jetbrains-mono -->
+- system: noto-fonts, noto-fonts-emoji, ttf-liberation
 <!-- - OCR and language: tesseract-data-heb -->
  
 ### terminal, shell and CLI tools
@@ -100,7 +105,7 @@ systemctl --user enable --now rclone-sync.timer
 - file management: yazi
 - modern CLI Utilities: fzf, zoxide, ripgrep, fd, dust, duf, btop, fastfetch, tree
 - git and version control: git, lazygit, github-cli, *git-cliff*, git-delta, *git-filter-repo*
-- arch specific: yay, pacman-contrib, *pkgfile*, reflector, stow
+- arch specific: yay, pacman-contrib, pkgfile, reflector, stow
 - core utilities: unzip, wget, tldr, imagemagick
 
 ### desktop apps

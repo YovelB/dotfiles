@@ -1,34 +1,36 @@
 [Default Applications]
-# system
-inode/directory=org.gnome.Nautilus.desktop
-text/plain=nvim.desktop
-text/x-matlab=nvim.desktop
 application/pdf=org.pwmt.zathura-pdf-mupdf.desktop
-# web
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
-text/html=firefox.desktop
-x-scheme-handler/freetube=FreeTube.desktop
-# media
-image/jpeg=imv.desktop
-image/png=imv.desktop
-image/gif=imv.desktop
-image/webp=imv.desktop
-video/mp4=mpv.desktop
-video/x-matroska=mpv.desktop
 audio/mpeg=mpv.desktop
 audio/x-mod=nvim.desktop
+image/gif=imv.desktop
+image/jpeg=imv.desktop
+image/png=imv.desktop
+image/webp=imv.desktop
+inode/directory=org.gnome.Nautilus.desktop
+text/html=firefox.desktop
+text/plain=nvim.desktop
+text/x-matlab=nvim.desktop
+video/mp4=mpv.desktop
+video/x-matroska=mpv.desktop
+x-scheme-handler/calendar=dms-open.desktop
+x-scheme-handler/freetube=FreeTube.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
 
 [Added Associations]
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
+application/x-ole-storage=org.kicad.eeschema.desktop;
+application/xslt+xml=org.kicad.kicad.desktop;
+audio/mpeg=mpv.desktop;
+image/gif=imv.desktop;
 image/jpeg=imv.desktop;
 image/png=imv.desktop;
-image/gif=imv.desktop;
 image/webp=imv.desktop;
-video/mp4=mpv.desktop;
-video/x-matroska=mpv.desktop;
-audio/mpeg=mpv.desktop;
 text/plain=nvim.desktop;
 text/x-matlab=nvim.desktop;
-application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
-application/xslt+xml=org.kicad.kicad.desktop;
-application/x-ole-storage=org.kicad.eeschema.desktop;
+video/mp4=mpv.desktop;
+video/x-matroska=mpv.desktop;
+x-scheme-handler/calendar=dms-open.desktop;
+
+[Removed Associations]
+

@@ -48,6 +48,7 @@ else
 fi
 
 # edit pacman.conf
+sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 sudo sed -i '/^Color/a ILoveCandy' /etc/pacman.conf
 sudo sed -i 's/^#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf
 # copy pacman hooks
@@ -82,10 +83,11 @@ sudo snapper -c root create -c timeline --description "base: pre setup.sh"
 
 # stage: core, cli and dev packages
 core=(
-  zsh openssh pacman-contrib reflector rsync sbctl nss-mdns wireless-regdb udiskie tailscale
-  ttf-jetbrains-mono-nerd noto-fonts neovim unzip wget tree tldr git-delta
+  zsh pacman-contrib reflector rsync sbctl nss-mdns wireless-regdb udiskie tailscale
+  ttf-jetbrains-mono-nerd neovim unzip wget tree tldr git-delta
   zoxide fzf ripgrep fd dust duf btop tmux fastfetch imagemagick rclone
-  github-cli lazygit rustup python jdk21-openjdk gcc clang cmake ninja nodejs-lts-jod npm uv typst doxygen
+  github-cli lazygit rustup python gcc clang cmake ninja npm uv typst doxygen
+  # jdk21-openjdk  nodejs-lts-jod
 )
 embedded=(openocd dtc arm-none-eabi-gcc arm-none-eabi-binutils arm-none-eabi-gdb arm-none-eabi-newlib)
 
@@ -102,7 +104,7 @@ chsh -s "$(which zsh)"
 if ! command -v yay &>/dev/null; then
   cd /tmp
   git clone https://aur.archlinux.org/yay.git
-  cd yay && makepkg -si
+  cd yay && makepkg -si --noconfirm
   cd ~
 fi
 
@@ -112,9 +114,8 @@ read -r -p "press enter proceed to wayland setup"
 
 # stage: display server packages
 wayland=(
-  mesa-utils vulkan-intel intel-media-driver intel-ucode
-  greetd greetd-tuigreet dms-shell-niri matugen
-  xorg-xwayland xwayland-satellite polkit-gnome gnome-keyring
+  # mesa-utils intel-ucode
+  # xwayland-satellite polkit-gnome gnome-keyring
   wl-clipboard cliphist ydotool brightnessctl pamixer pavucontrol playerctl
   qt5-wayland qt6-wayland qt5ct qt6ct ghostty wezterm yazi
 )
@@ -124,26 +125,22 @@ sudo pacman -S --needed --noconfirm "${wayland[@]}"
 wayland_aur=(oh-my-posh)
 yay -S --needed --noconfirm "${wayland_aur[@]}"
 
-# enable login manager
+# enable paccache timer
 sudo systemctl enable --now paccache.timer
-sudo systemctl enable greetd
-
-sudo systemctl enable --now tailscaled
-sudo tailscale up
 
 read -r -p "press enter to proceed to apps"
 
 # stage: apps
 app=(
-  xdg-desktop-portal-gnome btrfs-assistant btrfsmaintenance gnome-disk-utility nautilus
+  btrfs-assistant btrfsmaintenance gnome-disk-utility nautilus
   evince zathura zathura-pdf-mupdf imv mpv system-config-printer
   firefox keepassxc bitwarden libreoffice-fresh qbittorrent kicad
 )
 sudo pacman -S --needed --noconfirm "${app[@]}"
 
 apps_aur=(
-  freetube pear-desktop prospect-mail zoom cnijfilter2 localsend-bin
-  # ttf-ms-fonts consolas-font parsec-bin
+  freetube pear-desktop zoom cnijfilter2 localsend-bin
+  # ttf-ms-fonts consolas-font parsec-bin prospect-mail
 )
 apps_aur_opt=(vivado stm32cubeide stm32cubemx stm32cubeprog)
 
