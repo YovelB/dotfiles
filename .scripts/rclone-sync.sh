@@ -20,20 +20,20 @@ declare -A SYNC_PATHS=(
 
 # path exclusion patterns
 declare -A EXTRA_EXCLUDES=(
-  #   ["protondrive:Arch"]="
-  # - /books/**
-  # "
+  ["protondrive:Arch"]="
+  - /books/**
+  "
   ["gdrive:Arch/UserWorkspace"]="
 - /codeberg/**
+- /kicad/exercises/**
+- /kicad/projects/**
+- /stm32/**
+- /stm32/examples/**
 - /kicad/custom-libraries/**
 - /stm32/Repository/**
-- xilinx/**
-- /zephyr-workspace/**
 "
-  # - /kicad/exercises/**
-  # - /kicad/projects/**
-  # - /stm32/**
-  # - /stm32/examples/**
+  # - xilinx/**
+  # - /zephyr-workspace/**
 )
 
 # rclone optimization and performance flags
