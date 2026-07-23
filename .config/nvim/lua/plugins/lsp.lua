@@ -48,6 +48,7 @@ local tools = {
 
   -- additional tools
   "markdown-toc",
+  "cortex-debug",
   -- "texlab",
 }
 
