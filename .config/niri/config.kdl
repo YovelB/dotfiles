@@ -1,3 +1,4 @@
+// https://niri-wm.github.io/niri/Configuration%3A-Input.html
 input {
   keyboard {
     repeat-delay 250
@@ -12,6 +13,7 @@ input {
     tap
     dwt
     drag false
+    drag-lock
     accel-speed 0.2
     scroll-method "two-finger"
     click-method "clickfinger"
@@ -53,7 +55,6 @@ cursor {
 }
 
 // niri msg outputs while inside a niri instance.
-// https://yalter.github.io/niri/Configuration:-Outputs
 /-output "HDMI-A-1" {
   mode "1920x1080@59.940"
   position x=1920 y=0
@@ -103,9 +104,10 @@ layout {
   }
 }
   spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-  spawn-at-startup "xhost" "+SI:localuser:root"
   spawn-at-startup "udiskie"
   spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+  spawn-at-startup "ydotoold"
+  // spawn-at-startup "xhost" "+SI:localuser:root"
 
 config-notification {
   disable-failed
@@ -196,10 +198,10 @@ binds {
   XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
   XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
 
-  XF86AudioPlay         allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-  XF86AudioStop         allow-when-locked=true { spawn-sh "playerctl stop"; }
-  XF86AudioPrev         allow-when-locked=true { spawn-sh "playerctl previous"; }
-  XF86AudioNext         allow-when-locked=true { spawn-sh "playerctl next"; }
+  XF86AudioPlay         allow-when-locked=true { spawn "playerctl play-pause"; }
+  XF86AudioStop         allow-when-locked=true { spawn "playerctl stop"; }
+  XF86AudioPrev         allow-when-locked=true { spawn "playerctl previous"; }
+  XF86AudioNext         allow-when-locked=true { spawn "playerctl next"; }
 
   Mod+O repeat=false    { toggle-overview; }
   Mod+Q repeat=false    { close-window; }
@@ -245,12 +247,12 @@ binds {
   Mod+Escape            allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
   // mouse movement via keyd + ydotool
-  Ctrl+Alt+Shift+Space { spawn "sh" "-c" "sudo ydotool click 0xC0"; }
-  Ctrl+Alt+Shift+O     { spawn "sh" "-c" "sudo ydotool click 0xC1"; }
-  Ctrl+Alt+Shift+H     { spawn "sh" "-c" "sudo ydotool mousemove -- -15 0"; }
-  Ctrl+Alt+Shift+J     { spawn "sh" "-c" "sudo ydotool mousemove -- 0 15"; }
-  Ctrl+Alt+Shift+K     { spawn "sh" "-c" "sudo ydotool mousemove -- 0 -15"; }
-  Ctrl+Alt+Shift+L     { spawn "sh" "-c" "sudo ydotool mousemove -- 15 0"; }
+  Ctrl+Alt+Shift+Space { spawn "ydotool" "click" "0xC0"; }
+  Ctrl+Alt+Shift+O     { spawn "ydotool" "click" "0xC1"; }
+  Ctrl+Alt+Shift+H     { spawn "ydotool" "mousemove" "--" "-15" "0"; }
+  Ctrl+Alt+Shift+J     { spawn "ydotool" "mousemove" "--" "0" "15"; }
+  Ctrl+Alt+Shift+K     { spawn "ydotool" "mousemove" "--" "0" "-15"; }
+  Ctrl+Alt+Shift+L     { spawn "ydotool" "mousemove" "--" "15" "0"; }
 
   // Mod+1 { focus-workspace 1; }
   // Mod+2 { focus-workspace 2; }

@@ -10,3 +10,7 @@
 /.config/nvim/lua/config/keymaps.lua.bak
 /.config/niri/dms/outputs.kdl
 /.config/niri/config.kdl.backup*
+/.config/ghostty/themes/dankcolors
+/.config/niri/dms/cursor.kdl
+/.config/niri/dms/layout.kdl
+/.config/niri/dms/alttab.kdl
