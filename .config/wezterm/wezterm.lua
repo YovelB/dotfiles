@@ -1,6 +1,9 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- wayland IME fix (prevents typing duplicate chars in niri)
+config.use_ime = false
+
 -- general
 -- config.term = "wezterm"
 
@@ -8,9 +11,9 @@ local config = wezterm.config_builder()
 -- https://github.com/kovidgoyal/kitty/blob/master/terminfo/kitty.terminfo
 -- run this cmd for the github link above to install xterm kitty
 -- tempfile=$(mktemp) && curl -o "$tempfile" https://raw.githubusercontent.com/kovidgoyal/kitty/master/terminfo/kitty.terminfo && tic -x -o ~/.terminfo "$tempfile"
-config.term = "xterm-kitty"
+-- config.term = "xterm-kitty" // currently crashes wezterm
 config.enable_kitty_graphics = true
-config.enable_wayland = true
+config.enable_wayland = false
 config.scrollback_lines = 10000
 
 -- tab
@@ -20,6 +23,8 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "NONE"
 -- for gnome set left=5 and top=5 (for niri only top=6)
 config.window_padding = { left = 0, right = 0, top = 6, bottom = 0 }
+-- background transparent=0.0, opaque=1.0
+-- config.window_background_opacity = 0.85
 
 -- fonts
 config.font_size = 14.3

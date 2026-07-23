@@ -1,11 +1,14 @@
 # font
-font-family = "JetBrainsMono Nerd Font"
-font-family = "Miriam Mono CLM" # fallback for hebrew
+font-family = "JetBrains Mono"
+font-family = "Noto Color Emoji"
+# font-family = "Miriam Mono CLM" # fallback for hebrew
 # font-family = "Noto Sans Hebrew" 
 font-size = 14.7
 
 # mouse
 mouse-hide-while-typing = true
+font-feature = calt
+font-feature = liga
 
 # theme
 theme = TokyoNight
