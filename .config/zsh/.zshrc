@@ -10,7 +10,8 @@ setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups hist_ignore_dups hist_find_no_dups
 
 # tmux startup (only if not in VS Code and tmux isn't running)
-[[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" ]] && exec tmux -f "$TMUX_CONF"
+# -u for locale set without .UTF-8 (e.g. LANG=en.IL)
+[[ -z "$TMUX" && "$TERM_PROGRAM" != "vscode" ]] && exec tmux -u -f "$TMUX_CONF"
 
 # load completions more efficiently
 () {
@@ -92,7 +93,7 @@ zinit snippet OMZP::command-not-found
 # load completions
 zinit cdreplay -q
 
-# prompt engine (keep this non-lazy as requested)
+# prompt engine
 eval "$(oh-my-posh init zsh --config ${XDG_CONFIG_HOME}/ohmyposh/zen.toml)"
 
 # keybindings
