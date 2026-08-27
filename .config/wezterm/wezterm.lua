@@ -28,7 +28,8 @@ config.window_padding = { left = 0, right = 0, top = 6, bottom = 0 }
 
 -- fonts
 config.font_size = 14.3
-config.font = wezterm.font_with_fallback({ "JetBrains Mono Nerd Font", "JetBrains Mono", "Noto Color Emoji" })
+config.font =
+	wezterm.font_with_fallback({ "JetBrains Mono Nerd Font", "JetBrains Mono", "Miriam Mono CLM", "Noto Color Emoji" })
 -- colorscheme
 config.color_scheme = "Tokyo Night"
 -- cursor
