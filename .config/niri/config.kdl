@@ -179,10 +179,13 @@ binds {
   Mod+Alt+C             { spawn "dms" "ipc" "call" "settings" "toggle"; }
   Mod+X                 { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
   Mod+B                 { spawn "dms" "ipc" "call" "bar" "toggle" "index" "0"; }
-  Mod+V                 { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
-  Mod+N                 { spawn "dms" "ipc" "call" "notifications" "toggle"; }
   Mod+A                 { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
   Mod+W                 { spawn "dms" "ipc" "call" "wallpaper" "next"; }
+  Mod+N                 { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+  Mod+V                 { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+  Mod+Comma             { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
+  Mod+Shift+N           { spawn "dms" "ipc" "call" "notepad" "toggle"; }
+  Ctrl+Shift+R          { spawn "dms" "ipc" "call" "workspace-rename" "open"; }
   // Shift+Alt+Ctrl+L      { spawn "dms" "ipc" "call" "lock" "lock"; }
 
   Shift+Alt+S           { screenshot show-pointer=false; }
@@ -190,18 +193,21 @@ binds {
   Alt+Print             { screenshot-window; }
   Ctrl+Print            { screenshot-screen; }
 
-  XF86AudioLowerVolume  allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
-  XF86AudioMicMute      allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
-  XF86AudioMute         allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
-  XF86AudioRaiseVolume  allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
 
-  XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
-  XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
+  XF86MonBrightnessUp   allow-when-locked=true    { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+  XF86MonBrightnessDown allow-when-locked=true    { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
 
-  XF86AudioPlay         allow-when-locked=true { spawn "playerctl play-pause"; }
-  XF86AudioStop         allow-when-locked=true { spawn "playerctl stop"; }
-  XF86AudioPrev         allow-when-locked=true { spawn "playerctl previous"; }
-  XF86AudioNext         allow-when-locked=true { spawn "playerctl next"; }
+  // media playback
+  XF86AudioPlay allow-when-locked=true            { spawn "playerctl" "play-pause"; }
+  XF86AudioStop allow-when-locked=true            { spawn "playerctl" "stop"; }
+  XF86AudioNext allow-when-locked=true            { spawn "dms" "ipc" "call" "mpris" "next"; }
+  XF86AudioPrev allow-when-locked=true            { spawn "dms" "ipc" "call" "mpris" "previous"; }
+  Mod+XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "increment" "3"; }
+  Mod+XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "decrement" "3"; }
+  XF86AudioRaiseVolume allow-when-locked=true     { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
+  XF86AudioLowerVolume allow-when-locked=true     { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+  XF86AudioMute        allow-when-locked=true     { spawn "dms" "ipc" "call" "audio" "mute"; }
+  XF86AudioMicMute     allow-when-locked=true     { spawn "dms" "ipc" "call" "audio" "micmute"; }
 
   Mod+O repeat=false    { toggle-overview; }
   Mod+Q repeat=false    { close-window; }
@@ -242,7 +248,7 @@ binds {
   Mod+Shift+M           { expand-column-to-available-width; }
   Mod+F                 { fullscreen-window; }
 
-  Mod+Shift+Ctrl+P      { power-off-monitors; }
+  // Mod+Shift+Ctrl+P      { power-off-monitors; }
 
   Mod+Escape            allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
@@ -288,7 +294,6 @@ binds {
 // include "dms/colors.kdl"
 include "dms/layout.kdl"
 include "dms/alttab.kdl"
-include "dms/binds.kdl"
 
 include "dms/cursor.kdl"
 
