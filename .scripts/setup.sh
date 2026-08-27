@@ -173,3 +173,7 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 # enable user access to /dev/ttyUSB0 by adding to groups uucp and dialout, input is for ytodtool to hardware input
 #NOTE: need to log out and in for it to take effect
 sudo usermod -aG input,uucp,dialout "$USER"
+
+# for dark theme
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'

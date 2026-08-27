@@ -11,12 +11,12 @@ set -euo pipefail
 
 # array mapping remote:paths to local paths
 declare -A SYNC_PATHS=(
-  ["protondrive:Arch"]="$HOME/Documents/Yovel"
-  ["gdrive:Arch/School"]="$HOME/Documents/School"
-  ["gdrive:Arch/Pictures"]="$HOME/Documents/Pictures"
+  ["pdrive:Arch"]="$HOME/Documents/Yovel"
   ["gdrive:Arch/UserWorkspace"]="$HOME/UserWorkspace"
-  ["gdrive:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
 )
+# ["gdrive:Arch/UserWorkspace/zephyr-workspace"]="$HOME/UserWorkspace/zephyr-workspace/projects"
+# ["gdrive:Arch/School"]="$HOME/Documents/School"
+# ["gdrive:Arch/Pictures"]="$HOME/Documents/Pictures"
 
 # path exclusion patterns
 declare -A EXTRA_EXCLUDES=(
@@ -25,7 +25,7 @@ declare -A EXTRA_EXCLUDES=(
   "
   ["gdrive:Arch/UserWorkspace"]="
 - /codeberg/**
-- /kicad/exercises/**
+- /kicad/exercises/imported/**
 - /kicad/projects/**
 - /stm32/**
 - /stm32/examples/**
