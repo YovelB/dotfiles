@@ -15,6 +15,8 @@ vim.keymap.set("n", "<leader>R", function()
 end, { desc = "Restart Neovim" })
 
 -- hebrew specific exit mapping
+vim.opt.langmap = "קe,רr,אt,טy,וu,ןi,םo,פp,שa,דs,גd,כf,עg,יh,חj,לk,ךl,זz,סx,בc,הv,נb,מn,צm"
+
 map("i", "חל", function()
   vim.cmd("stopinsert")
   vim.fn.jobstart({ "setxkbmap", "us" })
