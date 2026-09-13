@@ -286,8 +286,8 @@ binds {
   Mod+Equal     { set-column-width "+10%"; }
   Mod+Alt+Minus { set-window-height "-10%"; }
   Mod+Alt+Equal { set-window-height "+10%"; }
-  // Mod+T         { toggle-window-floating; }
-  // Mod+Alt+T     { switch-focus-between-floating-and-tiling; }
+  Mod+T         { toggle-window-floating; }
+  Mod+Alt+T     { switch-focus-between-floating-and-tiling; }
   // Mod+W         { toggle-column-tabbed-display; }
 }
 

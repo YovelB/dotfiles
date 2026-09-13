@@ -76,3 +76,11 @@ sudo mkinitcpio -P
 
 and on next reboot the TPM2 chip will verify that the secure boot is active and UKI is not tampered with  
 and it will allow to bypass the LUKS passphrase by injecting a decryption key
+
+## failure in TPM2 unlock
+in case TMP2 doesnt unlock the passphrase (i.e. pc ran out of power and didnt shut down correctly).
+clear the old TPM measurment from that partition and register a new one
+
+```bash
+sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=7 /dev/nvme0n1p2
+```
