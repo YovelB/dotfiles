@@ -180,7 +180,10 @@ binds {
   Mod+X                 { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
   Mod+B                 { spawn "dms" "ipc" "call" "bar" "toggle" "index" "0"; }
   Mod+A                 { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
-  Mod+W                 { spawn "dms" "ipc" "call" "wallpaper" "next"; }
+  Mod+W                 { spawn "dms" "ipc" "call" "wallpaperCarousel" "toggle"; }
+  // Mod+W                 { spawn "dms" "ipc" "call" "wallpaper" "next"; }
+  Mod+Alt+M             { spawn "dms" "ipc" "call" "dash" "toggle" "media"; }
+  Mod+Y                 { spawn "dms" "ipc" "call" "island" "open" "media"; }
   Mod+N                 { spawn "dms" "ipc" "call" "notifications" "toggle"; }
   Mod+V                 { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
   Mod+Comma             { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
