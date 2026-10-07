@@ -26,6 +26,7 @@ declare -A EXTRA_EXCLUDES=(
   ["gdrive:Arch/UserWorkspace"]="
 - /codeberg/**
 - /kicad/exercises/imported/**
+- /kicad/exercises/template/**
 - /kicad/projects/**
 - /stm32/**
 - /stm32/examples/**

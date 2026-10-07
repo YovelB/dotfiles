@@ -12,7 +12,7 @@
   - `station --passphrase passphrase wlan0 connect <SSID>` - connect to network with password
 - **Archinstall with config**:
   e locales: keyboard layout: us, language: en_IL, encoding: UTF-8, console font: default8x16
-  - mirrors: regions: Israel, Germany, France, Nett the files you /.dotfiles/.scripts/rclone-sync.sh enable rclone sync
+  - mirrors: regions: Israel, Germany, France, Netherlands the files you /.dotfiles/.scripts/rclone-sync.sh enable rclone sync
 
   herlands repositories: multilib
   - disk Configuration: best effort partition layout, file system: btrfs with default sub volumes structure with CoW enabled:
@@ -97,7 +97,6 @@ sudo tailscale up
 ### fonts
 - monospace coding: ttf-jetbrains-mono-nerd
 - system: noto-fonts, noto-fonts-emoji, ttf-liberation
-<!-- - OCR and language: tesseract-data-heb -->
  
 ### terminal, shell and CLI tools
 - terminals: ghostty, wezterm

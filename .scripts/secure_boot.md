@@ -84,3 +84,23 @@ clear the old TPM measurment from that partition and register a new one
 ```bash
 sudo systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=7 /dev/nvme0n1p2
 ```
+
+## laptop unsupported journal errors
+from journal I see these errors:
+
+systemd-tpm2-setup[387]: Failed to initialize NvPCR index: No such file or directory
+systemd-tpm2-setup[387]: Failed to initialize NvPCR index: No such file or directory
+systemd-tpm2-setup[387]: Failed to initialize NvPCR index: No such file or directory
+systemd-tpm2-setup[387]: Failed to initialize NvPCR index: No such file or directory
+systemd-tpm2-setup[387]: 4 NvPCRs failed to initialize, proceeding anyway.
+systemd[1]: systemd-tpm2-setup-early.service: Failed with result 'exit-code'.
+systemd[1]: Failed to start Early TPM SRK Setup.
+systemd-pcrextend[428]: Could not extend NvPCR: No such file or directory
+systemd[1]: Failed to start TPM NvPCR Product ID Measurement.
+systemd-pcrextend[577]: Could not extend NvPCR: No such file or directory
+systemd[1]: Failed to start TPM NvPCR Product ID Measurement.
+
+and to maks them:
+```bash
+sudo systemctl mask systemd-tpm2-setup-early.service systemd-pcrproduct.service systemd-pcrextend.service
+```
