@@ -118,15 +118,15 @@ function load_aliases() {
     alias ls='ls --color=auto'
     alias ll='ls -lah'
     alias grep='grep --color=auto'
-    alias zathura='zathura --mode=fullscreen'
 
-    # task managment
-    alias ttui='taskwarrior-tui'
-    alias tbd='task burndown'
-
-    # translate and dictionary aliases
-    alias he="trans -b :he -shell"
-    alias en="trans -b :en -shell"
+    # kibot docker
+    alias kibot='docker run --rm -it --user $(id -u):$(id -g) -e HOME=/tmp --net=host \
+      -e HOME=/tmp \
+      -e KIBOT_3D_MODELS="/board/.cache/kibot_3d" \
+      -v "${PWD}:/board" \
+      -v "${HOME}/.cache/kicad:/tmp/.cache/kicad" \
+      -w "/board" \
+      ghcr.io/inti-cmnb/kicad10_auto:latest make'
   }
 load_aliases
 
