@@ -125,8 +125,9 @@ function load_aliases() {
       -e KIBOT_3D_MODELS="/board/.cache/kibot_3d" \
       -v "${PWD}:/board" \
       -v "${HOME}/.cache/kicad:/tmp/.cache/kicad" \
+      -v "${PWD}/.cache/kicost:/tmp/.cache/kicost" \
       -w "/board" \
-      ghcr.io/inti-cmnb/kicad10_auto:latest make'
+      ghcr.io/inti-cmnb/kicad10_auto:dev make' # use latest or dev
   }
 load_aliases
 

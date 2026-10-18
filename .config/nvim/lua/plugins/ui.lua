@@ -213,8 +213,7 @@ if ok_ll then
 end
 
 -- triforce - stas and achievements
-vim.pack.add({ "https://github.com/nvzone/volt" }, { confirm = false })
-vim.pack.add({ "https://github.com/gisketch/triforce.nvim" }, { confirm = false })
+vim.pack.add({ { src = "https://github.com/nvzone/volt" }, { src = "https://github.com/DrKJeff16/triforce.nvim" } })
 
 local ok_tri, triforce = pcall(require, "triforce")
 if ok_tri then
